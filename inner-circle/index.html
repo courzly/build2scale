@@ -927,7 +927,7 @@
     └── <span class="file-new">ClubPriceModifier.php</span>                     <span class="comment">// Rabatt-Berechnung</span>
 
 <span class="dir">src/Infrastructure/InnerCircle/</span>
-├── <span class="file-new">ClubAuthMiddleware.php</span>                         <span class="comment">// Route Guard</span>
+├── <span class="file-new">ClubAuthEventSubscriber.php</span>                    <span class="comment">// Route Guard — analog AuthenticationEventSubscriber</span>
 ├── <span class="dir">Repositories/</span>
 │   ├── <span class="file-new">MemberRepository.php</span>
 │   ├── <span class="file-new">CompanyRepository.php</span>
@@ -951,7 +951,7 @@
         </tr>
         <tr>
           <td class="td-name">src/IceHawkDelegate.php</td>
-          <td class="td-desc">ClubAuthMiddleware einbinden — prüft bei jedem Request ob Member eingeloggt ist</td>
+          <td class="td-desc">ClubAuthEventSubscriber registrieren — analog zu AuthenticationEventSubscriber. IceHawk nutzt EventSubscriber-Pattern, kein Middleware-Konzept.</td>
         </tr>
         <tr>
           <td class="td-name">src/Dependencies.php</td>
@@ -1048,27 +1048,27 @@
       <div class="week">
         <div class="week-dot">W2</div>
         <div class="week-header">
-          <div class="week-title">Backend: Auth, Invitation, Members <span>Woche 2</span></div>
+          <div class="week-title">Backend: Admin-API + Auth-Gating <span>Woche 2</span></div>
           <ul class="task-list">
-            <li>ClubAuthMiddleware + IceHawkDelegate Integration</li>
+            <li>Admin-API: Company-Verwaltung (/marketing-api/inner-circle/companies) — Testdaten-Basis</li>
+            <li>Admin-API: Member-Verwaltung + Einladungsformular</li>
+            <li>ClubAuthEventSubscriber + IceHawk EventSubscriber-Integration</li>
             <li>ShowClubLoginRequestHandler + DoLoginRequestHandler + DoLogoutRequestHandler</li>
-            <li>InvitationRepository + MemberRepository + CompanyRepository</li>
-            <li>InvitationService: Token-Generierung, E-Mail-Versand</li>
-            <li>AcceptInvitationRequestHandler: Token → Account + Member → Auto-Login</li>
-            <li>Unit Tests für Invitation-Flow und Auth-Middleware</li>
+            <li>Repositories: MemberRepository, CompanyRepository, InvitationRepository</li>
+            <li>Unit Tests für EventSubscriber und Login-Flow</li>
           </ul>
         </div>
       </div>
       <div class="week">
         <div class="week-dot">W3</div>
         <div class="week-header">
-          <div class="week-title">Frontend: Club-Oberfläche & Preislogik <span>Woche 3</span></div>
+          <div class="week-title">Invitation, Preislogik & Frontend <span>Woche 3</span></div>
           <ul class="task-list">
-            <li>ClubPriceModifier implementieren</li>
-            <li>Twig-Templates: login.twig, invite-registration.twig</li>
+            <li>InvitationService: Token-Generierung, E-Mail-Versand (Twig-Template)</li>
+            <li>AcceptInvitationRequestHandler: Token → Account + Member → Auto-Login (mit Account-Kollisions-Handling)</li>
+            <li>ClubPriceModifier: Discount auf CartItem-Ebene (Display + Order-Processing)</li>
+            <li>Twig-Templates: login.twig, invite-registration.twig, Club-Splash</li>
             <li>Club-Preisanzeige in Produktliste, Detail, Cart (Twig-Partials)</li>
-            <li>React-Admin: Member-Liste + Einladungsformular</li>
-            <li>Club-Splash-Seite: Branding, "Nur für Mitglieder"-Claim</li>
           </ul>
         </div>
       </div>
@@ -1176,6 +1176,10 @@
       <div class="section-num">12</div>
       <h2 class="section-title">Offene Fragen — vor Projektstart klären</h2>
     </div>
+    <div class="card" style="margin-bottom:20px;border-left:3px solid var(--gold)">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px">CTO Review — Technische Entscheidungen</div>
+      <p style="font-size:13px;color:var(--muted)">Folgende Punkte wurden im CTO-Review als ungeklärt identifiziert und müssen vor der Implementierung entschieden werden.</p>
+    </div>
     <div class="questions">
       <div class="question">
         <div class="q-prio high">🔴</div>
@@ -1240,6 +1244,66 @@
           <div class="q-who">→ go2flow + Fortuneglobe | Architekturentscheidung vor Woche 1</div>
         </div>
       </div>
+
+      <!-- CTO Review Questions -->
+      <div style="margin:20px 0 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold)">— CTO Review: Technische Entscheidungen —</div>
+
+      <div class="question">
+        <div class="q-prio high">🔴</div>
+        <div class="q-body">
+          <div class="q-text">Company-Konzept: Was ist eine "Company" genau? B2B-Kunde mit mehreren Mitgliedern? Hat jede Company eigenen Rabattsatz oder gibt es einen globalen Club-Discount?</div>
+          <div class="q-who">→ Fortuneglobe | Kritisch für DB-Modell & Admin-UI</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio high">🔴</div>
+        <div class="q-body">
+          <div class="q-text">Account-Kollision: Jemand nimmt Einladung an, hat aber bereits einen Account mit dieser E-Mail. Bestehenden Account mit Member verknüpfen — oder neuen Account erzwingen?</div>
+          <div class="q-who">→ go2flow + Fortuneglobe | Kritisch für AcceptInvitationRequestHandler</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio high">🔴</div>
+        <div class="q-body">
+          <div class="q-text">Checkout-Konsistenz: Club-Preis muss nicht nur im Display, sondern auch im Order-Processing greifen. Welche Stelle im Code ist für den Discount beim Bestellabschluss zuständig?</div>
+          <div class="q-who">→ go2flow | Kritisch für korrekte Bestellpreise</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio high">🔴</div>
+        <div class="q-body">
+          <div class="q-text">Admin-Bereich: Soll die Inner-Circle-Verwaltung unter /marketing-api/inner-circle/ laufen (analog Coupon-Verwaltung, MarketingApiRequestHandler-Pattern)?</div>
+          <div class="q-who">→ go2flow | Architekturentscheidung vor Woche 2</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio mid">🟡</div>
+        <div class="q-body">
+          <div class="q-text">Session-Staleness: Discount-Rate wird bei Login in Session geschrieben. Wenn Admin den Satz ändert, sehen eingeloggte Member den alten Preis bis zum nächsten Login. Für MVP akzeptabel?</div>
+          <div class="q-who">→ Fortuneglobe | MVP-Entscheidung</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio mid">🟡</div>
+        <div class="q-body">
+          <div class="q-text">Club-Discount × Coupons: Wie interagiert der Club-Rabatt mit dem bestehenden Coupon-System? Kumulierbar, OR-Logik oder Club-Discount hat Vorrang?</div>
+          <div class="q-who">→ Fortuneglobe</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio mid">🟡</div>
+        <div class="q-body">
+          <div class="q-text">Member-Deaktivierung: Wenn ein Member oder eine Company deaktiviert wird — soll die laufende Session sofort beendet werden (Session-Invalidierung)?</div>
+          <div class="q-who">→ go2flow + Fortuneglobe</div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="q-prio low">🟢</div>
+        <div class="q-body">
+          <div class="q-text">Passwort-Reset: Eigener Club-"Passwort vergessen"-Flow oder bestehender Account-Password-Reset nutzen?</div>
+          <div class="q-who">→ go2flow | Optional für MVP</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1279,11 +1343,12 @@ BESTEHENDE STRUKTUR (nicht ändern):
 WAS DU BAUST:
 Alle neuen Komponenten in:
 - src/Application/Web/InnerCircle/ (Handler, Validators, Emails)
-- src/Infrastructure/InnerCircle/ (Repositories, Services, Middleware)
+- src/Infrastructure/InnerCircle/ (Repositories, Services, EventSubscriber)
 
 FEATURE 1 — GATED ENTRY:
-ClubAuthMiddleware in src/Infrastructure/InnerCircle/ClubAuthMiddleware.php
-Einbinden in src/IceHawkDelegate.php (handleRequest-Methode)
+ClubAuthEventSubscriber in src/Infrastructure/InnerCircle/ClubAuthEventSubscriber.php
+WICHTIG: IceHawk hat kein Middleware-Konzept — nutze EventSubscriber analog zu
+AuthenticationEventSubscriber. Registrieren über IceHawkDelegate::getEventSubscribers().
 Öffentliche Routen: ['/inner-circle/login', '/inner-circle/invite/', '/error/']
 Session-Keys: inner_circle_member_id, inner_circle_account_id,
               inner_circle_company_id, inner_circle_discount_rate
@@ -1304,17 +1369,22 @@ React-Admin analog zu bestehender Coupon-Verwaltung
 Screens: Member-Liste (filter) + Einladungsformular
 
 CODING-KONVENTIONEN:
-- Read-Handler: responds() → ResponseInterface
-- Write-Handler: handle() → RedirectResponse
+- Read-Handler: extends AbstractReadRequestHandler → handleRequest(ProvidesReadRequestData $request)
+  → rendert via $this->getDependencies()->getThemePage()->respond()
+- Write-Handler: extends AbstractWriteRequestHandler → handleRequest(ProvidesPostRequestData $request)
+  → Redirect via Response-Objekt
+- Admin-Handler: extends MarketingApiReadRequestHandler / MarketingApiWriteRequestHandler
+  → Auth-Check via $session->isAdminLoggedIn()
 - Repositories: reine DB-Zugriffe, keine Business-Logic
 - PHPUnit-Tests für alle Services und Validators
 - DB-Migrations als Liquibase-Script in env/db/scripts/
 
 STARTE MIT:
-1. DB-Migration: 3 neue Tabellen
-2. ClubAuthMiddleware + IceHawkDelegate
-3. ShowClubLoginRequestHandler + DoLoginRequestHandler
-4. InvitationService + AcceptInvitationRequestHandler</div>
+1. DB-Migration: alle Tabellen (companies, members, invitations)
+2. Admin-API: Company + Member-Verwaltung (/marketing-api/inner-circle/)
+3. ClubAuthEventSubscriber + IceHawk EventSubscriber-Registration
+4. ShowClubLoginRequestHandler + DoLoginRequestHandler
+5. InvitationService + AcceptInvitationRequestHandler</div>
   </div>
 
 </div>
