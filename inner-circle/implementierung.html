@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inner Circle Club — MVP Blueprint</title>
+<title>Implementierung — Inner Circle Blueprint</title>
 <style>
 :root {
   --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
@@ -168,110 +168,113 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </a>
     <span class="nav-sep">|</span>
     <div class="nav-links">
-      <a href="index.html" class="nav-link active">Übersicht</a>
+      <a href="index.html" class="nav-link">Übersicht</a>
       <a href="konzept.html" class="nav-link">Konzept</a>
       <a href="anforderungen.html" class="nav-link">Anforderungen</a>
       <a href="technik.html" class="nav-link">Technik</a>
       <a href="projektmanagement.html" class="nav-link">Projektmanagement</a>
-      <a href="implementierung.html" class="nav-link">Implementierung</a>
+      <a href="implementierung.html" class="nav-link active">Implementierung</a>
     </div>
   </div>
 </nav>
 
-<div class="hero">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="hero-badge"><span>●</span> MVP Blueprint</div>
-    <h1>Inner Circle Club<br><span>Technischer Bauplan</span></h1>
-    <p class="hero-sub">Geschlossene Mitglieder-Plattform auf Basis der bestehenden Fortuneglobe E-Commerce-Infrastruktur — gebaut von go2flow AG.</p>
-    <div class="hero-meta">
-      <div class="meta-item"><span class="meta-label">Auftraggeber</span><span class="meta-value">Fortuneglobe GmbH</span></div>
-      <div class="meta-item"><span class="meta-label">Budget</span><span class="meta-value gold">EUR 10.000 netto</span></div>
-      <div class="meta-item"><span class="meta-label">Timeline</span><span class="meta-value green">4 Wochen MVP</span></div>
-      <div class="meta-item"><span class="meta-label">Angebot</span><span class="meta-value">A260007 — bis 09.04.2026</span></div>
-      <div class="meta-item"><span class="meta-label">Umsetzer</span><span class="meta-value">go2flow AG</span></div>
-    </div>
+<div class="page-hdr">
+  <div class="page-hdr-inner">
+    <div class="page-bc"><a href="index.html">Inner Circle</a> / Implementierung</div>
+    <div class="page-title">Implementierungs-Prompt</div>
+    <div class="page-sub">KI-Prompt für Claude / Cursor — direkt kopieren und verwenden</div>
   </div>
 </div>
 
 <div class="container">
+
+  <!-- 1. IMPLEMENTIERUNGS-PROMPT -->
   <div class="section">
     <div class="section-header">
-      <div class="section-num" style="width:auto;padding:0 12px">●</div>
-      <h2 class="section-title">Blueprint-Dokumente</h2>
+      <div class="section-num">1</div>
+      <h2 class="section-title">Implementierungs-Prompt</h2>
     </div>
-    <div class="nav-cards">
-      <a href="konzept.html" class="nav-card">
-        <div class="nav-card-icon">🏗️</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Konzept</div>
-          <div class="nav-card-sub">Vision, Architektur und Feature-Scope des Inner Circle Clubs</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Architektur</span>
-            <span class="nav-card-tag">MVP Features</span>
-            <span class="nav-card-tag">Design Referenz</span>
-            <span class="nav-card-tag">Abgrenzungen</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="anforderungen.html" class="nav-card">
-        <div class="nav-card-icon">📋</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Anforderungen</div>
-          <div class="nav-card-sub">Produktfeed, Datenmodell und Invitation-Flow im Detail</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Produktfeed</span>
-            <span class="nav-card-tag">Datenbank</span>
-            <span class="nav-card-tag">Invitation Flow</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="technik.html" class="nav-card">
-        <div class="nav-card-icon">⚙️</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Technische Umsetzung</div>
-          <div class="nav-card-sub">Dateistruktur, Handler-Konventionen und Codeänderungen</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Dateistruktur</span>
-            <span class="nav-card-tag">IceHawk Pattern</span>
-            <span class="nav-card-tag">Bestehende Dateien</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="projektmanagement.html" class="nav-card">
-        <div class="nav-card-icon">📅</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Projektmanagement</div>
-          <div class="nav-card-sub">4-Wochen-Plan, Vorgehen, Koordination und offene Fragen</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">4-Wochen-Plan</span>
-            <span class="nav-card-tag">Vorgehen</span>
-            <span class="nav-card-tag">Offene Fragen</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="implementierung.html" class="nav-card">
-        <div class="nav-card-icon">🚀</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Implementierung</div>
-          <div class="nav-card-sub">KI-Implementierungs-Prompt für Claude / Cursor — Copy &amp; Use</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Implementierungs-Prompt</span>
-            <span class="nav-card-tag">Copy &amp; Use</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
+    <div class="card" style="margin-bottom:16px">
+      <p style="font-size:13px;color:var(--muted)">Dieser Prompt dient als Basis für die KI-gestützte Umsetzung. Kopieren und direkt in Claude / Cursor einfügen.</p>
     </div>
+    <div class="prompt-header" style="background:var(--card);border:1px solid var(--border);border-radius:12px 12px 0 0;padding:16px 24px;border-bottom:none">
+      <span class="prompt-title">Implementierungs-Prompt</span>
+      <span class="prompt-badge">Copy &amp; Use</span>
+    </div>
+    <div class="prompt-box" style="border-radius:0 0 12px 12px;margin-top:0">Du arbeitest an einem PHP-Projekt: dem Inner Circle Club, einer geschlossenen
+Mitglieder-Plattform auf Basis eines bestehenden E-Commerce-Shops.
+
+TECHNISCHER KONTEXT:
+- Framework: IceHawk (PHP Micro-Framework mit CQRS-Pattern)
+- Namespace: Fortuneglobe\Shops\PierreCardin\
+- PHP-Version: 8.0
+- Template-Engine: Twig 3.x
+- Frontend: React 16.8 + Redux (nur Admin-Interface)
+- Datenbank: MySQL (UTF8MB4)
+- Session: Session-basierte Authentifizierung (bestehend)
+- Routing: ReadRoutes.php (GET) und WriteRoutes.php (POST) in /config/
+- Dependency Injection: Dependencies.php in /src/
+- Bestehende Auth: fortuneglobe/authentication-service
+
+BESTEHENDE STRUKTUR (nicht ändern):
+- src/Application/Web/Account/ → bestehender Account-Bereich
+- src/Application/Web/Checkout/ → bestehender Checkout
+- src/Application/Web/Shoppingcart/ → bestehende Warenkorb-Logik
+
+WAS DU BAUST:
+Alle neuen Komponenten in:
+- src/Application/Web/InnerCircle/ (Handler, Validators, Emails)
+- src/Infrastructure/InnerCircle/ (Repositories, Services, EventSubscriber)
+
+FEATURE 1 — GATED ENTRY:
+ClubAuthEventSubscriber in src/Infrastructure/InnerCircle/ClubAuthEventSubscriber.php
+WICHTIG: IceHawk hat kein Middleware-Konzept — nutze EventSubscriber analog zu
+AuthenticationEventSubscriber. Registrieren über IceHawkDelegate::getEventSubscribers().
+Öffentliche Routen: ['/inner-circle/login', '/inner-circle/invite/', '/error/']
+Session-Keys: inner_circle_member_id, inner_circle_account_id,
+              inner_circle_company_id, inner_circle_discount_rate
+
+FEATURE 2 — INVITATION SYSTEM:
+Token: SHA256, 64 Zeichen, einmalig verwendbar, 7 Tage gültig
+AcceptInvitationRequestHandler: Token prüfen → Account anlegen →
+Member anlegen → Auto-Login → Redirect auf Club-Home
+
+FEATURE 3 — CLUB-PREISLOGIK:
+ClubPriceModifier::getDisplayData(Money $originalPrice, string $companyId): array
+Discount-Rate aus Session (kein DB-Call pro Request)
+Injizieren in: ShowProductRequestHandler, ShowGalleryRequestHandler,
+               ShowFullCartRequestHandler, ShowMultiStepCheckoutConfirmRequestHandler
+
+FEATURE 4 — MITGLIEDERVERWALTUNG:
+React-Admin analog zu bestehender Coupon-Verwaltung
+Screens: Member-Liste (filter) + Einladungsformular
+
+CODING-KONVENTIONEN:
+- Read-Handler: extends AbstractReadRequestHandler → handleRequest(ProvidesReadRequestData $request)
+  → rendert via $this->getDependencies()->getThemePage()->respond()
+- Write-Handler: extends AbstractWriteRequestHandler → handleRequest(ProvidesPostRequestData $request)
+  → Redirect via Response-Objekt
+- Admin-Handler: extends MarketingApiReadRequestHandler / MarketingApiWriteRequestHandler
+  → Auth-Check via $session->isAdminLoggedIn()
+- Repositories: reine DB-Zugriffe, keine Business-Logic
+- PHPUnit-Tests für alle Services und Validators
+- DB-Migrations als Liquibase-Script in env/db/scripts/
+
+STARTE MIT:
+1. DB-Migration: alle Tabellen (companies, members, invitations)
+2. Admin-API: Company + Member-Verwaltung (/marketing-api/inner-circle/)
+3. ClubAuthEventSubscriber + IceHawk EventSubscriber-Registration
+4. ShowClubLoginRequestHandler + DoLoginRequestHandler
+5. InvitationService + AcceptInvitationRequestHandler</div>
   </div>
+
 </div>
 
 <div class="footer">
   <strong>Inner Circle Club — MVP Blueprint</strong>
-  <div class="footer-nav"></div>
+  <div class="footer-nav">
+    <a href="projektmanagement.html">← Projektmanagement</a>
+  </div>
 </div>
 
 </body>

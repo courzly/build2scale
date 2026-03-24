@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inner Circle Club — MVP Blueprint</title>
+<title>Konzept — Inner Circle Blueprint</title>
 <style>
 :root {
   --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
@@ -168,8 +168,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </a>
     <span class="nav-sep">|</span>
     <div class="nav-links">
-      <a href="index.html" class="nav-link active">Übersicht</a>
-      <a href="konzept.html" class="nav-link">Konzept</a>
+      <a href="index.html" class="nav-link">Übersicht</a>
+      <a href="konzept.html" class="nav-link active">Konzept</a>
       <a href="anforderungen.html" class="nav-link">Anforderungen</a>
       <a href="technik.html" class="nav-link">Technik</a>
       <a href="projektmanagement.html" class="nav-link">Projektmanagement</a>
@@ -178,100 +178,219 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   </div>
 </nav>
 
-<div class="hero">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="hero-badge"><span>●</span> MVP Blueprint</div>
-    <h1>Inner Circle Club<br><span>Technischer Bauplan</span></h1>
-    <p class="hero-sub">Geschlossene Mitglieder-Plattform auf Basis der bestehenden Fortuneglobe E-Commerce-Infrastruktur — gebaut von go2flow AG.</p>
-    <div class="hero-meta">
-      <div class="meta-item"><span class="meta-label">Auftraggeber</span><span class="meta-value">Fortuneglobe GmbH</span></div>
-      <div class="meta-item"><span class="meta-label">Budget</span><span class="meta-value gold">EUR 10.000 netto</span></div>
-      <div class="meta-item"><span class="meta-label">Timeline</span><span class="meta-value green">4 Wochen MVP</span></div>
-      <div class="meta-item"><span class="meta-label">Angebot</span><span class="meta-value">A260007 — bis 09.04.2026</span></div>
-      <div class="meta-item"><span class="meta-label">Umsetzer</span><span class="meta-value">go2flow AG</span></div>
-    </div>
+<div class="page-hdr">
+  <div class="page-hdr-inner">
+    <div class="page-bc"><a href="index.html">Inner Circle</a> / Konzept</div>
+    <div class="page-title">Konzept &amp; Vision</div>
+    <div class="page-sub">Architektur, Features, Design-Referenz und Abgrenzungen</div>
   </div>
 </div>
 
 <div class="container">
+
+  <!-- 1. ARCHITEKTUR -->
   <div class="section">
     <div class="section-header">
-      <div class="section-num" style="width:auto;padding:0 12px">●</div>
-      <h2 class="section-title">Blueprint-Dokumente</h2>
+      <div class="section-num">1</div>
+      <h2 class="section-title">Architektur-Übersicht</h2>
     </div>
-    <div class="nav-cards">
-      <a href="konzept.html" class="nav-card">
-        <div class="nav-card-icon">🏗️</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Konzept</div>
-          <div class="nav-card-sub">Vision, Architektur und Feature-Scope des Inner Circle Clubs</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Architektur</span>
-            <span class="nav-card-tag">MVP Features</span>
-            <span class="nav-card-tag">Design Referenz</span>
-            <span class="nav-card-tag">Abgrenzungen</span>
-          </div>
+    <div class="arch">
+      <div class="arch-layer new">
+        <div class="arch-label new">Neu — go2flow baut</div>
+        <div class="arch-title">Inner Circle Club Layer</div>
+        <div class="arch-pills">
+          <span class="pill accent">Gated Entry</span>
+          <span class="pill accent">Invitation System</span>
+          <span class="pill accent">Member Management</span>
+          <span class="pill accent">Club Price Logic</span>
+          <span class="pill accent">Club Splash &amp; Login</span>
         </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="anforderungen.html" class="nav-card">
-        <div class="nav-card-icon">📋</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Anforderungen</div>
-          <div class="nav-card-sub">Produktfeed, Datenmodell und Invitation-Flow im Detail</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Produktfeed</span>
-            <span class="nav-card-tag">Datenbank</span>
-            <span class="nav-card-tag">Invitation Flow</span>
-          </div>
+      </div>
+      <div class="arch-arrow">↕<span class="arch-arrow-label">definierte Schnittstellen — keine Änderung an bestehender Business-Logik</span></div>
+      <div class="arch-layer existing">
+        <div class="arch-label existing">Bestehend — Fortuneglobe betreibt</div>
+        <div class="arch-title">Pierre Cardin Shop (IceHawk, CQRS, PHP 8)</div>
+        <div class="arch-pills">
+          <span class="pill">Produktkatalog</span>
+          <span class="pill">Warenkorb</span>
+          <span class="pill">Checkout</span>
+          <span class="pill">PayPal / Saferpay / Klarna / Amazon Pay</span>
+          <span class="pill">Alvine ERP</span>
+          <span class="pill">Redis / MySQL</span>
+          <span class="pill">Image CDN</span>
         </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="technik.html" class="nav-card">
-        <div class="nav-card-icon">⚙️</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Technische Umsetzung</div>
-          <div class="nav-card-sub">Dateistruktur, Handler-Konventionen und Codeänderungen</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Dateistruktur</span>
-            <span class="nav-card-tag">IceHawk Pattern</span>
-            <span class="nav-card-tag">Bestehende Dateien</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="projektmanagement.html" class="nav-card">
-        <div class="nav-card-icon">📅</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Projektmanagement</div>
-          <div class="nav-card-sub">4-Wochen-Plan, Vorgehen, Koordination und offene Fragen</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">4-Wochen-Plan</span>
-            <span class="nav-card-tag">Vorgehen</span>
-            <span class="nav-card-tag">Offene Fragen</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
-      <a href="implementierung.html" class="nav-card">
-        <div class="nav-card-icon">🚀</div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">Implementierung</div>
-          <div class="nav-card-sub">KI-Implementierungs-Prompt für Claude / Cursor — Copy &amp; Use</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Implementierungs-Prompt</span>
-            <span class="nav-card-tag">Copy &amp; Use</span>
-          </div>
-        </div>
-        <div class="nav-card-arrow">→</div>
-      </a>
+      </div>
     </div>
   </div>
+
+  <!-- 2. FEATURES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2 class="section-title">5 MVP-Features</h2>
+    </div>
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-body">
+          <h3>Gated Entry</h3>
+          <p>Alle Seiten sind ohne Login nicht sichtbar. Middleware redirected nicht eingeloggte Besucher zur Club-Login-Seite.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <div class="feature-body">
+          <h3>Invitation &amp; Referral-System</h3>
+          <p>Admin-Einladungen + Mitglieder-Referrals (max. 5 Einladungen pro Mitglied). Geworbene Mitglieder dürfen in Phase 1 nicht weiterwerben. Tracking wer wen geworben hat.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <div class="feature-body">
+          <h3>Club-Preislogik</h3>
+          <p>Einheitlicher Club-Rabatt 20%. Feed liefert UVP + Angebotspreis — Rabatt wird im Shop angewendet. UVP durchgestrichen, Club-Preis prominent in Liste, Detail, Cart &amp; Checkout.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛍️</div>
+        <div class="feature-body">
+          <h3>Produktkatalog (Feed-basiert)</h3>
+          <p>Produkte aus GM- + CYS-Feed zusammengeführt. Varianten als Colorpicker, mindestens 3 Kategorieebenen, Filter nach Kategorie / Geschlecht / Größe / Farbe.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <div class="feature-body">
+          <h3>Mitgliederverwaltung</h3>
+          <p>Mitglieder Firmen/Gruppen zuweisen. Gruppenbasierte Rabattstufen. Admin-Interface zum Verwalten.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <div class="feature-body">
+          <h3>Club Splash &amp; Login</h3>
+          <p>"Exklusiv. Nur für Mitglieder." — Login-Formular mit E-Mail + Passwort und Passwort-Vergessen-Flow.</p>
+        </div>
+      </div>
+      <!-- Phase 2 divider -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:8px 0 4px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Phase 2 — nach MVP</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-body">
+          <h3>Unbegrenzte Referrals + Benefits</h3>
+          <p>Mitglieder können unbegrenzt weitere Mitglieder werben. Mehr Benefits bei höherer Werbeanzahl (z.B. 10 Einladungen = Upgrade).</p>
+        </div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">📅</div>
+        <div class="feature-body">
+          <h3>Wöchentliche Aktionen</h3>
+          <p>Zeitlich begrenzte Promotions auf Startseite, Kategorieseiten und per Newsletter — vollständig via Admin steuerbar.</p>
+        </div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-body">
+          <h3>Erweiterte Markenseiten</h3>
+          <p>Eigene CI/Slogan-Seiten pro Marke mit individuellem Look &amp; Feel — vollständige Brand-Experience innerhalb des Clubs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DESIGN REFERENZ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2 class="section-title">Design Referenz — Splash &amp; Login Page</h2>
+    </div>
+    <div class="card" style="margin-bottom:24px">
+      <p style="color:var(--muted);font-size:13px">Referenz: GMO Konzept-Dokument v2 — definiertes Layout für die Club-Einstiegsseite</p>
+    </div>
+    <!-- Visual Mockup -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px">
+      <!-- Left: lifestyle image -->
+      <div style="background:linear-gradient(135deg,#1a0a0a 0%,#2d1515 50%,#1a0a0a 100%);min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;padding:32px;position:relative">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)"></div>
+        <div style="position:relative;z-index:1">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px">PIERRE CARDIN</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.2">INNER CIRCLE<br>CLUB</div>
+          <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.15);padding-top:12px">Lifestyle-Imagery — linke Hälfte, volle Höhe</div>
+        </div>
+      </div>
+      <!-- Right: login box -->
+      <div style="background:var(--card);padding:40px 32px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px">EXKLUSIV UND NUR FÜR MITGLIEDER</div>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Willkommen zurück</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Melden Sie sich an, um Ihre Club-Vorteile zu nutzen.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted)">E-Mail-Adresse</div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted)">Passwort</div>
+          <div style="background:var(--accent);border-radius:8px;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;color:#fff;margin-top:4px">ANMELDEN</div>
+          <div style="text-align:center;font-size:12px;color:var(--muted)">Passwort vergessen?</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="feature-card">
+        <div class="feature-icon">🖼️</div>
+        <div class="feature-body">
+          <h3>Layout: 50/50 Split</h3>
+          <p>Linke Hälfte: großes Lifestyle-Foto mit dunklem Overlay + Branding. Rechte Hälfte: Login-Box auf dunklem Hintergrund.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <div class="feature-body">
+          <h3>Claim: Exklusivität</h3>
+          <p>"EXKLUSIV UND NUR FÜR MITGLIEDER" — prominent oberhalb des Login-Formulars, Großbuchstaben, Akzentfarbe.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-body">
+          <h3>Mobile: gestapelt</h3>
+          <p>Auf kleinen Screens: Lifestyle-Bild oben (reduzierte Höhe), Login-Box unten. Gleiches Branding-Prinzip.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ABGRENZUNGEN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2 class="section-title">Abgrenzungen — nicht im MVP</h2>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <p style="font-size:13px;color:var(--muted)">Deployment und finale Integration in die produktive Infrastruktur erfolgt durch das Fortuneglobe-Entwicklungsteam. go2flow liefert MVP-ready Code und unterstützt bei Bedarf technisch.</p>
+    </div>
+    <div class="changes-table">
+      <table>
+        <tr><th>Nicht im MVP enthalten</th><th>Verantwortung / Hinweis</th></tr>
+        <tr><td class="td-name">Deployment &amp; Betrieb in produktiver FG-Infrastruktur</td><td class="td-desc">Fortuneglobe-Entwicklungsteam</td></tr>
+        <tr><td class="td-name">Integration in interne Systeme ausserhalb definierter Schnittstellen</td><td class="td-desc">Fortuneglobe</td></tr>
+        <tr><td class="td-name">Anpassung bestehender Order-Management- oder Logistikprozesse</td><td class="td-desc">Fortuneglobe</td></tr>
+        <tr><td class="td-name">Native Mobile Apps</td><td class="td-desc">—</td></tr>
+        <tr><td class="td-name">Mitgliedschafts- oder Abonnementmodelle</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Influencer- oder Kampagnenfunktionen</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Erweiterte Personalisierung</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Erweiterte BI- oder Reportinglösungen</td><td class="td-desc">Phase 2</td></tr>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <div class="footer">
   <strong>Inner Circle Club — MVP Blueprint</strong>
-  <div class="footer-nav"></div>
+  <div class="footer-nav">
+    <a href="anforderungen.html">Anforderungen →</a>
+  </div>
 </div>
 
 </body>
