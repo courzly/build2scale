@@ -1,0 +1,9 @@
+{
+  "stitch": {
+    "command": "/usr/local/bin/npx",
+    "args": ["-y", "@_davideast/stitch-mcp", "proxy"],
+    "env": {
+      "STITCH_API_KEY": "AQ.Ab8RN6K9d2-rUPtyb8Ro1HxuXDpVgp9FszhDIpKc8YcWEYtiug"
+    }
+  }
+}
