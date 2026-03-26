@@ -1,6 +1,6 @@
 # D2C Summit Platform — Blueprint
 
-> go2flow Entwicklungsprojekt | Stand: März 2026
+> Go 2 Flow Entwicklungsprojekt | Stand: März 2026
 > Tech-Richtlinie: Nuxt 4 / Vue 3 / Tailwind CSS + Laravel (LTS) / MySQL
 
 ---
@@ -69,18 +69,18 @@ checkin.d2c-summit.ch   → Check-in App
 
 | Schicht | Technologie | Begründung |
 |---------|-------------|------------|
-| Backend API | Laravel (LTS) | go2flow Standard, robust für komplexe Datenmodelle |
-| Datenbank | MySQL | go2flow Standard |
-| Frontend | Nuxt 4 / Vue 3 | go2flow Standard, SSR für Public Website |
-| Styling | Tailwind CSS (latest) | go2flow Pflicht, kein SCSS/CSS |
+| Backend API | Laravel (LTS) | Go 2 Flow Standard, robust für komplexe Datenmodelle |
+| Datenbank | MySQL | Go 2 Flow Standard |
+| Frontend | Nuxt 4 / Vue 3 | Go 2 Flow Standard, SSR für Public Website |
+| Styling | Tailwind CSS (latest) | Go 2 Flow Pflicht, kein SCSS/CSS |
 | State Management | Pinia | Vue 3 Standard |
 | Auth | Laravel Sanctum | Token-basiert, einfach mit Nuxt |
 | E-Mail | Mailtrap API | Transaktional + Marketing |
 | Zahlung | Payrexx Whitelabel | bestehende Integration |
 | File Storage | Laravel Storage + S3 | Logos, PDFs, Präsentationen |
 | PDF-Generierung | Laravel + Browsershot/DomPDF | Tickets, Badges, Zertifikate |
-| Tests | Pest (Laravel), Vitest (Nuxt) | go2flow Standard |
-| CI/CD | GitHub Actions | go2flow Standard |
+| Tests | Pest (Laravel), Vitest (Nuxt) | Go 2 Flow Standard |
+| CI/CD | GitHub Actions | Go 2 Flow Standard |
 
 ---
 
@@ -837,7 +837,7 @@ d2c-summit.ch/tickets?voucher=SUMMER2026
 | 1 | Payrexx: Welcher Account / Whitelabel-Subdomain? | Ticketing |
 | 2 | Domain-Struktur: d2c-summit.ch + Subdomains bestätigen? | Hosting |
 | 3 | Hosting: Forge + DigitalOcean / Hetzner / Vapor? | Infra |
-| 4 | CI: Bestehendes GitHub-Org bei go2flow? | Dev |
+| 4 | CI: Bestehendes GitHub-Org bei Go 2 Flow? | Dev |
 | 5 | Branding: Primärfarbe, Logo, Fonts für den Summit? | Design |
 | 6 | Badge-Design: Wer liefert die Design-Vorlage? | Design |
 | 7 | Kontakt-Export aus Event 2025: welches Format? | Marketing |
@@ -850,12 +850,12 @@ d2c-summit.ch/tickets?voucher=SUMMER2026
 ## 13. Implementierungs-Prompt (für neue Session)
 
 ```
-Du bist Senior Full-Stack Engineer bei go2flow.
+Du bist Senior Full-Stack Engineer bei Go 2 Flow.
 
 Wir bauen die D2C Summit Platform — eine vollständige Event Management Platform
 für den jährlich stattfindenden D2C Summit.
 
-TECH STACK (go2flow Standard, keine Abweichungen):
+TECH STACK (Go 2 Flow Standard, keine Abweichungen):
 - Backend: Laravel (LTS) + MySQL
 - Frontend: Nuxt 4 / Vue 3
 - Styling: Tailwind CSS (ausschließlich, kein SCSS/CSS)
@@ -885,4 +885,4 @@ Starte mit: [konkreter erster Task]
 
 ---
 
-*Blueprint erstellt: März 2026 | go2flow × Daniel Hofmann*
+*Blueprint erstellt: März 2026 | Go 2 Flow × Daniel Hofmann*
