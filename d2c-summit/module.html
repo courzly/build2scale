@@ -441,16 +441,20 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
           <div class="module-icon">📱</div>
           <div class="module-meta">
             <div class="module-num-row"><span class="module-num">Modul 13</span><span class="badge badge-mvp">MVP</span></div>
-            <div class="module-name">Check-in Web-App</div>
-            <div class="module-desc">Mobiloptimierter QR-Scanner für das Einlass-Team — kein App-Download nötig</div>
+            <div class="module-name">Check-in & Badge-Druck</div>
+            <div class="module-desc">Zwei Einlass-Spuren + automatischer Etikettendruck via Brother QL-820NWB — kein App-Download, kein Vordrucken</div>
           </div>
         </div>
         <ul class="module-features">
+          <li><strong>Spur A — Registration Desk:</strong> Personal scannt Ticket via Hand-Scanner (USB/Bluetooth) oder Tablet-Kamera</li>
+          <li><strong>Spur B — Self Check-in:</strong> Teilnehmer scannt selbst an fixem Tablet-Kiosk (Browser-Kamera)</li>
+          <li>Nach Scan: Name, Firma, Ticket-Kategorie sofort angezeigt — Check-in mit einem Klick/Tap bestätigen</li>
+          <li><strong>Etikettendruck:</strong> automatisch an Brother QL-820NWB via WiFi (lokales Event-Netzwerk) — Name, Firma, Kategorie</li>
+          <li>Etikett direkt auf leeren Badge kleben — kein Vordrucken nötig</li>
+          <li><strong>Last-Minute Käufer:</strong> Ticket per Mail → QR scannen → Etikett drucken → fertig</li>
+          <li>Fehlerzustände: ungültiger QR / bereits eingecheckt / storniert → klare Meldung</li>
+          <li>Live-Einlass-Zähler für das gesamte Team</li>
           <li>Zugang nur mit Rolle <code style="font-size:11px;background:rgba(13,148,136,0.1);color:var(--accent2);padding:1px 5px;border-radius:3px">checkin</code></li>
-          <li><strong>QR-Code Scanner</strong> via Browser-Kamera</li>
-          <li>Ticket validieren: Name, Firma, Kategorie</li>
-          <li>Fehlermeldung: ungültiger QR / bereits eingecheckt / storniert</li>
-          <li>Live-Einlass-Zähler für das Team</li>
           <li class="deferred-feat">Offline-Fallback (lokaler Cache)</li>
         </ul>
       </div>

@@ -129,7 +129,7 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
   <div class="page-hdr-inner">
     <div class="page-bc"><a href="index.html">D2C Summit</a> / Integrationen & Flows</div>
     <div class="page-title">Integrationen &amp; <span>Flows</span></div>
-    <div class="page-sub">Payrexx Checkout, Mailtrap Marketing & Transaktional, automatisierte E-Mail-Sequenzen</div>
+    <div class="page-sub">Payrexx Checkout, Mailtrap, E-Mail-Automationen, Check-in-Spuren, Brother QL-820NWB Badge-Druck</div>
   </div>
 </div>
 
@@ -361,57 +361,175 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
     </div>
   </div>
 
-  <!-- QR CHECK-IN FLOW -->
+  <!-- CHECK-IN FLOW -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">05</div>
-      <h2 class="section-title">QR Check-in Flow</h2>
+      <h2 class="section-title">Check-in — Zwei Spuren + Badge-Druck</h2>
     </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div class="card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="integration-header">
+          <div class="integration-icon">🖥️</div>
+          <div>
+            <div class="integration-title">Spur A — Registration Desk</div>
+            <div class="integration-sub">Personal scannt für den Teilnehmer</div>
+          </div>
+        </div>
+        <ul class="list-plain">
+          <li><strong>Gerät:</strong> Laptop/Tablet auf dem Registrationstisch</li>
+          <li><strong>Scanner:</strong> USB- oder Bluetooth-Handscanner (Barcode/QR) — sofortiger Scan ohne Kamera</li>
+          <li>Ticket-Daten erscheinen auf dem Bildschirm des Personals</li>
+          <li>Daten prüfen, Check-in mit einem Klick bestätigen</li>
+          <li>Etikettendruck startet automatisch nach Bestätigung</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="integration-header">
+          <div class="integration-icon">📱</div>
+          <div>
+            <div class="integration-title">Spur B — Self Check-in Kiosk</div>
+            <div class="integration-sub">Teilnehmer checkt selbst ein</div>
+          </div>
+        </div>
+        <ul class="list-plain">
+          <li><strong>Gerät:</strong> Tablet auf Ständer — kein Login nötig (PIN-gesperrter Kiosk-Modus)</li>
+          <li><strong>Scanner:</strong> Browser-Kamera (Tablet-Frontkamera)</li>
+          <li>Teilnehmer hält QR-Code vor das Tablet</li>
+          <li>Ticket-Daten erscheinen auf dem Display — automatische Bestätigung nach 2 Sek.</li>
+          <li>Etikettendruck startet vollautomatisch — kein Personal nötig</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="card">
       <div class="integration-header">
-        <div class="integration-icon">📱</div>
+        <div class="integration-icon">🔄</div>
         <div>
-          <div class="integration-title">Check-in am Eventtag</div>
-          <div class="integration-sub">Kein App-Download — Browser-QR-Scanner, mobiloptimiert</div>
+          <div class="integration-title">Gemeinsamer Flow (beide Spuren)</div>
+          <div class="integration-sub">Nach dem Scan läuft derselbe Backend-Flow — egal ob Desk oder Kiosk</div>
         </div>
       </div>
       <div class="flow-steps">
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">1</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
-            <div class="flow-step-title">Check-in-Personal öffnet checkin.d2c-summit.ch</div>
-            <div class="flow-step-desc">Login mit Rolle <code>checkin</code> — sieht nur die Scanner-Oberfläche, nichts sonst</div>
+            <div class="flow-step-title">QR-Code scannen</div>
+            <div class="flow-step-desc">Via Hand-Scanner (Spur A) oder Browser-Kamera (Spur B) — QR-Code vom Ticket-PDF oder My Summit-Wallet</div>
           </div>
         </div>
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">2</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
-            <div class="flow-step-title">QR-Code des Attendees scannen</div>
-            <div class="flow-step-desc">Browser-Kamera wird aktiviert — QR-Code vom Ticket (PDF oder My Summit) scannen</div>
+            <div class="flow-step-title">Backend validiert Ticket</div>
+            <div class="flow-step-desc">Zurück kommen: Name, Firma, Ticket-Kategorie — plus Status: gültig / bereits eingecheckt / storniert / ungültig</div>
           </div>
         </div>
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">3</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
-            <div class="flow-step-title">Backend validiert das Ticket</div>
-            <div class="flow-step-desc">Der QR-Code wird ans Backend gesendet — zurück kommen: Name, Firma, Ticket-Kategorie, gebuchte Masterclasses</div>
+            <div class="flow-step-title">Check-in bestätigen</div>
+            <div class="flow-step-desc">Ticket-Status → "eingecheckt", Zeitstempel + Spur (desk/kiosk) werden gespeichert. Bei Self Check-in: automatisch nach 2 Sek. Anzeigezeit.</div>
           </div>
         </div>
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">4</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
-            <div class="flow-step-title">Check-in bestätigen</div>
-            <div class="flow-step-desc">Ticket-Status wird sofort auf "eingecheckt" gesetzt — Zeitstempel und Einlass-Person werden gespeichert</div>
+            <div class="flow-step-title">Etikett drucken — Brother QL-820NWB</div>
+            <div class="flow-step-desc">Backend generiert Etikett-PNG und sendet Print-Job via WiFi/IPP an den Brother-Drucker. Etikett wird gedruckt und direkt auf leeren Badge-Halter geklebt.</div>
+            <div style="margin-top:8px">
+              <ul class="list-plain" style="margin-top:0">
+                <li><strong>Etikett-Inhalt:</strong> Name (gross/fett), Firma, Ticket-Kategorie, Event-Logo</li>
+                <li><strong>Format:</strong> DK-N55224 kontinuierliches Band oder DK-11201 Standard Address</li>
+                <li>Verbindung via lokales Event-WLAN — kein Internet nötig</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">✓</div></div>
           <div class="flow-step-body" style="padding-bottom:0">
-            <div class="flow-step-title">Fehlerzustände abgefangen</div>
-            <div class="flow-step-desc">Ungültiger QR-Code / Ticket bereits eingecheckt / Ticket storniert → klare Fehlermeldung. Bei Offline: lokaler Cache als Fallback.</div>
+            <div class="flow-step-title">Etikett aufkleben — fertig</div>
+            <div class="flow-step-desc">Etikett auf leeren Badge-Träger (z.B. Lanyard-Badge) kleben. Bei Last-Minute-Käufern: Ticket per Mail → QR scannen → Etikett drucken → Einlass. Kein Vordrucken von Badges nötig.</div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;border-color:rgba(245,158,11,0.2)">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:20px;flex-shrink:0">⚡</div>
+        <div>
+          <div style="font-weight:700;margin-bottom:6px;font-size:14px">Last-Minute Ticket — kein Problem</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Teilnehmer kauft Ticket am Morgen des Events online → bekommt sofort Bestätigungs-Mail mit QR-Code → kommt zum Desk oder Kiosk → scannt QR → Etikett wird gedruckt → Badge fertig. Kein manuelles Eingreifen, keine Vorab-Druckliste nötig.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROTHER PRINTER INTEGRATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <h2 class="section-title">Brother QL-820NWB — Label Printer</h2>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="integration-header">
+          <div class="integration-icon">🖨️</div>
+          <div>
+            <div class="integration-title">Brother QL-820NWB</div>
+            <div class="integration-sub">Netzwerk-Etikettendrucker — WiFi, Ethernet, Bluetooth</div>
+          </div>
+        </div>
+        <ul class="list-plain">
+          <li><strong>Verbindung:</strong> WiFi (lokales Event-WLAN) oder Ethernet-Kabel — keine Installation auf dem Scan-Gerät nötig</li>
+          <li><strong>Protokoll:</strong> IPP (Internet Printing Protocol) — unterstützt von allen modernen Browsern und Systemen</li>
+          <li><strong>Druckgeschwindigkeit:</strong> bis 110 Etiketten/Min — kein Stau beim Einlass</li>
+          <li><strong>Labels:</strong> DK-Etiketten (selbstklebend, sofort haftend auf Badge-Träger)</li>
+          <li>Statusanzeige im Check-in UI: Drucker online / offline / Papier leer</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;font-size:14px">Technische Umsetzung</div>
+        <ul class="list-plain">
+          <li><strong>Backend</strong> generiert Etikett als PNG (GD/Imagick) — Name gross, Firma, Kategorie, Event-Logo</li>
+          <li>Print-Job wird via <strong>IPP/LPD</strong> an die lokale IP des Druckers gesendet</li>
+          <li>Drucker-IP wird im Admin pro Event konfiguriert (z.B. <code>192.168.1.50</code>)</li>
+          <li>Fallback: Etikett-PNG als Browser-Print (<code>window.print()</code>) wenn Drucker offline</li>
+          <li>Testerseite im Admin: "Testdruck" sendet Beispiel-Etikett zur Verifikation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:12px">
+      <table>
+        <thead>
+          <tr><th>Empfohlenes Label</th><th>Format</th><th>Einsatz</th><th>Bestellnr.</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DK-11201 Standard Address</td>
+            <td>29 × 90 mm</td>
+            <td>Standard-Badge-Etikett mit Name + Firma</td>
+            <td><code>DK-11201</code></td>
+          </tr>
+          <tr>
+            <td>DK-N55224 Kontinuierlich</td>
+            <td>54 mm Breite</td>
+            <td>Grössere Etiketten, mehr Platz für Details</td>
+            <td><code>DK-N55224</code></td>
+          </tr>
+          <tr>
+            <td>DK-11209 Small Address</td>
+            <td>29 × 62 mm</td>
+            <td>Kompakt — z.B. für Tischkärtchen</td>
+            <td><code>DK-11209</code></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
