@@ -70,9 +70,33 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
   .nav-inner { padding: 0 16px; }
   .nav-cards, .portale-grid, .stats-row { grid-template-columns: 1fr; }
 }
+/* ===== Light Mode ===== */
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light .nav { background: rgba(255,255,255,0.95); border-bottom-color: #e2e8f0; }
+body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .nav-link { color: #64748b; }
+body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
+body.light .nav-sep { color: #cbd5e1; }
+body.light .nav-brand-text { color: #0f172a; }
+body.light .nav-brand-dot { background: #0f766e; }
+body.light .vision-card { background: rgba(13,148,136,0.04); }
+body.light .section-num { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); }
+body.light th { background: #f1f5f9; color: #64748b; }
+body.light tr:hover td { background: rgba(0,0,0,0.015); }
+body.light .pill { background: rgba(0,0,0,0.04); border-color: #e2e8f0; color: #64748b; }
+body.light .footer { border-top-color: #e2e8f0; }
+body.light .phase-hdr { background: rgba(13,148,136,0.06); border-color: rgba(13,148,136,0.2); }
+body.light .flow-step { background: #f1f5f9; border-color: #e2e8f0; }
+body.light .flow-arrow { color: #94a3b8; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
+.theme-toggle:hover { background: rgba(255,255,255,0.08); }
+body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -89,6 +113,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
       <a href="integrationen.html" class="nav-link">Integrationen</a>
       <a href="offene-fragen.html" class="nav-link">Offene Fragen</a>
     </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
   </div>
 </nav>
 
@@ -263,5 +288,17 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
   </div>
 </div>
 
+<script>
+function toggleTheme(){
+  var l=document.body.classList.toggle('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  var b=document.getElementById('theme-toggle-btn');
+  if(b)b.textContent=l?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('theme-toggle-btn');
+  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+});
+</script>
 </body>
 </html>
