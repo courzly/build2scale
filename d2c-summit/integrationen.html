@@ -152,9 +152,8 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
             <div class="flow-step-connector"></div>
           </div>
           <div class="flow-step-body">
-            <div class="flow-step-title">CheckoutService erstellt Payrexx Gateway</div>
-            <div class="flow-step-desc">Laravel ruft Payrexx API auf: <code>CheckoutService::initiate()</code> → erstellt Gateway mit Betrag, Beschreibung und Redirect-URL.</div>
-            <div class="flow-step-code">POST Payrexx API → Gateway-URL zurück</div>
+            <div class="flow-step-title">Backend erstellt Payrexx Gateway</div>
+            <div class="flow-step-desc">Das Backend ruft die Payrexx API auf — erstellt einen Gateway mit Betrag, Beschreibung und Redirect-URL für den Checkout.</div>
           </div>
         </div>
         <div class="flow-step">
@@ -174,10 +173,10 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
           </div>
           <div class="flow-step-body">
             <div class="flow-step-title">Payrexx sendet Webhook bei erfolgreicher Zahlung</div>
-            <div class="flow-step-desc"><code>PayrexxWebhook::handle()</code> empfängt die Bestätigung:</div>
+            <div class="flow-step-desc">Der Webhook-Handler empfängt die Bestätigung:</div>
             <div style="margin-top:8px">
               <ul class="list-plain">
-                <li>Order-Status → <code>paid</code></li>
+                <li>Order-Status wird auf "bezahlt" gesetzt</li>
                 <li>Ticket generieren (mit eindeutigem QR-Code)</li>
                 <li>Ticket-PDF erstellen (asynchron via Job)</li>
                 <li>Bestätigungs-E-Mail mit PDF-Anhang senden</li>
@@ -202,7 +201,7 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
       <div style="font-weight:700;margin-bottom:10px">Voucher-Direktlink</div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Für Direkteinladungen (VIP, Partner, Gratis-Tickets) kann ein Direktlink generiert werden:</div>
       <div style="background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'Monaco',monospace;font-size:12px;color:var(--accent2)">d2c-summit.ch/tickets?voucher=SUMMIT-VIP-2026</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:8px">→ Nuxt lädt die Seite, validiert den Voucher via API, passt den Preis an und füllt den Code vor. Normaler Checkout-Flow ab hier.</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px">→ Die Website validiert den Voucher, passt den Preis an und füllt den Code vor. Normaler Checkout-Flow ab hier.</div>
     </div>
   </div>
 
@@ -231,14 +230,13 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
         </ul>
       </div>
       <div class="card">
-        <div style="font-weight:700;margin-bottom:12px;font-size:14px">Laravel Mail Config</div>
-        <div style="background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Monaco',monospace;font-size:12px;color:#8b949e;line-height:1.8">
-          MAIL_MAILER=mailtrap<br>
-          MAILTRAP_API_TOKEN=xxx<br>
-          MAILTRAP_INBOX_ID=xxx<br>
-          <span style="color:#484f58"># INBOX_ID nur für Testing</span>
-        </div>
-        <div style="margin-top:12px;font-size:13px;color:var(--muted)">Mailtrap-Account ist bereits vorhanden (go2flow). API-Token muss eingetragen werden.</div>
+        <div style="font-weight:700;margin-bottom:12px;font-size:14px">Bestehende Assets</div>
+        <ul class="list-plain" style="margin-top:0">
+          <li><strong>Mailtrap-Account</strong> ist bereits vorhanden (go2flow)</li>
+          <li>API-Token und Testing-Inbox werden eingetragen</li>
+          <li>Transaktionale Mails laufen über Mailtrap Sending API</li>
+          <li>Testing-Umgebung nutzt separate Inbox (kein echtes Versenden)</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -258,24 +256,13 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
           <div class="integration-sub">Kampagnen werden über Mailtrap Marketing API abgewickelt — Kontakte synchronisiert, Kampagnen versendet, Stats zurückgeholt</div>
         </div>
       </div>
-      <div class="two-col" style="margin-top:0">
-        <div>
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Was das Backend macht</div>
-          <ul class="list-plain">
-            <li>Kontakte an Mailtrap synchronisieren (<code>mailtrap_contact_id</code> speichern)</li>
-            <li>Kampagne via API versenden (<code>mailtrap_campaign_id</code> speichern)</li>
-            <li>Stats periodisch zurückholen (Laravel Scheduler)</li>
-            <li>Unsubscribes aus Mailtrap-Webhook übernehmen</li>
-          </ul>
-        </div>
-        <div>
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Mailtrap API Calls</div>
-          <div style="background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Monaco',monospace;font-size:11px;color:#8b949e;line-height:2">
-            <span style="color:var(--accent2)">POST</span> /api/contacts     <span style="color:#484f58">→ sync</span><br>
-            <span style="color:var(--accent2)">POST</span> /api/send          <span style="color:#484f58">→ versenden</span><br>
-            <span style="color:var(--accent2)">GET</span>  /api/campaigns     <span style="color:#484f58">→ stats</span>
-          </div>
-        </div>
+      <div style="margin-top:0">
+        <ul class="list-plain">
+          <li>Kontakte werden mit Mailtrap synchronisiert (bidirektional)</li>
+          <li>Kampagnen werden über Mailtrap versendet — Versand-Status wird zurückgeholt</li>
+          <li>Kampagnen-Statistiken werden periodisch automatisch aktualisiert</li>
+          <li>Unsubscribes aus Mailtrap werden im Backend übernommen (DSGVO-konform)</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -299,43 +286,43 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
         </thead>
         <tbody>
           <tr>
-            <td><code>ticket_purchased</code></td>
+            <td>Ticket gekauft</td>
             <td>Bestätigung + Ticket-PDF als Anhang</td>
             <td>Sofort</td>
             <td><span class="badge badge-teal">Transaktional</span></td>
           </tr>
           <tr>
-            <td><code>session_booked</code></td>
+            <td>Session gebucht</td>
             <td>Masterclass-Buchungsbestätigung</td>
             <td>Sofort</td>
             <td><span class="badge badge-teal">Transaktional</span></td>
           </tr>
           <tr>
-            <td><code>waitlist_promoted</code></td>
+            <td>Wartelistenplatz frei</td>
             <td>Platz frei — Einladung zur Buchung</td>
             <td>Sofort</td>
             <td><span class="badge badge-teal">Transaktional</span></td>
           </tr>
           <tr>
-            <td><code>pre_event_7d</code></td>
+            <td>7 Tage vor Event</td>
             <td>"Dein Tagesplan" + praktische Infos</td>
             <td>7 Tage vor Event</td>
             <td><span class="badge badge-gold">Automation</span></td>
           </tr>
           <tr>
-            <td><code>pre_event_1d</code></td>
+            <td>1 Tag vor Event</td>
             <td>Reminder + Programm-Highlights</td>
             <td>1 Tag vor Event</td>
             <td><span class="badge badge-gold">Automation</span></td>
           </tr>
           <tr>
-            <td><code>post_event_1d</code></td>
+            <td>Tag nach Event</td>
             <td>Danke + "Präsentationen jetzt verfügbar"</td>
             <td>Tag nach Event</td>
             <td><span class="badge badge-gold">Automation</span></td>
           </tr>
           <tr>
-            <td><code>feedback_request</code></td>
+            <td>Feedback-Anfrage</td>
             <td>Bitte um Session-Bewertung</td>
             <td>3 Tage nach Event</td>
             <td><span class="badge badge-gold">Automation</span></td>
@@ -380,15 +367,15 @@ code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: r
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">3</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
-            <div class="flow-step-title">Laravel validiert das Ticket</div>
-            <div class="flow-step-desc"><code>POST /api/v1/checkin/scan { qr_code }</code> → gibt Ticket-Infos zurück: Name, Firma, Kategorie, gebuchte Masterclasses</div>
+            <div class="flow-step-title">Backend validiert das Ticket</div>
+            <div class="flow-step-desc">Der QR-Code wird ans Backend gesendet — zurück kommen: Name, Firma, Ticket-Kategorie, gebuchte Masterclasses</div>
           </div>
         </div>
         <div class="flow-step">
           <div class="flow-step-line"><div class="flow-step-dot">4</div><div class="flow-step-connector"></div></div>
           <div class="flow-step-body">
             <div class="flow-step-title">Check-in bestätigen</div>
-            <div class="flow-step-desc">Ticket-Status wird auf <code>checked_in</code> gesetzt, <code>checked_in_at</code> und <code>checked_in_by_user_id</code> werden gespeichert</div>
+            <div class="flow-step-desc">Ticket-Status wird sofort auf "eingecheckt" gesetzt — Zeitstempel und Einlass-Person werden gespeichert</div>
           </div>
         </div>
         <div class="flow-step">

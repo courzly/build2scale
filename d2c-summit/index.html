@@ -99,7 +99,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
     <p class="hero-sub">Wiederverwendbare Event Management Platform für den jährlichen D2C Summit — ein Backend als Single Source of Truth für alle Frontends. Greenfield-Projekt, gebaut von go2flow.</p>
     <div class="hero-meta">
       <div class="meta-item"><span class="meta-label">Typ</span><span class="meta-value teal">Greenfield</span></div>
-      <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">Laravel + Nuxt 4</span></div>
       <div class="meta-item"><span class="meta-label">Phase I</span><span class="meta-value green">16 Wochen</span></div>
       <div class="meta-item"><span class="meta-label">Module</span><span class="meta-value">14 Phase I</span></div>
       <div class="meta-item"><span class="meta-label">Umsetzer</span><span class="meta-value">go2flow AG</span></div>
@@ -118,7 +117,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
     <div class="stats-row">
       <div class="stat-card"><div class="stat-value">14</div><div class="stat-label">Module Phase I</div></div>
       <div class="stat-card"><div class="stat-value">16</div><div class="stat-label">Wochen Roadmap</div></div>
-      <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">Frontends / Portale</div></div>
+      <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Domains / Portale</div></div>
       <div class="stat-card"><div class="stat-value">7</div><div class="stat-label">Rollen & Berechtigungen</div></div>
       <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Umsetzungsphasen</div></div>
     </div>
@@ -134,11 +133,11 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
         <div class="nav-card-icon">🎯</div>
         <div class="nav-card-body">
           <div class="nav-card-title">Konzept & Scope</div>
-          <div class="nav-card-sub">Vision, In/Out of Scope, 6 Portale, 7 Rollen, Tech Stack</div>
+          <div class="nav-card-sub">Vision, In/Out of Scope, 4 Domains, 7 Rollen</div>
           <div class="nav-card-tags">
             <span class="nav-card-tag">Vision</span>
             <span class="nav-card-tag">Scope Phase I/II</span>
-            <span class="nav-card-tag">Portale</span>
+            <span class="nav-card-tag">Domains</span>
             <span class="nav-card-tag">Rollen</span>
           </div>
         </div>
@@ -203,45 +202,55 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
   <div class="section">
     <div class="section-header">
       <div class="section-num">02</div>
-      <h2 class="section-title">6 Frontends / Portale</h2>
+      <h2 class="section-title">4 Domains — was ist wo</h2>
     </div>
-    <div class="portale-grid">
-      <div class="portal-card">
+    <div class="portale-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
         <div class="portal-icon">🌐</div>
         <div class="portal-name">Public Website</div>
         <div class="portal-domain">d2c-summit.ch</div>
-        <div class="portal-desc">Home, Programm, Speaker, Sponsoren, Tickets, FAQ — SSR via Nuxt</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Die öffentliche Eventseite — für alle sichtbar ohne Login.<br><br>
+          <strong style="color:var(--text);font-size:12px">Inhalte:</strong><br>
+          Home · Event-Info · Programm &amp; Tagesplan · Speaker · Sponsoren · Tickets kaufen · FAQ &amp; Infoseiten
+        </div>
       </div>
-      <div class="portal-card">
-        <div class="portal-icon">🎟️</div>
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="portal-icon">🪪</div>
         <div class="portal-name">My Summit</div>
         <div class="portal-domain">my.d2c-summit.ch</div>
-        <div class="portal-desc">Attendee-Bereich: Ticket, Tagesplan, Badge, Materialien, Zertifikat</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Das persönliche Portal — nach Login rollenbasiert.<br><br>
+          <strong style="color:var(--text);font-size:12px">Teilnehmer:</strong> Ticket &amp; QR, Tagesplan, Sessions buchen, Badge, Zertifikat, Materialien, Social Cards<br><br>
+          <strong style="color:var(--text);font-size:12px">Sponsor:</strong> Firmenprofil, Logo-Upload, Materialien-Download, Statistiken<br><br>
+          <strong style="color:var(--text);font-size:12px">Speaker:</strong> Profil bearbeiten, Präsentationen hochladen, Feedback einsehen
+        </div>
       </div>
-      <div class="portal-card">
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
         <div class="portal-icon">⚙️</div>
         <div class="portal-name">Admin Backend</div>
         <div class="portal-domain">admin.d2c-summit.ch</div>
-        <div class="portal-desc">Event-Steuerung, Programm, Ticketing, Marketing, Statistiken</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Die Schaltzentrale — nur für Organizer und Admins.<br><br>
+          <strong style="color:var(--text);font-size:12px">Inhalte:</strong><br>
+          Events verwalten · Programm &amp; Sessions · Speaker · Tickets &amp; Voucher · Sponsoren · Marketing &amp; Kampagnen · Statistiken · Rollen vergeben
+        </div>
       </div>
-      <div class="portal-card">
-        <div class="portal-icon">🏢</div>
-        <div class="portal-name">Sponsor-Portal</div>
-        <div class="portal-domain">my.d2c-summit.ch</div>
-        <div class="portal-desc">Logo-Upload, Firmenprofil, Materialien-Download, Statistiken</div>
-      </div>
-      <div class="portal-card">
-        <div class="portal-icon">🎤</div>
-        <div class="portal-name">Speaker-Portal</div>
-        <div class="portal-domain">my.d2c-summit.ch</div>
-        <div class="portal-desc">Profil bearbeiten, Präsentationen hochladen, Session-Info</div>
-      </div>
-      <div class="portal-card">
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
         <div class="portal-icon">📱</div>
         <div class="portal-name">Check-in App</div>
         <div class="portal-domain">checkin.d2c-summit.ch</div>
-        <div class="portal-desc">QR-Scanner, Ticket-Validierung, Live-Stats am Eventtag</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Nur am Eventtag — mobiloptimiert, kein App-Download.<br><br>
+          <strong style="color:var(--text);font-size:12px">Funktionen:</strong><br>
+          QR-Code scannen · Ticket validieren · Einlass bestätigen · Live-Einlass-Statistiken
+        </div>
       </div>
+
     </div>
   </div>
 

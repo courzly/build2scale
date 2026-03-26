@@ -178,30 +178,30 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
             <div class="task-group">
               <div class="task-group-label">Backend</div>
               <ul class="task-list">
-                <li>Laravel-Projekt aufsetzen (LTS)</li>
-                <li><strong>Auth & Sanctum</strong> konfigurieren</li>
-                <li>Rollen-System (7 Rollen, per Event)</li>
-                <li>Vollständiges MySQL-Schema (alle Migrations)</li>
-                <li>Domain-Struktur & API-Routing (v1)</li>
+                <li>Backend-Projekt aufsetzen</li>
+                <li><strong>Authentication &amp; Autorisierung</strong> konfigurieren</li>
+                <li>Rollen-System (7 Rollen, pro Event)</li>
+                <li>Vollständiges Datenbankschema anlegen</li>
+                <li>Domain-Struktur &amp; API-Routing</li>
               </ul>
             </div>
             <div class="task-group">
               <div class="task-group-label">Frontend</div>
               <ul class="task-list">
-                <li>Nuxt 4 Projekt aufsetzen</li>
-                <li>Tailwind CSS + Design-System</li>
-                <li>Pinia + API-Layer-Grundstruktur</li>
-                <li><strong>Auth-Store</strong> (Login, Logout, Token)</li>
+                <li>Frontend-Projekt aufsetzen</li>
+                <li>Design-System &amp; Komponenten-Basis</li>
+                <li>State Management + API-Anbindung</li>
+                <li><strong>Auth-State</strong> (Login, Logout, Session)</li>
                 <li>Base-Layouts: Public, My Summit, Admin</li>
               </ul>
             </div>
             <div class="task-group">
               <div class="task-group-label">DevOps</div>
               <ul class="task-list">
-                <li>GitHub Repo + Branch-Strategie</li>
-                <li><strong>CI/CD Pipeline</strong> (GitHub Actions)</li>
+                <li>Code-Repository + Branch-Strategie</li>
+                <li><strong>CI/CD Pipeline</strong> einrichten</li>
                 <li>Staging-Umgebung aufsetzen</li>
-                <li>Environment-Variablen strukturieren</li>
+                <li>Hosting &amp; Deployment-Konfiguration</li>
               </ul>
             </div>
           </div>
@@ -288,7 +288,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
                 <li>Ticket-Kategorien CRUD (Admin)</li>
                 <li><strong>Checkout-Flow:</strong> Kategorie → Daten → Payrexx → Bestätigung</li>
                 <li>QR-Code-Generierung (unique, fälschungssicher)</li>
-                <li><strong>Ticket-PDF</strong> generieren (Browsershot)</li>
+                <li><strong>Ticket-PDF</strong> generieren</li>
                 <li>Order-Management im Admin</li>
                 <li>Stornierung + Rückerstattungs-Workflow (Admin)</li>
               </ul>
@@ -552,8 +552,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
             <div class="task-group">
               <div class="task-group-label">Testing</div>
               <ul class="task-list">
-                <li><strong>Pest Feature-Tests</strong> (alle kritischen Flows)</li>
-                <li>Vitest für Nuxt Services + Composables</li>
+                <li><strong>Feature-Tests</strong> (alle kritischen Flows)</li>
+                <li>Unit-Tests (Frontend Services + Logik)</li>
                 <li>End-to-End: Ticketkauf → Bestätigung → Check-in</li>
                 <li>Payrexx Webhook-Tests (Staging)</li>
                 <li>E-Mail-Delivery Tests (Mailtrap Staging)</li>
