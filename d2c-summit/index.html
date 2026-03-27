@@ -93,6 +93,19 @@ body.light .flow-arrow { color: #94a3b8; }
 .theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
 .theme-toggle:hover { background: rgba(255,255,255,0.08); }
 body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
+/* ===== Changelog ===== */
+.changelog { display: flex; flex-direction: column; gap: 0; }
+.cl-entry { display: grid; grid-template-columns: 80px 64px 1fr; gap: 0 20px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+.cl-entry:last-child { border-bottom: none; }
+.cl-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cl-ver { font-size: 12px; font-weight: 700; color: var(--accent2); font-family: 'Monaco', monospace; }
+.cl-desc { font-size: 13px; color: var(--text); }
+.cl-desc span { color: var(--muted); }
+.version-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); color: var(--accent2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; font-family: 'Monaco', monospace; margin-left: 12px; vertical-align: middle; }
+body.light .cl-entry { border-bottom-color: #e2e8f0; }
+@media (max-width: 600px) {
+  .cl-entry { grid-template-columns: 1fr; gap: 2px; }
+}
 </style>
 </head>
 <body>
@@ -128,7 +141,7 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
       <div class="meta-item"><span class="meta-label">MVP-Module</span><span class="meta-value">10 MVP</span></div>
       <div class="meta-item"><span class="meta-label">Post-MVP</span><span class="meta-value">12 Module</span></div>
       <div class="meta-item"><span class="meta-label">Umsetzer</span><span class="meta-value">Go 2 Flow AG</span></div>
-      <div class="meta-item"><span class="meta-label">Stand</span><span class="meta-value">März 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Version</span><span class="meta-value teal">v1.4 <span style="font-size:12px;font-weight:400;color:var(--muted)">— 27.03.2026</span></span></div>
     </div>
   </div>
 </div>
@@ -278,6 +291,42 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Versionshistorie</h2>
+    </div>
+    <div class="stat-card" style="text-align:left;padding:0 24px">
+      <div class="changelog">
+        <div class="cl-entry">
+          <div class="cl-date">27.03.2026</div>
+          <div class="cl-ver">v1.4</div>
+          <div class="cl-desc">Marketing-Tab entfernt — Inhalte in Module konsolidiert. <span>Kampagnen-Planer in M10+ integriert. Brandname korrigiert: Go 2 Flow AG.</span></div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-date">27.03.2026</div>
+          <div class="cl-ver">v1.3</div>
+          <div class="cl-desc">Check-in: Zwei-Spuren-Flow (Registration Desk + Self Check-in) + Brother QL-820NWB Etikettendruck. <span>6 neue Post-MVP Plattform-Module: Blog/News, Presse, Location KKL, Kontakt, Foto-Galerie, Mehrsprachigkeit.</span></div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-date">27.03.2026</div>
+          <div class="cl-ver">v1.2</div>
+          <div class="cl-desc">MVP/Post-MVP Scope definiert — 12-Wochen-Plan, 6 Phasen. <span>Unternehmens-Profile (M04) als neue Entität hinzugefügt. My Summit auf Basis-Funktionalität reduziert.</span></div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-date">26.03.2026</div>
+          <div class="cl-ver">v1.1</div>
+          <div class="cl-desc">Light/Dark-Mode Toggle auf allen Seiten. <span>Design System Sektion (Stitch-Daten: Farben, Typografie) im Konzept ergänzt.</span></div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-date">26.03.2026</div>
+          <div class="cl-ver">v1.0</div>
+          <div class="cl-desc">Blueprint als 6-seitige Website aufgesetzt. <span>Konzept, Module, Phasen, Integrationen, Offene Fragen — Grundstruktur und Navigation.</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
