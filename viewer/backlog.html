@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backlog — Blueprint Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+<style>
+:root {
+  --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
+  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
+  --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
+body.light {
+  --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc;
+  --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
+  --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626;
+}
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+body.light .nav { background: rgba(255,255,255,0.95); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; }
+.nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
+.nav-sep { color: var(--border); font-size: 18px; margin: 0 4px; }
+.nav-links { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+body.light .nav-link:hover { background: rgba(0,0,0,0.05); }
+.nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+body.light .nav-link.active { color: #0f766e; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hero { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 40px 40px 32px; }
+body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+.hero-inner { max-width: 1100px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+.hero h1 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 8px; }
+.hero h1 span { color: var(--accent2); }
+.hero-sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 24px; }
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.meta-value { font-size: 14px; font-weight: 600; color: var(--text); }
+.meta-value.teal { color: var(--accent2); }
+.meta-value.green { color: var(--green); }
+.meta-value.gold { color: var(--gold); }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 40px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px; padding:16px; background:var(--card); border:1px solid var(--border); border-radius:12px; align-items:center; }
+.filter-select { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; padding: 6px 10px; cursor: pointer; font-family: inherit; }
+.filter-select:focus { outline: none; border-color: var(--accent); }
+.b { display:inline-flex; align-items:center; font-size:11px; font-weight:700; padding:2px 7px; border-radius:100px; white-space:nowrap; }
+.b-mvp  { background:rgba(16,185,129,0.12);  color:#10b981; border:1px solid rgba(16,185,129,0.25); }
+.b-post { background:rgba(100,116,139,0.1);  color:#94a3b8; border:1px solid rgba(100,116,139,0.2); }
+.b-p1 { background:rgba(99,102,241,0.12);   color:#818cf8; border:1px solid rgba(99,102,241,0.25); }
+.b-p2 { background:rgba(20,184,166,0.12);   color:#2dd4bf; border:1px solid rgba(20,184,166,0.25); }
+.b-p3 { background:rgba(34,197,94,0.12);    color:#4ade80; border:1px solid rgba(34,197,94,0.25); }
+.b-p4 { background:rgba(245,158,11,0.12);   color:#fbbf24; border:1px solid rgba(245,158,11,0.25); }
+.b-p5 { background:rgba(249,115,22,0.12);   color:#fb923c; border:1px solid rgba(249,115,22,0.25); }
+.b-p6 { background:rgba(168,85,247,0.12);   color:#c084fc; border:1px solid rgba(168,85,247,0.25); }
+.b-xs { background:rgba(100,116,139,0.08); color:#94a3b8; border:1px solid rgba(100,116,139,0.15); }
+.b-s  { background:rgba(20,184,166,0.08);  color:#2dd4bf; border:1px solid rgba(20,184,166,0.15); }
+.b-m  { background:rgba(245,158,11,0.08);  color:#fbbf24; border:1px solid rgba(245,158,11,0.15); }
+.b-l  { background:rgba(239,68,68,0.08);   color:#f87171; border:1px solid rgba(239,68,68,0.15); }
+.story-row { display:flex; align-items:flex-start; gap:14px; padding:10px 14px; border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.1s; }
+.story-row:hover { background:rgba(255,255,255,0.03); }
+body.light .story-row:hover { background:rgba(0,0,0,0.02); }
+.story-row:last-child { border-bottom:none; }
+.module-header { display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--card2); border-bottom:1px solid var(--border); }
+.module-header-icon { font-size:16px; }
+.module-header-name { font-size:13px; font-weight:700; color: var(--text); }
+.module-header-meta { margin-left:auto; display:flex; gap:6px; align-items:center; }
+.group-header { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); padding:20px 14px 8px; }
+.stories-block { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:6px; }
+.footer { border-top: 1px solid var(--border); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.hidden { display: none !important; }
+@media (max-width: 768px) {
+  .hero, .container, .footer { padding-left: 20px; padding-right: 20px; }
+  .nav-inner { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      <span id="nav-brand-text" class="nav-brand-text">Blueprint Viewer</span>
+    </a>
+    <span class="nav-sep">|</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← Projekte</a>
+      <a href="#" id="nav-konzept" class="nav-link">Konzept</a>
+      <a href="#" id="nav-backlog" class="nav-link active">Backlog</a>
+      <a href="#" id="nav-phasen" class="nav-link">Phasen</a>
+      <a href="#" id="nav-fragen" class="nav-link">Fragen</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Theme wechseln">☀️</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Backlog</div>
+    <h1>User <span>Stories</span></h1>
+    <p class="hero-sub" id="hero-sub">Alle User Stories gruppiert nach Modulen</p>
+    <div class="hero-meta" id="hero-meta"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="filters" id="filters" style="display:none">
+    <select id="filter-scope" class="filter-select" onchange="applyFilters()">
+      <option value="">Alle Scopes</option>
+      <option value="MVP">MVP</option>
+      <option value="Post-MVP">Post-MVP</option>
+    </select>
+    <select id="filter-phase" class="filter-select" onchange="applyFilters()">
+      <option value="">Alle Phasen</option>
+    </select>
+    <select id="filter-size" class="filter-select" onchange="applyFilters()">
+      <option value="">Alle Größen</option>
+      <option value="XS">XS</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+    </select>
+    <span id="filter-count" style="color:var(--muted);font-size:13px;margin-left:4px"></span>
+  </div>
+  <div id="content"><div style="text-align:center;padding:60px;color:var(--muted)">Wird geladen…</div></div>
+</div>
+
+<footer class="footer">
+  <span id="footer-project">Blueprint Viewer</span>
+  <span>Backlog</span>
+</footer>
+
+<!-- Modal -->
+<div id="story-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;padding:32px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+      <div>
+        <div id="modal-id" style="font-size:11px;font-family:monospace;color:var(--muted);margin-bottom:4px"></div>
+        <div id="modal-title" style="font-size:20px;font-weight:700"></div>
+        <div id="modal-mod" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+      </div>
+      <button onclick="closeModal()" style="background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;color:var(--muted);font-size:20px;line-height:1;flex-shrink:0;display:flex;align-items:center;justify-content:center">×</button>
+    </div>
+    <div id="modal-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px"></div>
+    <div id="modal-story" style="font-size:14px;line-height:1.75;margin-bottom:20px;padding:16px;background:var(--card2);border-radius:10px"></div>
+    <div id="modal-ac-wrap">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Acceptance Criteria</div>
+      <ul id="modal-ac" style="list-style:none;display:flex;flex-direction:column;gap:8px"></ul>
+    </div>
+    <div id="modal-note" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;font-size:13px;color:var(--gold)"></div>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  var l=document.body.classList.toggle('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  document.getElementById('theme-toggle-btn').textContent=l?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  if(document.body.classList.contains('light'))
+    document.getElementById('theme-toggle-btn').textContent='🌙';
+});
+
+const PROJECT = new URLSearchParams(location.search).get('project') || '';
+const QS = PROJECT ? '?project=' + PROJECT : '';
+
+function setupNav() {
+  document.getElementById('nav-backlog').href  = 'backlog.html'  + QS;
+  document.getElementById('nav-phasen').href   = 'phasen.html'   + QS;
+  document.getElementById('nav-konzept').href  = 'konzept.html'  + QS;
+  document.getElementById('nav-fragen').href   = 'fragen.html'   + QS;
+}
+setupNav();
+
+if (!PROJECT) {
+  document.getElementById('content').innerHTML = '<div style="text-align:center;padding:60px;color:var(--muted)">Kein Projekt ausgewählt. <a href="index.html" style="color:var(--accent2)">Zur Projektübersicht</a></div>';
+} else {
+  const BASE = '../' + PROJECT + '/api/v1';
+
+  Promise.all([
+    fetch(BASE + '/index.json').then(r => r.json()),
+    fetch(BASE + '/stories.json').then(r => r.json()),
+    fetch(BASE + '/modules.json').then(r => r.json()),
+  ]).then(([idx, storiesData, modulesData]) => {
+    document.getElementById('nav-brand-text').textContent = idx.api.replace(' Blueprint API','').replace(' Platform','');
+    document.getElementById('footer-project').textContent = idx.api.replace(' Blueprint API','');
+    document.getElementById('hero-sub').textContent = 'Alle User Stories für ' + idx.api.replace(' Blueprint API','');
+
+    const stats = idx.stats || {};
+    document.getElementById('hero-meta').innerHTML = [
+      stats.total_stories ? `<div class="meta-item"><div class="meta-label">Gesamt</div><div class="meta-value teal">${stats.total_stories}</div></div>` : '',
+      stats.mvp_stories   ? `<div class="meta-item"><div class="meta-label">MVP</div><div class="meta-value green">${stats.mvp_stories}</div></div>` : '',
+      stats.post_mvp_stories ? `<div class="meta-item"><div class="meta-label">Post-MVP</div><div class="meta-value">${stats.post_mvp_stories}</div></div>` : '',
+      stats.modules ? `<div class="meta-item"><div class="meta-label">Module</div><div class="meta-value">${stats.modules}</div></div>` : '',
+      idx.blueprint_version ? `<div class="meta-item"><div class="meta-label">Version</div><div class="meta-value gold">v${idx.blueprint_version}</div></div>` : '',
+    ].join('');
+
+    const stories  = storiesData.stories;
+    STORY_MAP = Object.fromEntries(stories.map(s => [s.id, s]));
+    const modules  = modulesData.modules;
+    const groups   = modulesData.groups;
+
+    // Fill phase filter
+    const phases = [...new Set(stories.map(s => s.phase).filter(Boolean))].sort();
+    const phaseSelect = document.getElementById('filter-phase');
+    phases.forEach(ph => {
+      const opt = document.createElement('option');
+      opt.value = ph; opt.textContent = ph;
+      phaseSelect.appendChild(opt);
+    });
+
+    document.getElementById('filters').style.display = 'flex';
+
+    renderBacklog(stories, modules, groups);
+  }).catch(err => {
+    document.getElementById('content').innerHTML = `<div style="text-align:center;padding:60px;color:var(--red)">Fehler beim Laden der Daten: ${err.message}</div>`;
+  });
+}
+
+let STORY_MAP = {};
+let ALL_STORIES = [];
+
+function renderBacklog(stories, modules, groups) {
+  ALL_STORIES = stories;
+  const modMap = Object.fromEntries(modules.map(m => [m.id, m]));
+
+  let html = '';
+  (groups || []).forEach(g => {
+    const groupMods = modules.filter(m => m.group_id === g.id);
+    if (!groupMods.length) return;
+
+    html += `<div class="group-header" data-group="${g.id}">${g.id} — ${g.label}</div>`;
+
+    groupMods.forEach(mod => {
+      const modStories = (mod.story_ids || []).map(id => STORY_MAP[id]).filter(Boolean);
+      if (!modStories.length) return;
+      const mvpCount = modStories.filter(s => s.scope === 'MVP').length;
+      const postCount = modStories.filter(s => s.scope !== 'MVP').length;
+
+      html += `<div class="stories-block" data-mod="${mod.id}">
+        <div class="module-header">
+          <span class="module-header-icon">${mod.icon || ''}</span>
+          <span class="module-header-name">${mod.label}</span>
+          <div class="module-header-meta">
+            ${mvpCount  ? `<span class="b b-mvp">${mvpCount} MVP</span>` : ''}
+            ${postCount ? `<span class="b b-post">${postCount} Post-MVP</span>` : ''}
+            <span style="font-size:12px;color:var(--muted)">${modStories.length} Stories</span>
+          </div>
+        </div>`;
+
+      modStories.forEach(s => {
+        const phaseCls = s.phase ? 'b-' + s.phase.toLowerCase() : '';
+        const sizeCls  = s.size  ? 'b-' + s.size.toLowerCase()  : '';
+        html += `<div class="story-row" id="${s.id}" data-us="${s.id}" data-scope="${s.scope||''}" data-phase="${s.phase||''}" data-size="${s.size||''}" data-mod="${s.module_id||''}" onclick="openModal('${s.id}')">
+          <div style="font-size:11px;font-family:monospace;color:var(--muted);width:72px;flex-shrink:0;padding-top:2px">${s.id}</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--text)">${s.title}</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.4">${s.story_text || ''}</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0;align-items:flex-start;padding-top:2px">
+            <span class="b b-${s.scope==='MVP'?'mvp':'post'}">${s.scope||''}</span>
+            ${s.phase ? `<span class="b ${phaseCls}">${s.phase}</span>` : ''}
+            ${s.size  ? `<span class="b ${sizeCls}">${s.size}</span>`  : ''}
+          </div>
+        </div>`;
+      });
+
+      html += '</div>';
+    });
+  });
+
+  document.getElementById('content').innerHTML = html;
+  updateFilterCount();
+
+  // Scroll to hash if present
+  if (location.hash) {
+    setTimeout(() => {
+      const el = document.getElementById(location.hash.replace('#',''));
+      if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.background='rgba(13,148,136,0.15)'; setTimeout(()=>el.style.background='',2000); }
+    }, 100);
+  }
+}
+
+function applyFilters() {
+  const scope = document.getElementById('filter-scope').value;
+  const phase = document.getElementById('filter-phase').value;
+  const size  = document.getElementById('filter-size').value;
+
+  document.querySelectorAll('.story-row').forEach(row => {
+    const match =
+      (!scope || row.dataset.scope === scope) &&
+      (!phase || row.dataset.phase === phase) &&
+      (!size  || row.dataset.size  === size);
+    row.classList.toggle('hidden', !match);
+  });
+
+  // Hide empty module blocks
+  document.querySelectorAll('.stories-block').forEach(block => {
+    const visible = block.querySelectorAll('.story-row:not(.hidden)').length;
+    block.classList.toggle('hidden', visible === 0);
+  });
+
+  // Hide empty group headers
+  document.querySelectorAll('.group-header').forEach(gh => {
+    const groupId = gh.dataset.group;
+    const blocks = document.querySelectorAll(`.stories-block[data-mod]`);
+    // Check if any visible block follows this group header
+    let sibling = gh.nextElementSibling;
+    let hasVisible = false;
+    while (sibling && !sibling.classList.contains('group-header')) {
+      if (!sibling.classList.contains('hidden')) { hasVisible = true; break; }
+      sibling = sibling.nextElementSibling;
+    }
+    gh.classList.toggle('hidden', !hasVisible);
+  });
+
+  updateFilterCount();
+}
+
+function updateFilterCount() {
+  const total   = document.querySelectorAll('.story-row').length;
+  const visible = document.querySelectorAll('.story-row:not(.hidden)').length;
+  document.getElementById('filter-count').textContent = visible === total ? `${total} Stories` : `${visible} von ${total} Stories`;
+}
+
+function openModal(id) {
+  const s = STORY_MAP[id];
+  if (!s) return;
+  document.getElementById('modal-id').textContent = s.id;
+  document.getElementById('modal-title').textContent = s.title;
+  document.getElementById('modal-mod').textContent = s.module_label || '';
+  const tags = document.getElementById('modal-tags');
+  tags.innerHTML = '';
+  if (s.scope) tags.innerHTML += `<span class="b b-${s.scope==='MVP'?'mvp':'post'}">${s.scope}</span>`;
+  if (s.phase) tags.innerHTML += `<span class="b b-${s.phase.toLowerCase()}">${s.phase}</span>`;
+  if (s.size)  tags.innerHTML += `<span class="b b-${s.size.toLowerCase()}">${s.size}</span>`;
+  document.getElementById('modal-story').innerHTML = s.story_html || s.story_text || '';
+  const acEl = document.getElementById('modal-ac');
+  acEl.innerHTML = '';
+  (s.acceptance_criteria || []).forEach(ac => {
+    acEl.innerHTML += `<li style="display:flex;gap:8px;font-size:13px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">✓</span><span>${ac}</span></li>`;
+  });
+  document.getElementById('modal-ac-wrap').style.display = (s.acceptance_criteria && s.acceptance_criteria.length) ? '' : 'none';
+  const noteEl = document.getElementById('modal-note');
+  if (s.note) { noteEl.textContent = '📌 ' + s.note; noteEl.style.display = ''; }
+  else noteEl.style.display = 'none';
+  const modal = document.getElementById('story-modal');
+  modal.style.display = 'flex';
+  modal.onclick = e => { if (e.target === modal) closeModal(); };
+}
+function closeModal() { document.getElementById('story-modal').style.display = 'none'; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
