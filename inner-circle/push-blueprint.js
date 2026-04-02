@@ -111,7 +111,7 @@ function buildPayload({ projectId, name, blueprintVersion }) {
   const domains = dData.domains;
 
   // Open Questions — aus questions.json (immer frisch lesen)
-  const open_questions = loadQuestions();
+  const questions = loadQuestions();
 
   return {
     project_id:        projectId,
@@ -123,7 +123,7 @@ function buildPayload({ projectId, name, blueprintVersion }) {
     phases,
     roles,
     domains,
-    ...(open_questions.length ? { open_questions } : {}),
+    ...(questions.length ? { questions } : {}),
   };
 }
 
@@ -175,10 +175,10 @@ async function cmdPush({ apiKey, projectId, name, dryRun }) {
   console.log(`  Phases:            ${payload.phases.length}`);
   console.log(`  Roles:             ${payload.roles.length}`);
   console.log(`  Domains:           ${payload.domains.length}`);
-  if (payload.open_questions) {
-    const open     = payload.open_questions.filter(q => q.status === 'open').length;
-    const answered = payload.open_questions.filter(q => q.status === 'answered').length;
-    console.log(`  Open Questions:    ${payload.open_questions.length} (${open} offen, ${answered} beantwortet)`);
+  if (payload.questions) {
+    const open     = payload.questions.filter(q => q.status === 'open').length;
+    const answered = payload.questions.filter(q => q.status === 'answered').length;
+    console.log(`  Open Questions:    ${payload.questions.length} (${open} offen, ${answered} beantwortet)`);
   }
   console.log('-----------------------\n');
 

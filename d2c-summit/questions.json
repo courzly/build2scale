@@ -1,0 +1,112 @@
+[
+  {
+    "id": "OQ-01",
+    "priority": "high",
+    "context": "Ticketing",
+    "question": "Payrexx: Welcher Account und welche Whitelabel-Subdomain?",
+    "owner": "Daniel / Kunde",
+    "note": "Blockiert Checkout-Integration in Phase 3",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-02",
+    "priority": "high",
+    "context": "Hosting",
+    "question": "Domain-Struktur: d2c-summit.ch + alle Subdomains bestätigt? Domain registriert? DNS-Verwaltung bei wem?",
+    "owner": "Daniel / Go 2 Flow",
+    "note": "Geplant: d2c-summit.ch, my.d2c-summit.ch, admin.d2c-summit.ch, checkin.d2c-summit.ch",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-03",
+    "priority": "high",
+    "context": "Infrastruktur",
+    "question": "Hosting: Forge + DigitalOcean / Hetzner / Vapor?",
+    "owner": "CTO / Go 2 Flow",
+    "note": "Beeinflusst CI/CD-Konfiguration und Deployment in Phase 1",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-04",
+    "priority": "high",
+    "context": "Dev-Setup",
+    "question": "GitHub: Bestehendes Go 2 Flow-Org oder neues Repo?",
+    "owner": "CTO / Go 2 Flow",
+    "note": "Branch-Strategie und Code-Review-Prozess definieren",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-05",
+    "priority": "medium",
+    "context": "Marketing",
+    "question": "Mailtrap: Welcher Plan und was sind die API-Limits?",
+    "owner": "Daniel",
+    "note": "Reicht der Plan für Marketing-Kampagnen an mehrere tausend Kontakte?",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-06",
+    "priority": "medium",
+    "context": "Marketing",
+    "question": "Kontakt-Export aus Event 2025: Format und Felder?",
+    "owner": "Daniel",
+    "note": "Felder, Format, Segmentierung (Speaker/Sponsor/Attendee) klären für CSV-Import",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-07",
+    "priority": "medium",
+    "context": "Design",
+    "question": "Branding: Primärfarbe, Logo und Fonts für den D2C Summit?",
+    "owner": "Daniel / Design",
+    "note": "Benötigt für Public Website, Badge, Social Share Cards, Zertifikat",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-08",
+    "priority": "medium",
+    "context": "Design",
+    "question": "Badge-Design: Wer liefert die Designvorlage? (Standard / VIP / Speaker / Sponsor)",
+    "owner": "Daniel / Design",
+    "note": "Referenz vom Event 2025 vorhanden? Zeitplan für Asset-Lieferung?",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-09",
+    "priority": "low",
+    "context": "Content",
+    "question": "Multi-Language: Deutsch only oder DE/EN?",
+    "owner": "Daniel",
+    "note": "DE-Only ist deutlich einfacher — beeinflusst Nuxt i18n-Konfiguration",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  },
+  {
+    "id": "OQ-10",
+    "priority": "low",
+    "context": "Content / Admin",
+    "question": "FAQ & statische Seiten: Wer pflegt, braucht es einen Page Builder?",
+    "owner": "Daniel",
+    "note": "Admin-Interface oder Code-basierte Markdown-Seiten?",
+    "status": "open",
+    "answer": null,
+    "answered_at": null
+  }
+]

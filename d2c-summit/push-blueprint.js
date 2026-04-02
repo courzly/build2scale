@@ -17,19 +17,22 @@
 const fs = require('fs');
 const path = require('path');
 
-// .env laden (falls vorhanden)
-const envPath = path.join(__dirname, '.env');
-if (fs.existsSync(envPath)) {
+// .env laden — zuerst Projekt-Verzeichnis, dann Root (für geteilten API-Key)
+function loadEnv(dir) {
+  const envPath = path.join(dir, '.env');
+  if (!fs.existsSync(envPath)) return;
   fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
     const [key, ...rest] = line.split('=');
     if (key && rest.length) process.env[key.trim()] ??= rest.join('=').trim();
   });
 }
+loadEnv(__dirname);                      // d2c-summit/.env  → PROJECT_ID
+loadEnv(path.join(__dirname, '..'));     // Build2Scale/.env → FLOWSUITE_API_KEY
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const BASE_URL = 'https://flowsuite.go2flow.de/api/v1/external/blueprints';
+const BASE_URL = 'https://flowsuite.go2flow.com/api/v1/external/blueprints';
 const API_DIR  = path.join(__dirname, 'api', 'v1');
 
 // ---------------------------------------------------------------------------
@@ -68,6 +71,12 @@ function loadJson(filename) {
   return JSON.parse(fs.readFileSync(filepath, 'utf8'));
 }
 
+function loadQuestions() {
+  const qPath = path.join(__dirname, 'questions.json');
+  if (!fs.existsSync(qPath)) return [];
+  return JSON.parse(fs.readFileSync(qPath, 'utf8'));
+}
+
 function buildPayload({ projectId, name, blueprintVersion }) {
   const index   = loadJson('index.json');
   const sData   = loadJson('stories.json');
@@ -101,6 +110,9 @@ function buildPayload({ projectId, name, blueprintVersion }) {
   // Domains — direkte Übernahme
   const domains = dData.domains;
 
+  // Open Questions — optional, aus questions.json
+  const questions = loadQuestions();
+
   return {
     project_id:        projectId,
     name:              name || 'D2C Summit Platform Blueprint',
@@ -111,6 +123,7 @@ function buildPayload({ projectId, name, blueprintVersion }) {
     phases,
     roles,
     domains,
+    ...(questions.length ? { questions } : {}),
   };
 }
 
@@ -162,6 +175,11 @@ async function cmdPush({ apiKey, projectId, name, dryRun }) {
   console.log(`  Phases:            ${payload.phases.length}`);
   console.log(`  Roles:             ${payload.roles.length}`);
   console.log(`  Domains:           ${payload.domains.length}`);
+  if (payload.questions) {
+    const open     = payload.questions.filter(q => q.status === 'open').length;
+    const answered = payload.questions.filter(q => q.status === 'answered').length;
+    console.log(`  Open Questions:    ${payload.questions.length} (${open} offen, ${answered} beantwortet)`);
+  }
   console.log('-----------------------\n');
 
   if (dryRun) {
