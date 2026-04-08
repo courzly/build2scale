@@ -1,18 +1,20 @@
 [
   {
-    "id": "d2c-summit",
-    "name": "D2C Summit Platform",
-    "description": "Wiederverwendbare Event Management Platform — Greenfield, Laravel + Nuxt 4",
-    "icon": "🎪",
-    "path": "../d2c-summit/api/v1",
-    "color": "#0d9488"
-  },
-  {
     "id": "inner-circle",
     "name": "Inner Circle Club",
+    "type": "mvp",
     "description": "Geschlossene Mitglieder-Plattform auf Basis Fortuneglobe E-Commerce-Infrastruktur",
     "icon": "💎",
-    "path": "../inner-circle/api/v1",
+    "path": "../mvp/inner-circle/api/v1",
     "color": "#6366f1"
+  },
+  {
+    "id": "d2c-summit",
+    "name": "D2C Summit Platform",
+    "type": "build",
+    "description": "Wiederverwendbare Event Management Platform — Greenfield, Laravel + Nuxt 4",
+    "icon": "🎪",
+    "path": "../build/d2c-summit/api/v1",
+    "color": "#0d9488"
   }
 ]

@@ -123,13 +123,17 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 /* QUESTIONS */
 .questions { display: flex; flex-direction: column; gap: 10px; }
 .question { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px; }
+.question.answered { opacity: 0.7; border-left: 3px solid var(--green); }
 .q-prio { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
 .q-prio.high { background: rgba(239,68,68,0.1); }
 .q-prio.mid  { background: rgba(245,158,11,0.1); }
 .q-prio.low  { background: rgba(16,185,129,0.1); }
+.q-prio.done { background: rgba(16,185,129,0.1); }
 .q-body { flex: 1; }
 .q-text { font-size: 14px; color: var(--text); margin-bottom: 4px; }
+.q-text.answered { text-decoration: line-through; color: var(--muted); }
 .q-who { font-size: 12px; color: var(--muted); }
+.q-answer { font-size: 13px; color: var(--green); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
 /* PROMPT BOX */
 .prompt-box { background: #0d1117; border: 1px solid rgba(99,102,241,0.3); border-radius: 12px; padding: 28px 32px; font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.8; color: #8b949e; overflow-x: auto; white-space: pre-wrap; }
 .prompt-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
@@ -379,18 +383,20 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <div class="q-who">→ Fortuneglobe | Optional für Phase 2</div>
         </div>
       </div>
-      <div class="question">
-        <div class="q-prio high">🔴</div>
+      <div class="question answered">
+        <div class="q-prio done">✅</div>
         <div class="q-body">
-          <div class="q-text">GM-Feed + CYS-Feed: Technisch zusammenführbar? Wer stellt den zusammengeführten Feed bereit?</div>
+          <div class="q-text answered">GM-Feed + CYS-Feed: Technisch zusammenführbar? Wer stellt den zusammengeführten Feed bereit?</div>
           <div class="q-who">→ @Tobias M. (Fortuneglobe) | Kritisch für Produktkatalog</div>
+          <div class="q-answer">Fortuneglobe stellt einen kombinierten Feed aus Gute Marken (GM) und Connect Your Store (CYS) bereit.</div>
         </div>
       </div>
-      <div class="question">
-        <div class="q-prio high">🔴</div>
+      <div class="question answered">
+        <div class="q-prio done">✅</div>
         <div class="q-body">
-          <div class="q-text">Club-Rabatt (20%): Direkt als reduzierter Preis anzeigen — oder als Abzug erst im Checkout sichtbar machen?</div>
-          <div class="q-who">→ @Thorsten | Kritisch für Preisanzeige-Implementierung</div>
+          <div class="q-text answered">Club-Rabatt: Direkt als reduzierter Preis anzeigen — oder als Abzug erst im Checkout sichtbar machen?</div>
+          <div class="q-who">→ @Tobias M. (Fortuneglobe) | Kritisch für Preisanzeige-Implementierung</div>
+          <div class="q-answer">IC-Rabattpreis wird als Sale-Preis direkt im Feed mitgeliefert. Keine Berechnung im Frontend nötig — UVP durchgestrichen, Club-Preis prominent anzeigen.</div>
         </div>
       </div>
       <div class="question">

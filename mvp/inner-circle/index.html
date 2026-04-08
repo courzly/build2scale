@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inner Circle Club — Umsetzungskonzept</title>
+<style>
+:root {
+  --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
+  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
+  --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; flex-shrink: 0; }
+.nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
+.nav-sep { color: var(--border); font-size: 18px; margin: 0 4px; }
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+.hero { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 56px 40px 44px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(13,148,136,0.1) 0%, transparent 70%); pointer-events: none; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 14px; }
+.hero h1 span { color: var(--accent2); }
+.hero-sub { color: var(--muted); font-size: 15px; max-width: 640px; margin-bottom: 28px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 24px; }
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.meta-value { font-size: 15px; font-weight: 600; color: var(--text); }
+.meta-value.green { color: var(--green); }
+.meta-value.gold { color: var(--gold); }
+.meta-value.teal { color: var(--accent2); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+.section { margin-bottom: 56px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
+.section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.nav-card { display: flex; align-items: center; gap: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-decoration: none; color: var(--text); transition: border-color 0.15s, background 0.15s; }
+.nav-card:hover { border-color: rgba(13,148,136,0.4); background: var(--card2); }
+.nav-card-icon { font-size: 26px; width: 56px; height: 56px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-card-body { flex: 1; }
+.nav-card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.nav-card-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.nav-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.nav-card-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+.nav-card-arrow { color: var(--accent2); font-size: 18px; flex-shrink: 0; }
+.portale-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.portal-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.portal-icon { font-size: 22px; margin-bottom: 10px; }
+.portal-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.portal-domain { font-size: 11px; color: var(--accent2); font-family: 'Monaco', monospace; margin-bottom: 6px; }
+.portal-desc { font-size: 12px; color: var(--muted); }
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+.stat-value { font-size: 32px; font-weight: 800; color: var(--accent2); letter-spacing: -0.02em; }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.footer strong { color: var(--text); }
+.footer-nav { display: flex; gap: 16px; }
+.footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
+.footer-nav a:hover { color: var(--accent2); }
+@media (max-width: 768px) {
+  .hero, .container, .footer { padding-left: 20px; padding-right: 20px; }
+  .nav-inner { padding: 0 16px; }
+  .nav-cards, .portale-grid, .stats-row { grid-template-columns: 1fr; }
+}
+/* ===== Light Mode ===== */
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light .nav { background: rgba(255,255,255,0.95); border-bottom-color: #e2e8f0; }
+body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .nav-link { color: #64748b; }
+body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
+body.light .nav-sep { color: #cbd5e1; }
+body.light .nav-brand-text { color: #0f172a; }
+body.light .nav-brand-dot { background: #0f766e; }
+body.light .vision-card { background: rgba(13,148,136,0.04); }
+body.light .section-num { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); }
+body.light th { background: #f1f5f9; color: #64748b; }
+body.light tr:hover td { background: rgba(0,0,0,0.015); }
+body.light .pill { background: rgba(0,0,0,0.04); border-color: #e2e8f0; color: #64748b; }
+body.light .footer { border-top-color: #e2e8f0; }
+body.light .phase-hdr { background: rgba(13,148,136,0.06); border-color: rgba(13,148,136,0.2); }
+body.light .flow-step { background: #f1f5f9; border-color: #e2e8f0; }
+body.light .flow-arrow { color: #94a3b8; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
+.theme-toggle:hover { background: rgba(255,255,255,0.08); }
+body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
+/* ===== Changelog ===== */
+.changelog { display: flex; flex-direction: column; gap: 0; }
+.cl-entry { display: grid; grid-template-columns: 80px 64px 1fr; gap: 0 20px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+.cl-entry:last-child { border-bottom: none; }
+.cl-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cl-ver { font-size: 12px; font-weight: 700; color: var(--accent2); font-family: 'Monaco', monospace; }
+.cl-desc { font-size: 13px; color: var(--text); }
+.cl-desc span { color: var(--muted); }
+.version-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); color: var(--accent2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; font-family: 'Monaco', monospace; margin-left: 12px; vertical-align: middle; }
+body.light .cl-entry { border-bottom-color: #e2e8f0; }
+@media (max-width: 600px) {
+  .cl-entry { grid-template-columns: 1fr; gap: 2px; }
+}
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      <span class="nav-brand-text">Inner Circle</span>
+    </a>
+    <span class="nav-sep">|</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Übersicht</a>
+      <a href="konzept.html" class="nav-link">Konzept</a>
+      <a href="module.html" class="nav-link">Backlog</a>
+      <a href="phasen.html" class="nav-link">Phasen</a>
+      <a href="offene-fragen.html" class="nav-link">Offene Fragen</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="hero-badge"><span>◆</span> MVP Blueprint</div>
+    <h1>Inner Circle Club<br><span>Geschlossene Mitglieder-Plattform</span></h1>
+    <p class="hero-sub">Exklusiver B2B-Club auf Basis der bestehenden Fortuneglobe E-Commerce-Infrastruktur — Gated Entry, Club-Pricing, Invitation-System. Gebaut von go2flow AG.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Typ</span><span class="meta-value teal">Extension</span></div>
+      <div class="meta-item"><span class="meta-label">MVP</span><span class="meta-value green">4 Wochen</span></div>
+      <div class="meta-item"><span class="meta-label">Budget</span><span class="meta-value gold">EUR 10.000 netto</span></div>
+      <div class="meta-item"><span class="meta-label">Auftraggeber</span><span class="meta-value">Fortuneglobe GmbH</span></div>
+      <div class="meta-item"><span class="meta-label">Umsetzer</span><span class="meta-value">go2flow AG</span></div>
+      <div class="meta-item"><span class="meta-label">Version</span><span class="meta-value teal">v1.2 <span style="font-size:12px;font-weight:400;color:var(--muted)">— 30.03.2026</span></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">◆</div>
+      <h2 class="section-title">Projektkennzahlen</h2>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">MVP User Stories</div></div>
+      <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">Post-MVP Stories</div></div>
+      <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Wochen MVP</div></div>
+      <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Module</div></div>
+      <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Rollen</div></div>
+      <div class="stat-card"><div class="stat-value">19</div><div class="stat-label">Offene Fragen</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Blueprint-Dokumente</h2>
+    </div>
+    <div class="nav-cards">
+      <a href="konzept.html" class="nav-card">
+        <div class="nav-card-icon">🎯</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Konzept & Architektur</div>
+          <div class="nav-card-sub">Vision, Architektur-Layer, 5 MVP-Features, Design-Referenz und Abgrenzungen</div>
+          <div class="nav-card-tags">
+            <span class="nav-card-tag">Architektur</span>
+            <span class="nav-card-tag">MVP Features</span>
+            <span class="nav-card-tag">IceHawk Layer</span>
+          </div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+      <a href="module.html" class="nav-card">
+        <div class="nav-card-icon">📋</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Backlog & User Stories</div>
+          <div class="nav-card-sub">27 User Stories verteilt auf 8 Module — jede Story mit MVP/Post-MVP-Tag, Phase P1–P4 und Grösse</div>
+          <div class="nav-card-tags">
+            <span class="nav-card-tag">25 MVP Stories</span>
+            <span class="nav-card-tag">2 Post-MVP</span>
+            <span class="nav-card-tag">Als [Rolle]…</span>
+          </div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+      <a href="phasen.html" class="nav-card">
+        <div class="nav-card-icon">🗓️</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Umsetzungsplan</div>
+          <div class="nav-card-sub">4 Phasen über 8 Wochen — was wird wann gebaut, Meilensteine und Abhängigkeiten</div>
+          <div class="nav-card-tags">
+            <span class="nav-card-tag">4 Phasen</span>
+            <span class="nav-card-tag">8 Wochen</span>
+            <span class="nav-card-tag">Roadmap</span>
+          </div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+      <a href="offene-fragen.html" class="nav-card">
+        <div class="nav-card-icon">❓</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Offene Fragen</div>
+          <div class="nav-card-sub">19 Klärungspunkte — davon 2 beantwortet. Kritische Fragen für Woche 1</div>
+          <div class="nav-card-tags">
+            <span class="nav-card-tag">Fortuneglobe</span>
+            <span class="nav-card-tag">Infrastruktur</span>
+            <span class="nav-card-tag">Entscheidungen</span>
+          </div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Architektur — Was ist neu, was ist bestehend</h2>
+    </div>
+    <div class="portale-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="portal-icon">🔒</div>
+        <div class="portal-name">Gated Entry Layer</div>
+        <div class="portal-domain">NEU — go2flow baut</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Alle Club-Seiten hinter Login-Middleware geschützt. Nicht eingeloggte Besucher → Redirect zur Club Splash Page.<br><br>
+          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
+          Splash Page · Login · Passwort-Reset · Middleware · Session-Verwaltung
+        </div>
+      </div>
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="portal-icon">✉️</div>
+        <div class="portal-name">Invitation System</div>
+        <div class="portal-domain">NEU — go2flow baut</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Admin-Einladungen + Member-Referrals (max. 5 in Phase 1). Token-basiert, single-use, 7-Tage-Ablauf.<br><br>
+          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
+          Invite-Handler · Accept-Handler · Referral-Tracking · E-Mail-Templates
+        </div>
+      </div>
+
+      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
+        <div class="portal-icon">🏷️</div>
+        <div class="portal-name">Club-Pricing</div>
+        <div class="portal-domain">NEU — go2flow baut</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          UVP durchgestrichen, Club-Preis prominent. Feed liefert bereits berechnete Preise — kein Rechner im Frontend.<br><br>
+          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
+          Preisanzeige · Company-Rabattstufen · Checkout-Integration
+        </div>
+      </div>
+
+      <div class="portal-card" style="border-color:rgba(30,42,58,0.8)">
+        <div class="portal-icon">🏗️</div>
+        <div class="portal-name">Bestehende Infrastruktur</div>
+        <div class="portal-domain">Fortuneglobe betreibt</div>
+        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
+          Pierre Cardin Shop (IceHawk, CQRS, PHP 8) — keine Änderung an bestehender Business-Logik.<br><br>
+          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
+          Produktkatalog · Warenkorb · Checkout · PayPal / Saferpay · Alvine ERP · Redis / MySQL
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Versionshistorie</h2>
+    </div>
+    <div class="stat-card" style="text-align:left;padding:0 24px">
+      <div class="changelog">
+
+        <div class="cl-entry">
+          <div class="cl-date">30.03.2026</div>
+          <div class="cl-ver">v1.2</div>
+          <div class="cl-desc"><strong>Backlog & User Stories:</strong> 27 User Stories erstellt (25 MVP, 2 Post-MVP) für 8 Module. Stories.js als Single Source of Truth. generate-api.js und push-blueprint.js aligned mit D2C Summit Struktur.</div>
+        </div>
+
+        <div class="cl-entry">
+          <div class="cl-date">30.03.2026</div>
+          <div class="cl-ver">v1.2</div>
+          <div class="cl-desc"><strong>Neue Seitenstruktur:</strong> module.html (Backlog), phasen.html (Implementierungsplan), offene-fragen.html (aus questions.json). Navigation auf neue Struktur umgestellt.</div>
+        </div>
+
+        <div class="cl-entry">
+          <div class="cl-date">01.04.2026</div>
+          <div class="cl-ver">v1.1</div>
+          <div class="cl-desc"><strong>Offene Fragen aktualisiert:</strong> OQ-07 und OQ-08 beantwortet (Feed-Bereitstellung, Preislogik). 19 Fragen total, 2 beantwortet, 17 noch offen.</div>
+        </div>
+
+        <div class="cl-entry">
+          <div class="cl-date">26.03.2026</div>
+          <div class="cl-ver">v1.0</div>
+          <div class="cl-desc"><strong>Initiales Blueprint:</strong> Konzept, Architektur-Übersicht, 5 MVP-Features (Gated Entry, Invitation, Club-Pricing, Produktkatalog, Member-Verwaltung), technische Umsetzung, 4-Wochen-Implementierungsplan und 19 offene Fragen.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Inner Circle Club — Umsetzungskonzept</strong>
+  <div class="footer-nav">
+    <a href="konzept.html">Konzept →</a>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  var l=document.body.classList.toggle('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  var b=document.getElementById('theme-toggle-btn');
+  if(b)b.textContent=l?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('theme-toggle-btn');
+  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+});
+</script>
+</body>
+</html>

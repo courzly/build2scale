@@ -42,12 +42,30 @@ body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, 
 .hero h1 span { color: var(--accent2); }
 .hero-sub { color: var(--muted); font-size: 14px; max-width: 600px; }
 .container { max-width: 1100px; margin: 0 auto; padding: 40px; }
+/* Category sections */
+.category-section { margin-bottom: 48px; }
+.category-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.category-icon-wrap { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.category-icon-wrap.mvp { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25); }
+.category-icon-wrap.build { background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.25); }
+.category-header-body {}
+.category-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 2px; }
+.category-title.mvp { color: #818cf8; }
+.category-title.build { color: var(--accent2); }
+body.light .category-title.mvp { color: #4f46e5; }
+body.light .category-title.build { color: #0f766e; }
+.category-desc { font-size: 13px; color: var(--muted); }
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; }
 .project-card { text-decoration: none; display: flex; align-items: flex-start; gap: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: border-color 0.2s, transform 0.15s; }
 .project-card:hover { transform: translateY(-2px); }
 .project-card-icon { font-size: 36px; flex-shrink: 0; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: var(--card2); border-radius: 12px; }
 .project-card-body { flex: 1; min-width: 0; }
-.project-card-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.project-card-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.type-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 100px; }
+.type-badge.mvp { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25); color: #818cf8; }
+.type-badge.build { background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); color: var(--accent2); }
+body.light .type-badge.mvp { color: #4f46e5; }
+body.light .type-badge.build { color: #0f766e; }
 .project-card-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
 .project-card-stats { display: flex; gap: 16px; margin-bottom: 14px; }
 .project-card-stats span { font-size: 12px; font-weight: 600; color: var(--muted); }
@@ -87,12 +105,12 @@ body.light .project-card-links a { color: #0f766e; }
       <span>Build 2 Scale</span>
     </div>
     <h1>Blueprint <span>Viewer</span></h1>
-    <p class="hero-sub">Alle aktiven Projekte auf einen Blick — klicke auf ein Projekt um Backlog, Phasen, Konzept und offene Fragen zu sehen.</p>
+    <p class="hero-sub">Alle aktiven Projekte — MVP-Validierungen und Build-Projekte auf einen Blick.</p>
   </div>
 </div>
 
 <div class="container">
-  <div id="projects-grid" class="projects-grid">
+  <div id="projects-root">
     <div class="loading">Projekte werden geladen…</div>
   </div>
 </div>
@@ -113,6 +131,59 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('theme-toggle-btn').textContent='🌙';
 });
 
+function renderCard(p) {
+  const stats = p.stats || {};
+  const color = p.color || '#0d9488';
+  const type = p.type || 'build';
+  return `
+    <a href="backlog.html?project=${p.id}" class="project-card" style="border-color:${color}33">
+      <div class="project-card-icon">${p.icon || '📦'}</div>
+      <div class="project-card-body">
+        <div class="project-card-name">
+          ${p.name}
+          <span class="type-badge ${type}">${type === 'mvp' ? 'MVP' : 'Build'}</span>
+        </div>
+        <div class="project-card-desc">${p.description}</div>
+        <div class="project-card-stats">
+          ${stats.total_stories ? `<span>${stats.total_stories} Stories</span>` : ''}
+          ${stats.phases ? `<span>${stats.phases} Phasen</span>` : ''}
+          ${stats.modules ? `<span>${stats.modules} Module</span>` : ''}
+          ${p.blueprint_version ? `<span>v${p.blueprint_version}</span>` : ''}
+        </div>
+        <div class="project-card-links">
+          <a href="konzept.html?project=${p.id}" onclick="event.stopPropagation()">Konzept</a>
+          <a href="backlog.html?project=${p.id}" onclick="event.stopPropagation()">Backlog</a>
+          <a href="phasen.html?project=${p.id}" onclick="event.stopPropagation()">Phasen</a>
+          <a href="fragen.html?project=${p.id}" onclick="event.stopPropagation()">Fragen</a>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>`;
+}
+
+function renderSection(type, projects) {
+  if (!projects.length) return '';
+  const isMvp = type === 'mvp';
+  const title = isMvp ? 'MVP Projekte' : 'Build Projekte';
+  const icon = isMvp ? '🧪' : '🏗️';
+  const desc = isMvp
+    ? 'Ideen-Validierung — wir testen Annahmen bevor Zeit und Geld in Entwicklung fliesst.'
+    : 'Digitale Produkte — wir bauen funktionierende Webapps, Plattformen und SaaS-Lösungen.';
+  return `
+    <div class="category-section">
+      <div class="category-header">
+        <div class="category-icon-wrap ${type}">${icon}</div>
+        <div class="category-header-body">
+          <div class="category-title ${type}">${title}</div>
+          <div class="category-desc">${desc}</div>
+        </div>
+      </div>
+      <div class="projects-grid">
+        ${projects.map(renderCard).join('')}
+      </div>
+    </div>`;
+}
+
 fetch('../projects.json')
   .then(r => { if (!r.ok) throw new Error('projects.json nicht gefunden'); return r.json(); })
   .then(projects => {
@@ -124,36 +195,14 @@ fetch('../projects.json')
     ));
   })
   .then(projects => {
-    const grid = document.getElementById('projects-grid');
+    const root = document.getElementById('projects-root');
     document.getElementById('footer-count').textContent = projects.length + ' Projekte';
-    grid.innerHTML = projects.map(p => {
-      const stats = p.stats || {};
-      const color = p.color || '#0d9488';
-      return `
-        <a href="backlog.html?project=${p.id}" class="project-card" style="border-color:${color}33">
-          <div class="project-card-icon">${p.icon || '📦'}</div>
-          <div class="project-card-body">
-            <div class="project-card-name">${p.name}</div>
-            <div class="project-card-desc">${p.description}</div>
-            <div class="project-card-stats">
-              ${stats.total_stories ? `<span>${stats.total_stories} Stories</span>` : ''}
-              ${stats.phases ? `<span>${stats.phases} Phasen</span>` : ''}
-              ${stats.modules ? `<span>${stats.modules} Module</span>` : ''}
-              ${p.blueprint_version ? `<span>v${p.blueprint_version}</span>` : ''}
-            </div>
-            <div class="project-card-links">
-              <a href="konzept.html?project=${p.id}" onclick="event.stopPropagation()">Konzept</a>
-              <a href="backlog.html?project=${p.id}" onclick="event.stopPropagation()">Backlog</a>
-              <a href="phasen.html?project=${p.id}" onclick="event.stopPropagation()">Phasen</a>
-              <a href="fragen.html?project=${p.id}" onclick="event.stopPropagation()">Fragen</a>
-            </div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>`;
-    }).join('');
+    const mvp = projects.filter(p => p.type === 'mvp');
+    const build = projects.filter(p => p.type === 'build');
+    root.innerHTML = renderSection('mvp', mvp) + renderSection('build', build);
   })
   .catch(err => {
-    document.getElementById('projects-grid').innerHTML = `<div class="loading" style="color:var(--red)">Fehler beim Laden: ${err.message}</div>`;
+    document.getElementById('projects-root').innerHTML = `<div class="loading" style="color:var(--red)">Fehler beim Laden: ${err.message}</div>`;
   });
 </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anforderungen — Inner Circle Blueprint</title>
+<title>Konzept — Inner Circle Blueprint</title>
 <style>
 :root {
   --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
@@ -156,9 +156,36 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   .flow-row { grid-template-columns: 1fr; }
   .nav-cards { grid-template-columns: 1fr; }
 }
+/* ===== Light Mode ===== */
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent: #0d9488; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light .nav { background: rgba(255,255,255,0.95); border-bottom-color: #e2e8f0; }
+body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .nav-link { color: #64748b; }
+body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
+body.light .nav-sep { color: #cbd5e1; }
+body.light .nav-brand-text { color: #0f172a; }
+body.light .nav-brand-dot { background: #0f766e; }
+body.light .section-num { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); color: #0f766e; }
+body.light th { background: #f1f5f9; color: #64748b; }
+body.light tr:hover td { background: rgba(0,0,0,0.015); }
+body.light .pill { background: rgba(0,0,0,0.04); border-color: #e2e8f0; color: #64748b; }
+body.light .footer { border-top-color: #e2e8f0; }
+body.light .arch-layer.new { background: rgba(13,148,136,0.06); border-color: rgba(13,148,136,0.3); }
+body.light .arch-layer.existing { background: rgba(0,0,0,0.03); border-color: #e2e8f0; }
+body.light .feature-card { background: #fff; border-color: #e2e8f0; }
+body.light .feature-icon { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); }
+body.light .nav-card { background: #fff; border-color: #e2e8f0; }
+body.light .nav-card:hover { background: #f8fafc; border-color: rgba(13,148,136,0.3); }
+body.light .nav-card-icon { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); }
+body.light .nav-card-arrow { color: #0f766e; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
+.theme-toggle:hover { background: rgba(255,255,255,0.08); }
+body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -169,185 +196,241 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <span class="nav-sep">|</span>
     <div class="nav-links">
       <a href="index.html" class="nav-link">Übersicht</a>
-      <a href="konzept.html" class="nav-link">Konzept</a>
-      <a href="anforderungen.html" class="nav-link active">Anforderungen</a>
-      <a href="technik.html" class="nav-link">Technik</a>
-      <a href="projektmanagement.html" class="nav-link">Projektmanagement</a>
-      <a href="implementierung.html" class="nav-link">Implementierung</a>
+      <a href="konzept.html" class="nav-link active">Konzept</a>
+      <a href="module.html" class="nav-link">Backlog</a>
+      <a href="phasen.html" class="nav-link">Phasen</a>
+      <a href="offene-fragen.html" class="nav-link">Offene Fragen</a>
     </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
   </div>
 </nav>
 
 <div class="page-hdr">
   <div class="page-hdr-inner">
-    <div class="page-bc"><a href="index.html">Inner Circle</a> / Anforderungen</div>
-    <div class="page-title">Anforderungen</div>
-    <div class="page-sub">Produktfeed, Datenbankmodell und Invitation-Flow</div>
+    <div class="page-bc"><a href="index.html">Inner Circle</a> / Konzept</div>
+    <div class="page-title">Konzept &amp; Vision</div>
+    <div class="page-sub">Architektur, Features, Design-Referenz und Abgrenzungen</div>
   </div>
 </div>
 
 <div class="container">
 
-  <!-- 1. PRODUKTFEED & KATALOG -->
+  <!-- 1. ARCHITEKTUR -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
-      <h2 class="section-title">Produktfeed &amp; Katalog</h2>
+      <h2 class="section-title">Architektur-Übersicht</h2>
     </div>
-    <div class="card" style="margin-bottom:24px">
-      <p style="font-size:13px;color:var(--muted)">Produkte werden feed-basiert eingebunden — kein eigener Produktkatalog. Fortuneglobe richtet intern einen <strong>PIM-Channel</strong> analog zum Pierre-Cardin-Webshop ein. Datenpflege erfolgt getrennt im GM- und CYS-PIM — ob diese zu einem Feed zusammengeführt werden, klärt @Tobias intern.</p>
-    </div>
-    <div class="card-grid" style="margin-bottom:24px">
-      <div class="feature-card">
-        <div class="feature-icon">📦</div>
-        <div class="feature-body">
-          <h3>Feed-Zusammenführung</h3>
-          <p>GM-Feed + CYS-Feed werden zusammengeführt. Gleiche Produktnummer = gleicher Artikel. Colorcodes (-xxx) = Varianten.</p>
+    <div class="arch">
+      <div class="arch-layer new">
+        <div class="arch-label new">Neu — go2flow baut</div>
+        <div class="arch-title">Inner Circle Club Layer</div>
+        <div class="arch-pills">
+          <span class="pill accent">Gated Entry</span>
+          <span class="pill accent">Invitation System</span>
+          <span class="pill accent">Member Management</span>
+          <span class="pill accent">Club Price Logic</span>
+          <span class="pill accent">Club Splash &amp; Login</span>
         </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <div class="feature-body">
-          <h3>Varianten als Colorpicker</h3>
-          <p>Farb- und Größenvarianten in Produktgalerie, Produktdetail und Wunschliste als Colorpicker. Produktbilder als URL im Feed enthalten.</p>
+      <div class="arch-arrow">↕<span class="arch-arrow-label">definierte Schnittstellen — keine Änderung an bestehender Business-Logik</span></div>
+      <div class="arch-layer existing">
+        <div class="arch-label existing">Bestehend — Fortuneglobe betreibt</div>
+        <div class="arch-title">Pierre Cardin Shop (IceHawk, CQRS, PHP 8)</div>
+        <div class="arch-pills">
+          <span class="pill">Produktkatalog</span>
+          <span class="pill">Warenkorb</span>
+          <span class="pill">Checkout</span>
+          <span class="pill">PayPal / Saferpay / Klarna / Amazon Pay</span>
+          <span class="pill">Alvine ERP</span>
+          <span class="pill">Redis / MySQL</span>
+          <span class="pill">Image CDN</span>
         </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🗂️</div>
-        <div class="feature-body">
-          <h3>3 Kategorieebenen</h3>
-          <p>Kategorien sind im Feed enthalten. Mindestens 3 Ebenen werden abgebildet. Verarbeitungslogik wird von go2flow definiert.</p>
-        </div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
-      <div class="db-table">
-        <div class="db-table-header"><span class="db-table-name">Filter</span></div>
-        <table>
-          <tr><th>Filter</th><th>Quelle</th></tr>
-          <tr><td class="td-name">Produktkategorien</td><td class="td-desc">Feed-Kategoriestruktur</td></tr>
-          <tr><td class="td-name">Geschlecht</td><td class="td-desc">Attribut im Feed</td></tr>
-          <tr><td class="td-name">Größen</td><td class="td-desc">Varianten-Attribut</td></tr>
-          <tr><td class="td-name">Farben</td><td class="td-desc">Colorcode-Varianten</td></tr>
-        </table>
-      </div>
-      <div class="db-table">
-        <div class="db-table-header"><span class="db-table-name">Sortierung</span></div>
-        <table>
-          <tr><th>Option</th><th>Richtung</th></tr>
-          <tr><td class="td-name">Neuheiten</td><td class="td-desc">neueste zuerst (Standard)</td></tr>
-          <tr><td class="td-name">Preis</td><td class="td-desc">aufsteigend</td></tr>
-          <tr><td class="td-name">Preis</td><td class="td-desc">absteigend</td></tr>
-        </table>
-      </div>
-    </div>
-    <div class="card" style="border-left:3px solid var(--gold)">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px">Preislogik — Entscheidung offen</div>
-      <p style="font-size:13px">Feed liefert <strong>regulären UVP</strong> + <strong>Angebotspreis</strong>. Club-Rabatt (20%) wird im Shop angewendet — entweder als direkt reduzierter Preis <em>oder</em> als sichtbarer 20%-Abzug erst im Checkout. <span style="color:var(--muted)">Entscheidung: @Thorsten</span></p>
     </div>
   </div>
 
-  <!-- 2. DATENBANK -->
+  <!-- 2. FEATURES -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <h2 class="section-title">Neue Datenbanktabellen</h2>
+      <h2 class="section-title">5 MVP-Features</h2>
     </div>
-
-    <div class="db-table">
-      <div class="db-table-header">
-        <span class="db-table-name">inner_circle_companies</span>
-        <span class="db-badge new">NEU</span>
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-body">
+          <h3>Gated Entry</h3>
+          <p>Alle Seiten sind ohne Login nicht sichtbar. Middleware redirected nicht eingeloggte Besucher zur Club-Login-Seite.</p>
+        </div>
       </div>
-      <table>
-        <tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr>
-        <tr><td class="td-name">companyId</td><td class="td-type">CHAR(36)</td><td class="td-desc">UUID — Primary Identifier</td></tr>
-        <tr><td class="td-name">name</td><td class="td-type">VARCHAR(255)</td><td class="td-desc">Firmenname des Partnerunternehmens</td></tr>
-        <tr><td class="td-name">discountRate</td><td class="td-type">DECIMAL(4,2)</td><td class="td-desc">Rabatt in % (z.B. 30.00 = 30%)</td></tr>
-        <tr><td class="td-name">status</td><td class="td-type">VARCHAR(50)</td><td class="td-desc">active | inactive</td></tr>
-      </table>
-    </div>
-
-    <div class="db-table">
-      <div class="db-table-header">
-        <span class="db-table-name">inner_circle_members</span>
-        <span class="db-badge new">NEU</span>
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <div class="feature-body">
+          <h3>Invitation &amp; Referral-System</h3>
+          <p>Admin-Einladungen + Mitglieder-Referrals (max. 5 Einladungen pro Mitglied). Geworbene Mitglieder dürfen in Phase 1 nicht weiterwerben. Tracking wer wen geworben hat.</p>
+        </div>
       </div>
-      <table>
-        <tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr>
-        <tr><td class="td-name">memberId</td><td class="td-type">CHAR(36)</td><td class="td-desc">UUID — Primary Identifier</td></tr>
-        <tr><td class="td-name">accountId</td><td class="td-type">CHAR(36)</td><td class="td-desc">FK → accounts.accountId (bestehend)</td></tr>
-        <tr><td class="td-name">companyId</td><td class="td-type">CHAR(36)</td><td class="td-desc">FK → inner_circle_companies.companyId</td></tr>
-        <tr><td class="td-name">referredBy</td><td class="td-type">CHAR(36) NULL</td><td class="td-desc">FK → inner_circle_members (wer hat dieses Mitglied geworben)</td></tr>
-        <tr><td class="td-name">referralCount</td><td class="td-type">TINYINT</td><td class="td-desc">Anzahl gesendeter Einladungen (max. 5 in Phase 1)</td></tr>
-        <tr><td class="td-name">status</td><td class="td-type">VARCHAR(50)</td><td class="td-desc">active | suspended</td></tr>
-        <tr><td class="td-name">joinedAt</td><td class="td-type">DATETIME</td><td class="td-desc">Zeitpunkt der Aktivierung</td></tr>
-      </table>
-    </div>
-
-    <div class="db-table">
-      <div class="db-table-header">
-        <span class="db-table-name">inner_circle_invitations</span>
-        <span class="db-badge new">NEU</span>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <div class="feature-body">
+          <h3>Club-Preislogik</h3>
+          <p>Einheitlicher Club-Rabatt 20%. Feed liefert UVP + Angebotspreis — Rabatt wird im Shop angewendet. UVP durchgestrichen, Club-Preis prominent in Liste, Detail, Cart &amp; Checkout.</p>
+        </div>
       </div>
-      <table>
-        <tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr>
-        <tr><td class="td-name">invitationId</td><td class="td-type">CHAR(36)</td><td class="td-desc">UUID — Primary Identifier</td></tr>
-        <tr><td class="td-name">token</td><td class="td-type">VARCHAR(64)</td><td class="td-desc">SHA256-Token, einmalig, unique</td></tr>
-        <tr><td class="td-name">email</td><td class="td-type">VARCHAR(255)</td><td class="td-desc">E-Mail des Eingeladenen</td></tr>
-        <tr><td class="td-name">companyId</td><td class="td-type">CHAR(36)</td><td class="td-desc">Vorausgefüllte Firma (optional)</td></tr>
-        <tr><td class="td-name">invitedByAdmin</td><td class="td-type">CHAR(36) NULL</td><td class="td-desc">FK → admins.adminId (Admin-Einladung)</td></tr>
-        <tr><td class="td-name">invitedByMember</td><td class="td-type">CHAR(36) NULL</td><td class="td-desc">FK → inner_circle_members.memberId (Mitglieds-Referral)</td></tr>
-        <tr><td class="td-name">status</td><td class="td-type">VARCHAR(50)</td><td class="td-desc">pending | accepted | expired</td></tr>
-        <tr><td class="td-name">expiresAt</td><td class="td-type">DATETIME</td><td class="td-desc">Token-Ablauf (7 Tage nach Versand)</td></tr>
-      </table>
+      <div class="feature-card">
+        <div class="feature-icon">🛍️</div>
+        <div class="feature-body">
+          <h3>Produktkatalog (Feed-basiert)</h3>
+          <p>Produkte aus GM- + CYS-Feed zusammengeführt. Varianten als Colorpicker, mindestens 3 Kategorieebenen, Filter nach Kategorie / Geschlecht / Größe / Farbe.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <div class="feature-body">
+          <h3>Mitgliederverwaltung</h3>
+          <p>Mitglieder Firmen/Gruppen zuweisen. Gruppenbasierte Rabattstufen. Admin-Interface zum Verwalten.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <div class="feature-body">
+          <h3>Club Splash &amp; Login</h3>
+          <p>"Exklusiv. Nur für Mitglieder." — Login-Formular mit E-Mail + Passwort und Passwort-Vergessen-Flow.</p>
+        </div>
+      </div>
+      <!-- Phase 2 divider -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:8px 0 4px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Phase 2 — nach MVP</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-body">
+          <h3>Unbegrenzte Referrals + Benefits</h3>
+          <p>Mitglieder können unbegrenzt weitere Mitglieder werben. Mehr Benefits bei höherer Werbeanzahl (z.B. 10 Einladungen = Upgrade).</p>
+        </div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">📅</div>
+        <div class="feature-body">
+          <h3>Wöchentliche Aktionen</h3>
+          <p>Zeitlich begrenzte Promotions auf Startseite, Kategorieseiten und per Newsletter — vollständig via Admin steuerbar.</p>
+        </div>
+      </div>
+      <div class="feature-card" style="opacity:0.7">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-body">
+          <h3>Erweiterte Markenseiten</h3>
+          <p>Eigene CI/Slogan-Seiten pro Marke mit individuellem Look &amp; Feel — vollständige Brand-Experience innerhalb des Clubs.</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 3. INVITATION FLOW -->
+  <!-- 3. DESIGN REFERENZ -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">3</div>
-      <h2 class="section-title">Invitation Flow</h2>
+      <h2 class="section-title">Design Referenz — Splash &amp; Login Page</h2>
     </div>
-    <div class="flow">
-      <div class="flow-row">
-        <div class="flow-cell header">Admin</div>
-        <div class="flow-cell header">System</div>
-        <div class="flow-cell header">Eingeladener</div>
+    <div class="card" style="margin-bottom:24px">
+      <p style="color:var(--muted);font-size:13px">Referenz: GMO Konzept-Dokument v2 — definiertes Layout für die Club-Einstiegsseite</p>
+    </div>
+    <!-- Visual Mockup -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px">
+      <!-- Left: lifestyle image -->
+      <div style="background:linear-gradient(135deg,#1a0a0a 0%,#2d1515 50%,#1a0a0a 100%);min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;padding:32px;position:relative">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)"></div>
+        <div style="position:relative;z-index:1">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px">PIERRE CARDIN</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.2">INNER CIRCLE<br>CLUB</div>
+          <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.15);padding-top:12px">Lifestyle-Imagery — linke Hälfte, volle Höhe</div>
+        </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-cell action"><span class="flow-arrow">→</span> POST /admin/invite<br><small style="color:var(--muted)">{email, companyId}</small></div>
-        <div class="flow-cell action system">Token generieren (SHA256, 64 Zeichen)<br>DB: invitation INSERT<br>E-Mail senden</div>
-        <div class="flow-cell action"><span class="flow-arrow">←</span> E-Mail mit Token-Link<br><small style="color:var(--muted)">(7 Tage gültig)</small></div>
+      <!-- Right: login box -->
+      <div style="background:var(--card);padding:40px 32px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px">EXKLUSIV UND NUR FÜR MITGLIEDER</div>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Willkommen zurück</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Melden Sie sich an, um Ihre Club-Vorteile zu nutzen.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted)">E-Mail-Adresse</div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted)">Passwort</div>
+          <div style="background:var(--accent);border-radius:8px;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;color:#fff;margin-top:4px">ANMELDEN</div>
+          <div style="text-align:center;font-size:12px;color:var(--muted)">Passwort vergessen?</div>
+        </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-cell action" style="color:var(--muted)">—</div>
-        <div class="flow-cell action system">Token validieren<br>(exists + not expired + pending)<br>Registrierungsformular ausliefern</div>
-        <div class="flow-cell action"><span class="flow-arrow">→</span> GET /invite/{token}</div>
+    </div>
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="feature-card">
+        <div class="feature-icon">🖼️</div>
+        <div class="feature-body">
+          <h3>Layout: 50/50 Split</h3>
+          <p>Linke Hälfte: großes Lifestyle-Foto mit dunklem Overlay + Branding. Rechte Hälfte: Login-Box auf dunklem Hintergrund.</p>
+        </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-cell action" style="color:var(--muted)">—</div>
-        <div class="flow-cell action system">Account anlegen (accounts-Tabelle)<br>Member anlegen (inner_circle_members)<br>Invitation: accepted → Auto-Login</div>
-        <div class="flow-cell action"><span class="flow-arrow">→</span> POST /invite/{token}<br><small style="color:var(--muted)">{password, name, salutation}</small></div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <div class="feature-body">
+          <h3>Claim: Exklusivität</h3>
+          <p>"EXKLUSIV UND NUR FÜR MITGLIEDER" — prominent oberhalb des Login-Formulars, Großbuchstaben, Akzentfarbe.</p>
+        </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-cell action" style="color:var(--muted)">—</div>
-        <div class="flow-cell action system">Redirect → /de_de/</div>
-        <div class="flow-cell action" style="color:var(--green)">✓ Zugang zur Club-Plattform</div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-body">
+          <h3>Mobile: gestapelt</h3>
+          <p>Auf kleinen Screens: Lifestyle-Bild oben (reduzierte Höhe), Login-Box unten. Gleiches Branding-Prinzip.</p>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 4. ABGRENZUNGEN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2 class="section-title">Abgrenzungen — nicht im MVP</h2>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <p style="font-size:13px;color:var(--muted)">Deployment und finale Integration in die produktive Infrastruktur erfolgt durch das Fortuneglobe-Entwicklungsteam. go2flow liefert MVP-ready Code und unterstützt bei Bedarf technisch.</p>
+    </div>
+    <div class="changes-table">
+      <table>
+        <tr><th>Nicht im MVP enthalten</th><th>Verantwortung / Hinweis</th></tr>
+        <tr><td class="td-name">Deployment &amp; Betrieb in produktiver FG-Infrastruktur</td><td class="td-desc">Fortuneglobe-Entwicklungsteam</td></tr>
+        <tr><td class="td-name">Integration in interne Systeme ausserhalb definierter Schnittstellen</td><td class="td-desc">Fortuneglobe</td></tr>
+        <tr><td class="td-name">Anpassung bestehender Order-Management- oder Logistikprozesse</td><td class="td-desc">Fortuneglobe</td></tr>
+        <tr><td class="td-name">Native Mobile Apps</td><td class="td-desc">—</td></tr>
+        <tr><td class="td-name">Mitgliedschafts- oder Abonnementmodelle</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Influencer- oder Kampagnenfunktionen</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Erweiterte Personalisierung</td><td class="td-desc">Phase 2</td></tr>
+        <tr><td class="td-name">Erweiterte BI- oder Reportinglösungen</td><td class="td-desc">Phase 2</td></tr>
+      </table>
     </div>
   </div>
 
 </div>
 
 <div class="footer">
-  <strong>Inner Circle Club — MVP Blueprint</strong>
+  <strong>Inner Circle Club — Konzept & Vision</strong>
   <div class="footer-nav">
-    <a href="konzept.html">← Konzept</a>
-    <a href="technik.html">Technik →</a>
+    <a href="module.html">Backlog →</a>
   </div>
 </div>
 
+<script>
+function toggleTheme(){
+  var l=document.body.classList.toggle('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  var b=document.getElementById('theme-toggle-btn');
+  if(b)b.textContent=l?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('theme-toggle-btn');
+  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+});
+</script>
 </body>
 </html>
