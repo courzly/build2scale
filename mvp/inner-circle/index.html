@@ -106,6 +106,33 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
 .frame-card.hypothesis { border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.04); }
 body.light .frame-card.hypothesis { background: rgba(13,148,136,0.03); border-color: rgba(13,148,136,0.2); }
 @media (max-width: 640px) { .frame-grid { grid-template-columns: 1fr; } }
+/* ===== Ausgangslage & Lösung ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.info-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.info-box.red { border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.03); }
+.info-box.green { border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.03); }
+.info-box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.info-box.red .info-box-label { color: var(--red); }
+.info-box.green .info-box-label { color: var(--green); }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.info-list li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; line-height: 1.5; }
+.info-list li::before { flex-shrink: 0; font-weight: 700; }
+.info-box.red .info-list li::before { content: '✗'; color: var(--red); }
+.info-box.green .info-list li::before { content: '✓'; color: var(--green); }
+.kpi-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 10px 18px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
+td { padding: 11px 18px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+td:last-child { color: var(--accent2); font-weight: 600; }
+body.light .kpi-table-wrap { background: #fff; border-color: #e2e8f0; }
+body.light th { background: #f1f5f9; color: #64748b; }
+body.light td { border-bottom-color: #e2e8f0; }
+body.light .info-box { background: #fff; border-color: #e2e8f0; }
+body.light .info-box.red { background: rgba(239,68,68,0.02); }
+body.light .info-box.green { background: rgba(16,185,129,0.02); }
+@media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
 /* ===== MVP Sections ===== */
 .mvp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
 .mvp-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
@@ -212,138 +239,78 @@ body.light .cl-entry { border-bottom-color: #e2e8f0; }
     </div>
   </div>
 
+  <!-- 02 Ausgangslage & Lösung -->
   <div class="section">
     <div class="section-header">
-      <div class="section-num">A</div>
-      <h2 class="section-title">Ausgangslage</h2>
+      <div class="section-num">02</div>
+      <h2 class="section-title">Ausgangslage &amp; Lösung</h2>
     </div>
-    <div class="mvp-grid">
-      <div class="mvp-card">
-        <div class="mvp-card-label">🏗️ Kontext</div>
-        <div class="mvp-card-text">
-          <p>Fortuneglobe betreibt eine bestehende B2B-E-Commerce-Infrastruktur auf Basis des IceHawk-Frameworks (PHP 8, CQRS) für zwei Modemarken (GM + CYS). Bestehende B2B-Kunden sind Einkäufer aus Unternehmen, die über den Shop Kleidung zu Konditionen beziehen.</p>
-          <p>Das Unternehmen möchte diese Kundenbindung vertiefen — mit einem exklusiven, geschlossenen Mitgliederclub, der einladungsbasiert funktioniert und Sonderpreise für Mitglieder bietet. Die neue Funktionalität wird als Erweiterung auf der bestehenden Infrastruktur gebaut, nicht als eigenständiges System.</p>
-        </div>
-      </div>
-      <div class="mvp-card">
-        <div class="mvp-card-label">🎯 Opportunity</div>
-        <div class="mvp-card-text">
-          <p>Aktuell gibt es keine differenzierte Kundenbindung — alle B2B-Kunden haben dieselbe Erfahrung. Ein exklusiver Club könnte:</p>
-          <p>• Stammkunden stärker an die Plattform binden<br>• Weiterempfehlung über Member-Referrals anschieben<br>• Zusatzumsatz durch Club-exklusive Angebote generieren<br>• Einen klaren Vorteil gegenüber dem B2C-Markt schaffen</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">F</div>
-      <h2 class="section-title">Fragestellung</h2>
-    </div>
-    <div class="mvp-card" style="background: rgba(13,148,136,0.05); border-color: rgba(13,148,136,0.25)">
-      <div class="mvp-card-label">❓ Kernhypothese die wir testen</div>
-      <div class="mvp-card-text" style="font-size:16px; font-weight:600; line-height:1.6; color:var(--text)">
-        Nehmen B2B-Kunden (Unternehmen und ihre Mitarbeiter) das Angebot eines geschlossenen Einkaufsclubs mit Einladungs-Zugang und Sonderpreisen an — und führt das zu messbarem Zusatzumsatz auf der Fortuneglobe-Plattform?
-      </div>
-    </div>
-    <div class="mvp-grid" style="margin-top:16px">
-      <div class="mvp-card">
-        <div class="mvp-card-label">📌 Teilhypothesen</div>
-        <div class="mvp-card-text">
-          <p>1. <strong>Zugang:</strong> Unternehmen nehmen Admin-Einladungen an und melden sich aktiv an.</p>
-          <p>2. <strong>Weiterempfehlung:</strong> Mitglieder laden ihrerseits Kollegen ein (Referral-Funktion wird genutzt).</p>
-          <p>3. <strong>Kaufverhalten:</strong> Club-Mitglieder kaufen häufiger oder in grösseren Mengen als reguläre B2B-Kunden.</p>
-          <p>4. <strong>Preissensitivität:</strong> Der Sonderpreis ist ein echter Kaufanreiz — nicht nur ein nettes Feature.</p>
-        </div>
-      </div>
-      <div class="mvp-card">
-        <div class="mvp-card-label">🔬 Was wir NICHT testen</div>
-        <div class="mvp-card-text">
-          <p>• Ob das Konzept auch für B2C-Kunden funktioniert</p>
-          <p>• Ob ein anderes Preismodell besser wäre</p>
-          <p>• Ob Gamification (Punkte, Levels) Mehrwert bringt</p>
-          <p>Das alles ist Post-MVP — erst wenn die Kernhypothese bestätigt ist.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">E</div>
-      <h2 class="section-title">Erfolgskriterien — Go / No-Go</h2>
-    </div>
-    <div class="mvp-grid">
-      <div class="mvp-card">
-        <div class="mvp-card-label">📊 KPIs nach 8 Wochen Live-Betrieb</div>
-        <ul class="success-list">
-          <li>X registrierte Mitglieder (Unternehmen + Mitarbeiter) — <em>Zahl noch festzulegen</em></li>
-          <li>X Bestellungen über den Inner Circle — <em>Zahl noch festzulegen</em></li>
-          <li>Conversion Rate (Einladung → Registrierung) ≥ X% — <em>Zahl noch festzulegen</em></li>
-          <li>Mindestens X% der Mitglieder haben mindestens 1 Bestellung</li>
-          <li>NPS / qualitatives Feedback: positiv genug für Weiterentwicklung</li>
+    <div class="two-col">
+      <div class="info-box red">
+        <div class="info-box-label">Was heute fehlt</div>
+        <ul class="info-list">
+          <li>Keine differenzierte Kundenbindung — alle B2B-Kunden haben dieselbe Shop-Erfahrung</li>
+          <li>Kein Anreiz für Stammkunden, häufiger oder exklusiver zu kaufen</li>
+          <li>Kein Mechanismus für Weiterempfehlung im B2B-Netzwerk der Partnerunternehmen</li>
+          <li>Keine Sonderkonditionen für loyale Kunden oder strategische Partner</li>
+          <li>Intern: kein Nachweis, dass ein Loyalty-Angebot angenommen wird (Hypothese ungetestet)</li>
         </ul>
       </div>
-      <div class="mvp-card">
-        <div class="mvp-card-label">✅ Entscheidungsrahmen</div>
-        <div class="go-nogo">
-          <div class="go-box go">
-            <div class="go-box-label">Go — weiter investieren</div>
-            <div class="go-box-text">KPIs erfüllt, positives Feedback, klarer Mehrwert für Fortuneglobe. Nächste Phase: Gamification, erweiterte Rabattstufen, B2C-Erweiterung prüfen.</div>
-          </div>
-          <div class="go-box nogo">
-            <div class="go-box-label">No-Go — Pivot oder Stop</div>
-            <div class="go-box-text">KPIs deutlich verfehlt, keine Nutzung trotz Einladungen. Ursache analysieren: falsches Incentive? Falsche Zielgruppe? Zu viel Reibung beim Einstieg?</div>
-          </div>
-        </div>
+      <div class="info-box green">
+        <div class="info-box-label">Was Go 2 Flow baut</div>
+        <ul class="info-list">
+          <li>Geschlossener Mitgliederclub auf Basis der bestehenden IceHawk-Infrastruktur — kein Neubau</li>
+          <li>Einladungssystem: Admin-Einladungen + Member-Referrals (max. 5 pro Mitglied, Phase 1)</li>
+          <li>Club-Preislogik: 20% Rabatt, UVP durchgestrichen, Club-Preis prominent in Liste &amp; Checkout</li>
+          <li>Gated Entry: nur eingeladene Mitglieder sehen Produkte und Club-Preise</li>
+          <li>Messbares Ergebnis: Anmelderate, Bestellfrequenz und Referral-Nutzung als Go/No-Go-Grundlage</li>
+        </ul>
       </div>
     </div>
   </div>
 
+  <!-- 03 Erfolgsmessung -->
   <div class="section">
     <div class="section-header">
-      <div class="section-num">◆</div>
-      <h2 class="section-title">Projektkennzahlen</h2>
+      <div class="section-num">03</div>
+      <h2 class="section-title">Erfolgsmessung — Wann ist der MVP erfolgreich?</h2>
     </div>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">MVP User Stories</div></div>
-      <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">Post-MVP Stories</div></div>
-      <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Wochen MVP</div></div>
-      <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Module</div></div>
-      <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Rollen</div></div>
-      <div class="stat-card"><div class="stat-value">19</div><div class="stat-label">Offene Fragen</div></div>
+    <div class="kpi-table-wrap">
+      <table>
+        <thead>
+          <tr><th>KPI</th><th>Messung</th><th>Ziel (8 Wochen Live)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Registrierte Mitglieder</strong></td><td>Anzahl angenommene Einladungen</td><td>Ziel noch festzulegen</td></tr>
+          <tr><td><strong>Bestellfrequenz</strong></td><td>Ø Bestellungen pro aktivem Mitglied</td><td>Ziel noch festzulegen</td></tr>
+          <tr><td><strong>Einladungs-Conversion</strong></td><td>Einladung → Registrierung (%)</td><td>Ziel noch festzulegen</td></tr>
+          <tr><td><strong>Referral-Nutzung</strong></td><td>Anteil Mitglieder die selbst eingeladen haben</td><td>Ziel noch festzulegen</td></tr>
+          <tr><td><strong>Go/No-Go Entscheid</strong></td><td>Ja/Nein für Weiterentwicklung</td><td>Entscheid 8 Wochen post-Launch</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
+  <!-- 04 Dokumente -->
   <div class="section">
     <div class="section-header">
-      <div class="section-num">→</div>
+      <div class="section-num">04</div>
       <h2 class="section-title">Dokumente</h2>
     </div>
     <div class="nav-cards">
       <a href="konzept.html" class="nav-card">
-        <div class="nav-card-icon">🎯</div>
+        <div class="nav-card-icon">📐</div>
         <div class="nav-card-body">
-          <div class="nav-card-title">Konzept & Architektur</div>
+          <div class="nav-card-title">Konzept &amp; Anforderungen</div>
           <div class="nav-card-sub">Architektur, Abgrenzungen und alle 8 Module mit Anforderungen — bestätigbar und kommentierbar</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Architektur</span>
-            <span class="nav-card-tag">8 Module</span>
-            <span class="nav-card-tag">29 Anforderungen</span>
-          </div>
         </div>
         <div class="nav-card-arrow">→</div>
       </a>
       <a href="module.html" class="nav-card">
         <div class="nav-card-icon">📋</div>
         <div class="nav-card-body">
-          <div class="nav-card-title">Backlog & User Stories</div>
-          <div class="nav-card-sub">27 User Stories verteilt auf 8 Module — jede Story mit MVP/Post-MVP-Tag, Phase P1–P4 und Grösse</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">25 MVP Stories</span>
-            <span class="nav-card-tag">2 Post-MVP</span>
-            <span class="nav-card-tag">Als [Rolle]…</span>
-          </div>
+          <div class="nav-card-title">Backlog &amp; User Stories</div>
+          <div class="nav-card-sub">27 User Stories verteilt auf 8 Module — mit MVP/Post-MVP-Tag, Phase P1–P4 und Grösse</div>
         </div>
         <div class="nav-card-arrow">→</div>
       </a>
@@ -352,11 +319,6 @@ body.light .cl-entry { border-bottom-color: #e2e8f0; }
         <div class="nav-card-body">
           <div class="nav-card-title">Umsetzungsplan</div>
           <div class="nav-card-sub">4 Phasen über 8 Wochen — was wird wann gebaut, Meilensteine und Abhängigkeiten</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">4 Phasen</span>
-            <span class="nav-card-tag">8 Wochen</span>
-            <span class="nav-card-tag">Roadmap</span>
-          </div>
         </div>
         <div class="nav-card-arrow">→</div>
       </a>
@@ -364,105 +326,10 @@ body.light .cl-entry { border-bottom-color: #e2e8f0; }
         <div class="nav-card-icon">❓</div>
         <div class="nav-card-body">
           <div class="nav-card-title">Offene Fragen</div>
-          <div class="nav-card-sub">19 Klärungspunkte — davon 2 beantwortet. Kritische Fragen für Woche 1</div>
-          <div class="nav-card-tags">
-            <span class="nav-card-tag">Fortuneglobe</span>
-            <span class="nav-card-tag">Infrastruktur</span>
-            <span class="nav-card-tag">Entscheidungen</span>
-          </div>
+          <div class="nav-card-sub">19 Klärungspunkte — kritische Fragen zu Infrastruktur, Schnittstellen und Entscheidungen</div>
         </div>
         <div class="nav-card-arrow">→</div>
       </a>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">02</div>
-      <h2 class="section-title">Architektur — Was ist neu, was ist bestehend</h2>
-    </div>
-    <div class="portale-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
-
-      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
-        <div class="portal-icon">🔒</div>
-        <div class="portal-name">Gated Entry Layer</div>
-        <div class="portal-domain">NEU — go2flow baut</div>
-        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
-          Alle Club-Seiten hinter Login-Middleware geschützt. Nicht eingeloggte Besucher → Redirect zur Club Splash Page.<br><br>
-          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
-          Splash Page · Login · Passwort-Reset · Middleware · Session-Verwaltung
-        </div>
-      </div>
-
-      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
-        <div class="portal-icon">✉️</div>
-        <div class="portal-name">Invitation System</div>
-        <div class="portal-domain">NEU — go2flow baut</div>
-        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
-          Admin-Einladungen + Member-Referrals (max. 5 in Phase 1). Token-basiert, single-use, 7-Tage-Ablauf.<br><br>
-          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
-          Invite-Handler · Accept-Handler · Referral-Tracking · E-Mail-Templates
-        </div>
-      </div>
-
-      <div class="portal-card" style="border-color:rgba(13,148,136,0.3)">
-        <div class="portal-icon">🏷️</div>
-        <div class="portal-name">Club-Pricing</div>
-        <div class="portal-domain">NEU — go2flow baut</div>
-        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
-          UVP durchgestrichen, Club-Preis prominent. Feed liefert bereits berechnete Preise — kein Rechner im Frontend.<br><br>
-          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
-          Preisanzeige · Company-Rabattstufen · Checkout-Integration
-        </div>
-      </div>
-
-      <div class="portal-card" style="border-color:rgba(30,42,58,0.8)">
-        <div class="portal-icon">🏗️</div>
-        <div class="portal-name">Bestehende Infrastruktur</div>
-        <div class="portal-domain">Fortuneglobe betreibt</div>
-        <div class="portal-desc" style="margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6">
-          Pierre Cardin Shop (IceHawk, CQRS, PHP 8) — keine Änderung an bestehender Business-Logik.<br><br>
-          <strong style="color:var(--text);font-size:12px">Enthält:</strong><br>
-          Produktkatalog · Warenkorb · Checkout · PayPal / Saferpay · Alvine ERP · Redis / MySQL
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">03</div>
-      <h2 class="section-title">Versionshistorie</h2>
-    </div>
-    <div class="stat-card" style="text-align:left;padding:0 24px">
-      <div class="changelog">
-
-        <div class="cl-entry">
-          <div class="cl-date">30.03.2026</div>
-          <div class="cl-ver">v1.2</div>
-          <div class="cl-desc"><strong>Backlog & User Stories:</strong> 27 User Stories erstellt (25 MVP, 2 Post-MVP) für 8 Module. Stories.js als Single Source of Truth. generate-api.js und push-blueprint.js aligned mit D2C Summit Struktur.</div>
-        </div>
-
-        <div class="cl-entry">
-          <div class="cl-date">30.03.2026</div>
-          <div class="cl-ver">v1.2</div>
-          <div class="cl-desc"><strong>Neue Seitenstruktur:</strong> module.html (Backlog), phasen.html (Implementierungsplan), offene-fragen.html (aus questions.json). Navigation auf neue Struktur umgestellt.</div>
-        </div>
-
-        <div class="cl-entry">
-          <div class="cl-date">01.04.2026</div>
-          <div class="cl-ver">v1.1</div>
-          <div class="cl-desc"><strong>Offene Fragen aktualisiert:</strong> OQ-07 und OQ-08 beantwortet (Feed-Bereitstellung, Preislogik). 19 Fragen total, 2 beantwortet, 17 noch offen.</div>
-        </div>
-
-        <div class="cl-entry">
-          <div class="cl-date">26.03.2026</div>
-          <div class="cl-ver">v1.0</div>
-          <div class="cl-desc"><strong>Initiales Blueprint:</strong> Konzept, Architektur-Übersicht, 5 MVP-Features (Gated Entry, Invitation, Club-Pricing, Produktkatalog, Member-Verwaltung), technische Umsetzung, 4-Wochen-Implementierungsplan und 19 offene Fragen.</div>
-        </div>
-
-      </div>
     </div>
   </div>
 
