@@ -1128,6 +1128,7 @@ async function toggleReqStatus(rid,author,li){
 
 // ─── Req Comments ─────────────────────────────────────────────
 var _rloaded={};
+var _myInserts=new Set(); // dedupe: own inserts already rendered locally
 function toggleReqThread(rid,li){
   var thread=document.getElementById('rthrd-'+rid);
   if(!thread) return;
@@ -1168,12 +1169,14 @@ async function addReqComment(rid){
   inp.value='';
   var res=await _sb.from('feature_comments')
     .insert({feature_id:rid,project_id:PROJECT,author:author,content:content})
-    .select('author,content,created_at');
+    .select('id,author,content,created_at');
   if(res.data&&res.data[0]){
+    var c=res.data[0];
+    _myInserts.add(c.id); // mark so realtime handler skips this one
     var el=document.getElementById('rtcmts-'+rid);
     if(el){
       el.querySelector('.req-thread-empty')&&(el.innerHTML='');
-      el.insertAdjacentHTML('beforeend',reqMsgHtml(res.data[0]));
+      el.insertAdjacentHTML('beforeend',reqMsgHtml(c));
     }
     bumpReqBadge(rid);
   }
@@ -1217,6 +1220,7 @@ function setupRealtime(){
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'feature_comments'},function(p){
       var r=p.new||{};
       if(r.project_id!==PROJECT||r.feature_id.indexOf('--')===-1) return;
+      if(_myInserts.has(r.id)){ _myInserts.delete(r.id); return; } // already rendered locally
       bumpReqBadge(r.feature_id);
       var el=document.getElementById('rtcmts-'+r.feature_id);
       var thread=document.getElementById('rthrd-'+r.feature_id);
