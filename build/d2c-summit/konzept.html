@@ -154,35 +154,41 @@ body.light .acc-item[data-domain="checkin"] .acc-domain-icon { background: rgba(
   .acc-trigger { padding: 14px 16px; }
   .acc-body { padding: 0 16px 16px; }
 }
-/* Collab UI */
-.feat-dot { cursor: pointer; transition: background 0.2s, transform 0.15s; }
-.feat-dot:hover { transform: scale(1.4); }
-.feat-item.confirmed .feat-dot { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
-.feat-count { display: none; align-items: center; justify-content: center; min-width: 16px; height: 16px; padding: 0 4px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 9px; font-weight: 700; color: var(--accent2); margin-left: 2px; line-height: 1; }
-.feat-count.visible { display: inline-flex; }
-.collab-section { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(13,148,136,0.2); }
-.collab-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
-.comments-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 7px; }
-.comment-item { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); border-radius: 7px; padding: 7px 10px; }
-.comment-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
-.comment-author { font-size: 10px; font-weight: 700; color: var(--accent2); }
-.comment-time { font-size: 10px; color: rgba(100,116,139,0.45); }
-.comment-text { font-size: 12px; color: rgba(226,232,240,0.7); line-height: 1.45; }
-.collab-empty { font-size: 11px; color: rgba(100,116,139,0.4); font-style: italic; }
-.collab-loading { font-size: 11px; color: rgba(100,116,139,0.4); }
-.add-comment-row { display: flex; gap: 6px; }
-.comment-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 12px; color: var(--text); font-family: inherit; resize: none; min-height: 32px; }
-.comment-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
-.btn-send { padding: 5px 12px; background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.3); border-radius: 7px; color: var(--accent2); font-size: 12px; cursor: pointer; font-family: inherit; white-space: nowrap; font-weight: 500; }
-.btn-send:hover { background: rgba(13,148,136,0.22); }
+/* Req-Item Collab (pro Anforderung) */
+.req-item { flex-direction: column; align-items: stretch; gap: 0; }
+.req-item::before, .req-item.tbd::before { content: none; }
+.req-row { display: flex; align-items: flex-start; gap: 6px; width: 100%; padding: 2px 0; }
+.req-marker { font-size: 11px; flex-shrink: 0; cursor: pointer; color: rgba(13,148,136,0.5); transition: color 0.15s, transform 0.1s; user-select: none; min-width: 10px; text-align: center; line-height: 1.45; }
+.req-marker:hover { color: var(--accent2); transform: scale(1.3); }
+.req-item.tbd .req-marker { color: var(--gold); }
+.req-item.req-confirmed .req-marker { color: var(--green); }
+.req-item.req-confirmed .req-text { color: var(--text); }
+.req-text { flex: 1; min-width: 0; line-height: 1.45; }
+.req-chat { flex-shrink: 0; font-size: 10px; color: rgba(100,116,139,0.2); cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: all 0.1s; white-space: nowrap; line-height: 1.6; }
+.req-chat:hover { color: var(--accent2); background: rgba(13,148,136,0.08); }
+.req-chat.has-comments { color: rgba(13,148,136,0.65); }
+.req-thread { display: none; margin: 4px 0 4px 16px; padding: 7px 10px; background: rgba(13,148,136,0.03); border-left: 2px solid rgba(13,148,136,0.18); border-radius: 0 6px 6px 0; }
+.req-thread.open { display: block; }
+.req-thread-comments { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+.req-thread-msg { font-size: 11px; line-height: 1.5; }
+.req-thread-author { font-weight: 700; color: var(--accent2); margin-right: 4px; }
+.req-thread-time { color: rgba(100,116,139,0.4); margin-right: 5px; font-size: 10px; }
+.req-thread-text { color: rgba(226,232,240,0.72); }
+.req-thread-empty { display: block; font-size: 11px; color: rgba(100,116,139,0.4); font-style: italic; margin-bottom: 6px; }
+.req-thread-input-row { display: flex; gap: 5px; }
+.req-thread-input { flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 11px; color: var(--text); font-family: inherit; resize: none; min-height: 28px; }
+.req-thread-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.req-thread-btn { padding: 4px 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); border-radius: 6px; color: var(--accent2); font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1; }
+.req-thread-btn:hover { background: rgba(13,148,136,0.2); }
+/* Author bar */
 .author-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .author-bar-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .author-name-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; font-size: 12px; color: var(--text); font-family: inherit; width: 160px; }
 .author-name-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
 .author-bar-hint { font-size: 11px; color: rgba(100,116,139,0.5); }
-body.light .comment-item { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
-body.light .comment-text { color: #475569; }
-body.light .comment-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .req-thread { background: rgba(13,148,136,0.03); border-left-color: rgba(13,148,136,0.22); }
+body.light .req-thread-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .req-thread-text { color: #475569; }
 body.light .author-name-input { background: #f8fafc; border-color: #e2e8f0; }
 body.light .author-bar { background: rgba(13,148,136,0.04); border-color: rgba(13,148,136,0.15); }
 </style>
@@ -1021,7 +1027,6 @@ function toggleAcc(id){
 
 function toggleFeat(el){
   el.classList.toggle('open');
-  if(el.classList.contains('open')) injectCollabUI(el);
 }
 
 // ─── Supabase ────────────────────────────────────────────────
@@ -1051,141 +1056,154 @@ function assignFids(){
   });
 }
 
-// ─── Setup clickable dots + count badges ─────────────────────
-function setupDots(){
-  document.querySelectorAll('.feat-item').forEach(function(item){
-    var dot=item.querySelector('.feat-dot');
-    if(!dot) return;
-    // Tooltip
-    dot.title='Klicken zum Bestätigen';
-    // Click handler — stops propagation so it doesn't expand the feat-item
-    dot.addEventListener('click',function(e){
-      e.stopPropagation();
-      var fid=item.dataset.fid;
-      if(!fid) return;
-      var author=getAuthor();
-      if(!author){ document.getElementById('author-input').focus(); alert('Bitte zuerst deinen Namen eingeben (oben).'); return; }
-      toggleStatus(fid,author);
+// ─── Req-Item Setup (per Anforderung) ────────────────────────
+function setupReqItems(){
+  document.querySelectorAll('.feat-item').forEach(function(feat){
+    var fid=feat.dataset.fid||'';
+    feat.querySelectorAll('.req-item').forEach(function(li,idx){
+      var rid=fid+'--'+idx;
+      li.dataset.rid=rid;
+      var isTbd=li.classList.contains('tbd');
+      var marker=isTbd?'?':'—';
+      var inner=li.innerHTML;
+      li.innerHTML=
+        '<div class="req-row">'+
+          '<span class="req-marker" title="Klicken zum Bestätigen">'+marker+'</span>'+
+          '<span class="req-text">'+inner+'</span>'+
+          '<span class="req-chat" id="rcht-'+rid+'">💬</span>'+
+        '</div>'+
+        '<div class="req-thread" id="rthrd-'+rid+'">'+
+          '<div class="req-thread-comments" id="rtcmts-'+rid+'">'+
+            '<span class="req-thread-empty">Noch keine Kommentare</span>'+
+          '</div>'+
+          '<div class="req-thread-input-row">'+
+            '<textarea class="req-thread-input" id="rtinp-'+rid+'" placeholder="Kommentar… (Enter senden)" rows="1"'+
+              ' onclick="event.stopPropagation()" onkeydown="handleReqKey(event,\''+rid+'\')"></textarea>'+
+            '<button class="req-thread-btn" onclick="event.stopPropagation();addReqComment(\''+rid+'\')">→</button>'+
+          '</div>'+
+        '</div>';
+      // Marker click → confirm toggle
+      li.querySelector('.req-marker').addEventListener('click',function(e){
+        e.stopPropagation();
+        var author=getAuthor();
+        if(!author){document.getElementById('author-input').focus();alert('Bitte zuerst deinen Namen eingeben.');return;}
+        toggleReqStatus(rid,author,li);
+      });
+      // Chat icon click → toggle comment thread
+      li.querySelector('.req-chat').addEventListener('click',function(e){
+        e.stopPropagation();
+        toggleReqThread(rid,li);
+      });
     });
-    // Inject comment count badge after dot
-    var badge=document.createElement('span');
-    badge.className='feat-count';
-    badge.id='cnt-'+item.dataset.fid;
-    dot.insertAdjacentElement('afterend',badge);
   });
 }
 
-// ─── Status Cache & Apply ─────────────────────────────────────
-var _cache={};
-function applyStatus(fid,confirmed,updatedBy){
-  _cache[fid]={confirmed:!!confirmed,updatedBy:updatedBy||''};
-  var item=document.querySelector('[data-fid="'+fid+'"]');
-  if(!item) return;
-  item.classList.toggle('confirmed',!!confirmed);
-  var dot=item.querySelector('.feat-dot');
-  if(dot) dot.title=confirmed
-    ?('✓ Bestätigt'+(updatedBy?' von '+updatedBy:'')+' — klicken zum Zurücksetzen')
-    :'Klicken zum Bestätigen';
+// ─── Req Status ───────────────────────────────────────────────
+var _rcache={};
+function applyReqStatus(rid,confirmed,updatedBy){
+  _rcache[rid]={confirmed:!!confirmed,updatedBy:updatedBy||''};
+  var li=document.querySelector('[data-rid="'+rid+'"]');
+  if(!li) return;
+  li.classList.toggle('req-confirmed',!!confirmed);
+  var m=li.querySelector('.req-marker');
+  if(m){
+    m.textContent=confirmed?'✓':(li.classList.contains('tbd')?'?':'—');
+    m.title=confirmed?('✓ Bestätigt'+(updatedBy?' von '+updatedBy:'')):'Klicken zum Bestätigen';
+  }
 }
-async function loadStatuses(){
+async function loadAllReqStatuses(){
   var res=await _sb.from('feature_status').select('feature_id,confirmed,updated_by').eq('project_id',PROJECT);
-  if(res.data) res.data.forEach(function(r){ applyStatus(r.feature_id,r.confirmed,r.updated_by); });
-}
-
-// ─── Comment Counts ───────────────────────────────────────────
-async function loadCommentCounts(){
-  var res=await _sb.from('feature_comments').select('feature_id').eq('project_id',PROJECT);
-  if(!res.data) return;
-  var counts={};
-  res.data.forEach(function(r){ counts[r.feature_id]=(counts[r.feature_id]||0)+1; });
-  Object.keys(counts).forEach(function(fid){
-    var badge=document.getElementById('cnt-'+fid);
-    if(badge){ badge.textContent=counts[fid]; badge.classList.add('visible'); }
+  if(res.data) res.data.forEach(function(r){
+    if(r.feature_id.indexOf('--')!==-1) applyReqStatus(r.feature_id,r.confirmed,r.updated_by);
   });
 }
-function bumpCount(fid){
-  var badge=document.getElementById('cnt-'+fid);
-  if(!badge) return;
-  var n=(parseInt(badge.textContent)||0)+1;
-  badge.textContent=n;
-  badge.classList.add('visible');
-}
-
-// ─── Collab UI (comments only — dot handles confirmation) ─────
-function injectCollabUI(item){
-  if(item.querySelector('.collab-section')) return;
-  var fid=item.dataset.fid||'';
-  var detail=item.querySelector('.feat-detail');
-  if(!detail) return;
-  detail.insertAdjacentHTML('beforeend',
-    '<div class="collab-section" onclick="event.stopPropagation()">'+
-      '<div class="collab-title">Kommentare</div>'+
-      '<div class="comments-list" id="cmts-'+fid+'"><span class="collab-loading">…</span></div>'+
-      '<div class="add-comment-row">'+
-        '<textarea class="comment-input" id="inp-'+fid+'" placeholder="Feedback oder offene Frage… (Enter senden)" rows="1"'+
-          ' onclick="event.stopPropagation()" onkeydown="handleCommentKey(event,\''+fid+'\')"></textarea>'+
-        '<button class="btn-send" onclick="addComment(\''+fid+'\')">Senden</button>'+
-      '</div>'+
-    '</div>'
+async function toggleReqStatus(rid,author,li){
+  var newVal=!(_rcache[rid]||{}).confirmed;
+  applyReqStatus(rid,newVal,author);
+  await _sb.from('feature_status').upsert(
+    {feature_id:rid,project_id:PROJECT,confirmed:newVal,updated_at:new Date().toISOString(),updated_by:author},
+    {onConflict:'feature_id'}
   );
-  loadComments(fid);
 }
 
-// ─── Comments ─────────────────────────────────────────────────
+// ─── Req Comments ─────────────────────────────────────────────
+var _rloaded={};
+function toggleReqThread(rid,li){
+  var thread=document.getElementById('rthrd-'+rid);
+  if(!thread) return;
+  var isOpen=thread.classList.toggle('open');
+  if(isOpen&&!_rloaded[rid]){ _rloaded[rid]=true; loadReqComments(rid); }
+  if(isOpen){ var inp=document.getElementById('rtinp-'+rid); if(inp) setTimeout(function(){inp.focus();},50); }
+}
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtDate(iso){
   var d=new Date(iso);
   return d.toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})+' '+
     d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});
 }
-function commentHtml(c){
-  return '<div class="comment-item">'+
-    '<div class="comment-meta"><span class="comment-author">'+esc(c.author)+'</span>'+
-    '<span class="comment-time">'+fmtDate(c.created_at)+'</span></div>'+
-    '<div class="comment-text">'+esc(c.content)+'</div></div>';
+function reqMsgHtml(c){
+  return '<div class="req-thread-msg">'+
+    '<span class="req-thread-author">'+esc(c.author)+'</span>'+
+    '<span class="req-thread-time">'+fmtDate(c.created_at)+'</span>'+
+    '<span class="req-thread-text">'+esc(c.content)+'</span>'+
+    '</div>';
 }
-async function loadComments(fid){
-  var el=document.getElementById('cmts-'+fid);
+async function loadReqComments(rid){
+  var el=document.getElementById('rtcmts-'+rid);
   if(!el) return;
   var res=await _sb.from('feature_comments').select('author,content,created_at')
-    .eq('feature_id',fid).eq('project_id',PROJECT).order('created_at',{ascending:true});
-  el.innerHTML=(res.data&&res.data.length)
-    ? res.data.map(commentHtml).join('')
-    : '<span class="collab-empty">Noch keine Kommentare</span>';
+    .eq('feature_id',rid).eq('project_id',PROJECT).order('created_at',{ascending:true});
+  if(res.data&&res.data.length){
+    el.innerHTML=res.data.map(reqMsgHtml).join('');
+    updateReqBadge(rid,res.data.length);
+  }
 }
-
-// ─── Actions ──────────────────────────────────────────────────
-async function toggleStatus(fid,author){
-  var newVal=!(_cache[fid]||{}).confirmed;
-  applyStatus(fid,newVal,author);
-  await _sb.from('feature_status').upsert(
-    {feature_id:fid,project_id:PROJECT,confirmed:newVal,updated_at:new Date().toISOString(),updated_by:author},
-    {onConflict:'feature_id'}
-  );
-}
-async function addComment(fid){
+async function addReqComment(rid){
   var author=getAuthor();
-  if(!author){ document.getElementById('author-input').focus(); alert('Bitte zuerst deinen Namen eingeben (oben).'); return; }
-  var inp=document.getElementById('inp-'+fid);
+  if(!author){document.getElementById('author-input').focus();alert('Bitte zuerst deinen Namen eingeben.');return;}
+  var inp=document.getElementById('rtinp-'+rid);
   if(!inp) return;
   var content=inp.value.trim();
   if(!content) return;
   inp.value='';
   var res=await _sb.from('feature_comments')
-    .insert({feature_id:fid,project_id:PROJECT,author:author,content:content})
+    .insert({feature_id:rid,project_id:PROJECT,author:author,content:content})
     .select('author,content,created_at');
   if(res.data&&res.data[0]){
-    var el=document.getElementById('cmts-'+fid);
+    var el=document.getElementById('rtcmts-'+rid);
     if(el){
-      el.querySelector('.collab-empty')&&(el.innerHTML='');
-      el.insertAdjacentHTML('beforeend',commentHtml(res.data[0]));
+      el.querySelector('.req-thread-empty')&&(el.innerHTML='');
+      el.insertAdjacentHTML('beforeend',reqMsgHtml(res.data[0]));
     }
-    bumpCount(fid);
+    bumpReqBadge(rid);
   }
 }
-function handleCommentKey(e,fid){
+function handleReqKey(e,rid){
   e.stopPropagation();
-  if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); addComment(fid); }
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addReqComment(rid);}
+}
+function updateReqBadge(rid,n){
+  var c=document.getElementById('rcht-'+rid);
+  if(!c) return;
+  c.dataset.n=n;
+  c.textContent=n>0?'💬 '+n:'💬';
+  if(n>0) c.classList.add('has-comments'); else c.classList.remove('has-comments');
+}
+function bumpReqBadge(rid){
+  var c=document.getElementById('rcht-'+rid);
+  if(!c) return;
+  var n=(parseInt(c.dataset.n||'0'))+1;
+  updateReqBadge(rid,n);
+}
+async function loadAllReqCommentCounts(){
+  var res=await _sb.from('feature_comments').select('feature_id').eq('project_id',PROJECT);
+  if(!res.data) return;
+  var counts={};
+  res.data.forEach(function(r){
+    if(r.feature_id.indexOf('--')!==-1)
+      counts[r.feature_id]=(counts[r.feature_id]||0)+1;
+  });
+  Object.keys(counts).forEach(function(rid){ updateReqBadge(rid,counts[rid]); });
 }
 
 // ─── Real-time ────────────────────────────────────────────────
@@ -1193,16 +1211,18 @@ function setupRealtime(){
   _sb.channel('konzept-'+PROJECT)
     .on('postgres_changes',{event:'*',schema:'public',table:'feature_status'},function(p){
       var r=p.new||{};
-      if(r.project_id===PROJECT) applyStatus(r.feature_id,r.confirmed,r.updated_by);
+      if(r.project_id===PROJECT&&r.feature_id.indexOf('--')!==-1)
+        applyReqStatus(r.feature_id,r.confirmed,r.updated_by);
     })
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'feature_comments'},function(p){
       var r=p.new||{};
-      if(r.project_id!==PROJECT) return;
-      bumpCount(r.feature_id);
-      var el=document.getElementById('cmts-'+r.feature_id);
-      if(el){
-        el.querySelector('.collab-empty')&&(el.innerHTML='');
-        el.insertAdjacentHTML('beforeend',commentHtml(r));
+      if(r.project_id!==PROJECT||r.feature_id.indexOf('--')===-1) return;
+      bumpReqBadge(r.feature_id);
+      var el=document.getElementById('rtcmts-'+r.feature_id);
+      var thread=document.getElementById('rthrd-'+r.feature_id);
+      if(el&&thread&&thread.classList.contains('open')){
+        el.querySelector('.req-thread-empty')&&(el.innerHTML='');
+        el.insertAdjacentHTML('beforeend',reqMsgHtml(r));
       }
     })
     .subscribe();
@@ -1212,19 +1232,20 @@ function setupRealtime(){
 document.addEventListener('DOMContentLoaded',function(){
   var b=document.getElementById('theme-toggle-btn');
   if(b&&document.body.classList.contains('light')) b.textContent='🌙';
-  document.querySelectorAll('.acc-item').forEach(function(el){ el.classList.add('open'); });
+  document.querySelectorAll('.acc-item').forEach(function(el){el.classList.add('open');});
   assignFids();
-  setupDots();
-  loadStatuses();
-  loadCommentCounts();
+  setupReqItems();
+  loadAllReqStatuses();
+  loadAllReqCommentCounts();
   setupRealtime();
   var ai=document.getElementById('author-input');
   if(ai){
     ai.value=getAuthor();
-    ai.addEventListener('input',function(){ saveAuthor(this.value); });
-    ai.addEventListener('click',function(e){ e.stopPropagation(); });
+    ai.addEventListener('input',function(){saveAuthor(this.value);});
+    ai.addEventListener('click',function(e){e.stopPropagation();});
   }
 });
+
 </script>
 </body>
 </html>
