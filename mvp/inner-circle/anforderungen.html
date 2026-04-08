@@ -350,32 +350,59 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       <h2 class="section-title">CI / Design</h2>
     </div>
     <div class="card" style="margin-bottom:16px">
-      <p style="font-size:13px;color:var(--muted)">Logo und CI-Guide wurden von Fortuneglobe übergeben. Das Design orientiert sich am <strong>Pierre Cardin Online Shop</strong> (bestehende Fortuneglobe-Infrastruktur) und ist damit direkt auf die technische Basis abgestimmt.</p>
+      <p style="font-size:13px;color:var(--muted)">Logo und CI-Guide wurden von Fortuneglobe übergeben. Das Design orientiert sich am <strong>Pierre Cardin Online Shop</strong> — der technischen Referenz-Infrastruktur. Damit ist das CI direkt auf das bestehende System abgestimmt.</p>
     </div>
-    <div class="card-grid" style="margin-bottom:16px">
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <div class="feature-body">
-          <h3>Logo</h3>
-          <p>Typografie-Logo <strong>INNER CIRCLE</strong> — INNER in Grau (#727272), CIRCLE in Schwarz. Minimalistisches C-Symbol mit Punkt als Favicon. Geliefert als <strong>SVG + PNG + Favicon</strong>.</p>
+
+    <!-- Logo Preview -->
+    <div class="card" style="margin-bottom:16px;text-align:center;padding:32px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:20px">Logo — Auf hellem Hintergrund</div>
+      <div style="background:#fff;border-radius:10px;padding:28px 40px;display:inline-block;max-width:500px;width:100%">
+        <img src="innercircle-logo.svg" alt="Inner Circle Logo" style="width:100%;max-width:420px;height:auto;display:block;margin:0 auto">
+      </div>
+      <div style="margin-top:16px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:14px;height:14px;border-radius:3px;background:#727272;flex-shrink:0"></div>
+          <span style="font-size:12px;color:var(--muted)">INNER — #727272</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:14px;height:14px;border-radius:3px;background:#000;flex-shrink:0"></div>
+          <span style="font-size:12px;color:var(--muted)">CIRCLE — #000000</span>
         </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">📐</div>
-        <div class="feature-body">
-          <h3>CI-Referenz</h3>
-          <p>Farben, Typografie und Komponenten orientieren sich am Pierre Cardin Online Shop. Adobe XD Specs für Desktop und Mobile vorhanden.</p>
-        </div>
-      </div>
     </div>
+
+    <!-- Design Links -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <a href="https://xd.adobe.com/view/af6b2ffb-9cf9-4b79-95d7-630e1a97d324-fa38/specs/" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="feature-card" style="cursor:pointer;transition:border-color 0.15s" onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'" onmouseout="this.style.borderColor=''">
+          <div class="feature-icon">🖥️</div>
+          <div class="feature-body">
+            <h3>Adobe XD — Desktop</h3>
+            <p>CI-Guide, Farben, Typografie und Komponenten für die Desktop-Ansicht (Pierre Cardin Referenz)</p>
+            <div style="margin-top:8px;font-size:11px;color:var(--accent2);font-weight:600">→ xd.adobe.com öffnen</div>
+          </div>
+        </div>
+      </a>
+      <a href="https://xd.adobe.com/view/3c473cb9-4652-4903-a41c-611f3751cc6c-6914/specs/" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="feature-card" style="cursor:pointer;transition:border-color 0.15s" onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'" onmouseout="this.style.borderColor=''">
+          <div class="feature-icon">📱</div>
+          <div class="feature-body">
+            <h3>Adobe XD — Mobile</h3>
+            <p>CI-Guide, Farben, Typografie und Komponenten für die Mobile-Ansicht (Pierre Cardin Referenz)</p>
+            <div style="margin-top:8px;font-size:11px;color:var(--accent2);font-weight:600">→ xd.adobe.com öffnen</div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Asset-Übersicht -->
     <div class="changes-table">
       <table>
-        <tr><th>Asset</th><th>Status</th></tr>
-        <tr><td class="td-name">Logo SVG + PNG</td><td class="td-desc">Geliefert</td></tr>
-        <tr><td class="td-name">Favicon</td><td class="td-desc">Geliefert (C-Symbol)</td></tr>
-        <tr><td class="td-name">Adobe XD Specs Desktop</td><td class="td-desc">Vorhanden — Pierre Cardin Shop als Referenz</td></tr>
-        <tr><td class="td-name">Adobe XD Specs Mobile</td><td class="td-desc">Vorhanden — Pierre Cardin Shop als Referenz</td></tr>
-        <tr><td class="td-name">Farbschema</td><td class="td-desc">INNER grau #727272 · CIRCLE schwarz #000000</td></tr>
+        <tr><th>Asset</th><th>Format</th><th>Status</th></tr>
+        <tr><td class="td-name">Wordmark-Logo</td><td style="font-family:Monaco,monospace;font-size:12px;color:var(--gold)">SVG + PNG</td><td class="td-desc">Geliefert</td></tr>
+        <tr><td class="td-name">Favicon</td><td style="font-family:Monaco,monospace;font-size:12px;color:var(--gold)">ICO / PNG</td><td class="td-desc">Geliefert (C-Symbol mit Punkt)</td></tr>
+        <tr><td class="td-name">Adobe XD Specs Desktop</td><td style="font-family:Monaco,monospace;font-size:12px;color:var(--gold)">XD Link</td><td class="td-desc" style="color:var(--accent2)">Verfügbar ↗</td></tr>
+        <tr><td class="td-name">Adobe XD Specs Mobile</td><td style="font-family:Monaco,monospace;font-size:12px;color:var(--gold)">XD Link</td><td class="td-desc" style="color:var(--accent2)">Verfügbar ↗</td></tr>
       </table>
     </div>
   </div>

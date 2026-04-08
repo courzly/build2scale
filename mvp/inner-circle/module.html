@@ -3,17 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Backlog & User Stories — Inner Circle Club</title>
+<title>Backlog — Inner Circle Club</title>
 <style>
-:root {
-  --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
-  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
-  --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
-}
+:root { --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333; --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981; --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
 .nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
 .nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; flex-shrink: 0; }
 .nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
 .nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
@@ -22,147 +18,34 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
 .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
 .nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .page-hdr { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
-.page-hdr-inner { max-width: 1200px; margin: 0 auto; }
+.page-hdr-inner { max-width: 1100px; margin: 0 auto; }
 .page-bc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .page-bc a { color: var(--muted); text-decoration: none; }
 .page-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
 .page-title span { color: var(--accent2); }
 .page-sub { color: var(--muted); font-size: 14px; }
-.container { max-width: 1200px; margin: 0 auto; padding: 48px 40px; }
-
-/* Summary Bar */
-.summary-bar { display: flex; align-items: center; gap: 20px; background: rgba(13,148,136,0.06); border: 1px solid rgba(13,148,136,0.2); border-radius: 12px; padding: 14px 20px; margin-bottom: 40px; flex-wrap: wrap; }
-.sb-stat { display: flex; flex-direction: column; gap: 2px; }
-.sb-num { font-size: 22px; font-weight: 800; color: var(--accent2); line-height: 1; }
-.sb-label { font-size: 11px; color: var(--muted); font-weight: 500; }
-.sb-sep { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-left: auto; }
-.legend-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
-
-/* Group Header */
-.group-hdr { display: flex; align-items: center; gap: 12px; margin: 40px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-.group-hdr-num { width: 28px; height: 28px; background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.25); border-radius: 7px; font-size: 12px; font-weight: 700; color: var(--accent2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.group-hdr-title { font-size: 18px; font-weight: 700; }
-.group-hdr-count { font-size: 12px; color: var(--muted); margin-left: auto; }
-
-/* Module Section */
-.mod-section { margin-bottom: 32px; }
-.mod-header { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-.mod-icon { font-size: 18px; width: 36px; height: 36px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.2); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.mod-id { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); font-family: 'Monaco', monospace; }
-.mod-title { font-size: 15px; font-weight: 700; }
-.mod-desc { font-size: 12px; color: var(--muted); margin: 0 0 10px 48px; }
-.ver-tag { font-size: 10px; font-weight: 600; color: rgba(100,116,139,0.5); font-family: 'Monaco', monospace; margin-left: 6px; }
-
-/* Story List */
-.story-list { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.story-row { display: grid; grid-template-columns: 72px 1fr auto; gap: 14px; align-items: center; padding: 10px 14px; background: var(--card); transition: background 0.1s; cursor: pointer; }
-.story-row:hover { background: var(--card2); }
-.story-row + .story-row { border-top: 1px solid rgba(30,42,58,0.7); }
-.story-row.post { opacity: 0.6; }
-.story-row.post:hover { opacity: 0.9; }
-.s-id { font-size: 10px; font-weight: 700; font-family: 'Monaco', monospace; color: var(--muted); white-space: nowrap; }
-.s-text { display: flex; flex-direction: column; gap: 2px; }
-.s-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.s-body { font-size: 12px; color: var(--muted); line-height: 1.4; }
-.s-body strong { color: var(--accent2); font-weight: 600; }
-.s-body em { font-style: normal; color: rgba(100,116,139,0.7); }
-.s-tags { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-
-/* Badges */
-.b { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 100px; font-size: 10px; font-weight: 700; white-space: nowrap; }
-.b-mvp  { background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); }
-.b-post { background: rgba(100,116,139,0.08); border: 1px solid rgba(100,116,139,0.2); color: var(--muted); }
-.b-p1   { background: rgba(99,102,241,0.12);  border: 1px solid rgba(99,102,241,0.3);  color: #a5b4fc; }
-.b-p2   { background: rgba(13,148,136,0.12);  border: 1px solid rgba(13,148,136,0.3);  color: var(--accent2); }
-.b-p3   { background: rgba(16,185,129,0.12);  border: 1px solid rgba(16,185,129,0.3);  color: #6ee7b7; }
-.b-p4   { background: rgba(245,158,11,0.12);  border: 1px solid rgba(245,158,11,0.3);  color: var(--gold); }
-.b-p5   { background: rgba(249,115,22,0.12);  border: 1px solid rgba(249,115,22,0.3);  color: #fdba74; }
-.b-p6   { background: rgba(139,92,246,0.12);  border: 1px solid rgba(139,92,246,0.3);  color: #c4b5fd; }
-.b-xs   { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-.b-s    { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-.b-m    { background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.15); color: var(--muted); }
-.b-l    { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2);  color: rgba(245,158,11,0.8); }
-
-/* Post-MVP Divider */
-.divider-post { display: flex; align-items: center; gap: 16px; margin: 52px 0 28px; }
-.divider-post-line { flex: 1; height: 1px; background: var(--border); }
-.divider-post-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); padding: 5px 16px; border: 1px solid var(--border); border-radius: 100px; white-space: nowrap; }
-
-/* Footer */
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+.placeholder { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 60px 40px; text-align: center; }
+.placeholder-icon { font-size: 48px; margin-bottom: 16px; }
+.placeholder-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.placeholder-sub { font-size: 14px; color: var(--muted); }
 .footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
 .footer strong { color: var(--text); }
 .footer-nav { display: flex; gap: 16px; }
 .footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
 .footer-nav a:hover { color: var(--accent2); }
-
-@media (max-width: 768px) {
-  .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; }
-  .nav-inner { padding: 0 16px; }
-  .story-row { grid-template-columns: 1fr auto; }
-  .s-id { display: none; }
-  .legend { margin-left: 0; }
-}
-
-/* Light Mode */
-body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; }
-body.light .nav { background: rgba(255,255,255,0.95); border-bottom-color: #e2e8f0; }
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; }
+body.light .nav { background: rgba(255,255,255,0.95); }
 body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
 body.light .nav-link { color: #64748b; }
-body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
 body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
-body.light .nav-sep { color: #cbd5e1; }
-body.light .nav-brand-text { color: #0f172a; }
-body.light .nav-brand-dot { background: #0f766e; }
-body.light .footer { border-top-color: #e2e8f0; }
-body.light .story-row + .story-row { border-top-color: #e2e8f0; }
-body.light .b-xs, body.light .b-s { border-color: #e2e8f0; }
-.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
-.theme-toggle:hover { background: rgba(255,255,255,0.08); }
-body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
-
-/* Modal */
-.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; }
-.modal-bg.hidden { display: none; }
-.modal-panel { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 600px; max-height: 88vh; overflow-y: auto; }
-.modal-head { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 14px; }
-.modal-head-left { flex: 1; min-width: 0; }
-.modal-sid { font-size: 11px; font-weight: 700; color: var(--muted); font-family: Monaco,monospace; margin-bottom: 4px; }
-.modal-ttl { font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
-.modal-mod { font-size: 12px; color: var(--accent2); margin-top: 3px; }
-.modal-x { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--muted); flex-shrink: 0; line-height: 1; }
-.modal-x:hover { color: var(--text); background: rgba(255,255,255,0.1); }
-.modal-body { padding: 20px 24px 28px; display: flex; flex-direction: column; gap: 18px; }
-.modal-story { font-size: 13px; color: var(--muted); line-height: 1.65; padding: 14px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.15); border-radius: 10px; }
-.modal-story strong { color: var(--accent2); font-weight: 600; }
-.modal-story em { font-style: italic; }
-.modal-sec-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
-.modal-ac { display: flex; flex-direction: column; gap: 7px; }
-.modal-ac-item { display: flex; gap: 10px; font-size: 13px; color: var(--text); line-height: 1.5; }
-.modal-ac-check { color: var(--green); flex-shrink: 0; margin-top: 1px; }
-.modal-tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.modal-note { font-size: 12px; color: var(--muted); line-height: 1.6; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; }
-body.light .modal-panel { background: #fff; }
-body.light .modal-x { background: rgba(0,0,0,0.03); border-color: #e2e8f0; }
-body.light .modal-story { background: rgba(13,148,136,0.04); }
-body.light .modal-note { background: rgba(0,0,0,0.02); border-color: #e2e8f0; }
-
-/* Rollen Matrix */
-.role-matrix { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 24px; }
-.role-matrix table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.role-matrix th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
-.role-matrix td { padding: 10px 16px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
-.role-matrix tr:last-child td { border-bottom: none; }
-.role-matrix tr:hover td { background: rgba(255,255,255,0.02); }
-body.light .role-matrix th { background: #f1f5f9; color: #64748b; }
-body.light .role-matrix td { border-bottom-color: #e2e8f0; }
+@media (max-width: 768px) { .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; } .nav-inner { padding: 0 16px; } }
 </style>
 </head>
 <body>
 <script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
-<script src="stories.js"></script>
-
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand"><div class="nav-brand-dot"></div><span class="nav-brand-text">Inner Circle</span></a>
@@ -174,334 +57,28 @@ body.light .role-matrix td { border-bottom-color: #e2e8f0; }
       <a href="phasen.html" class="nav-link">Phasen</a>
       <a href="offene-fragen.html" class="nav-link">Offene Fragen</a>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light')" id="theme-toggle-btn">☀️</button>
   </div>
 </nav>
-
 <div class="page-hdr">
   <div class="page-hdr-inner">
-    <div class="page-bc"><a href="index.html">Inner Circle</a> / Backlog & User Stories</div>
+    <div class="page-bc"><a href="index.html">Inner Circle</a> / Backlog</div>
     <div class="page-title">Backlog &amp; <span>User Stories</span></div>
-    <div class="page-ver" style="font-size:11px;color:var(--muted);margin-bottom:8px;font-family:Monaco,monospace">v1.2 — 30.03.2026</div>
-    <div class="page-sub">Alle Anforderungen als User Stories — mit Phase, Grösse und MVP-Scope. Grundlage für Entwicklung und Sprintplanung.</div>
+    <div class="page-sub">Priorisierte User Stories für die MVP-Entwicklung</div>
   </div>
 </div>
-
 <div class="container">
-
-  <div class="summary-bar">
-    <div class="sb-stat"><div class="sb-num" id="mvp-count">25</div><div class="sb-label">MVP Stories</div></div>
-    <div class="sb-sep"></div>
-    <div class="sb-stat"><div class="sb-num" id="post-count">2</div><div class="sb-label">Post-MVP Stories</div></div>
-    <div class="sb-sep"></div>
-    <div class="sb-stat"><div class="sb-num">4</div><div class="sb-label">Phasen</div></div>
-    <div class="sb-sep"></div>
-    <div class="sb-stat"><div class="sb-num">8</div><div class="sb-label">Wochen MVP</div></div>
-    <div class="sb-sep"></div>
-    <div class="legend">
-      <span class="legend-lbl">Phase &nbsp;</span>
-      <span class="b b-p1">P1</span><span class="b b-p2">P2</span><span class="b b-p3">P3</span><span class="b b-p4">P4</span>
-      <span style="margin-left:10px" class="legend-lbl">Grösse &nbsp;</span>
-      <span class="b b-xs">XS</span><span class="b b-s">S</span><span class="b b-m">M</span><span class="b b-l">L</span>
-    </div>
-  </div>
-
-  <!-- ══ A: Auth & Members ══ -->
-  <div class="group-hdr">
-    <div class="group-hdr-num">A</div>
-    <div class="group-hdr-title">Auth, Invitation & Member Management</div>
-    <div class="group-hdr-count">13 Stories</div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">🔐</div>
-      <div><div class="mod-id">M01 <span class="ver-tag">v1.0</span></div><div class="mod-title">Auth & Invitation</div></div>
-    </div>
-    <div class="mod-desc">Gated Entry, Splash Page, Login, Passwort-Reset, Admin-Einladungen, Member-Referrals</div>
-    <div class="story-list" id="list-m01"></div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">👥</div>
-      <div><div class="mod-id">M02 <span class="ver-tag">v1.0</span></div><div class="mod-title">Member Management</div></div>
-    </div>
-    <div class="mod-desc">Member-Verwaltung, Company-Zuordnung, Rabattstufen</div>
-    <div class="story-list" id="list-m02"></div>
-  </div>
-
-  <!-- ══ B: Produkte & Pricing ══ -->
-  <div class="group-hdr">
-    <div class="group-hdr-num">B</div>
-    <div class="group-hdr-title">Produkte, Katalog & Club-Pricing</div>
-    <div class="group-hdr-count">7 Stories</div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">🛍️</div>
-      <div><div class="mod-id">M03 <span class="ver-tag">v1.0</span></div><div class="mod-title">Produktfeed & Katalog</div></div>
-    </div>
-    <div class="mod-desc">Feed-Import, Produktanzeige, Varianten als Colorpicker, Kategoriefilter</div>
-    <div class="story-list" id="list-m03"></div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">🏷️</div>
-      <div><div class="mod-id">M04 <span class="ver-tag">v1.0</span></div><div class="mod-title">Club-Pricing</div></div>
-    </div>
-    <div class="mod-desc">UVP durchgestrichen, Club-Preis prominent, Company-Rabattstufen, Checkout-Integration</div>
-    <div class="story-list" id="list-m04"></div>
-  </div>
-
-  <!-- ══ C: Checkout & Admin ══ -->
-  <div class="group-hdr">
-    <div class="group-hdr-num">C</div>
-    <div class="group-hdr-title">Checkout, Admin & Wunschliste</div>
-    <div class="group-hdr-count">7 Stories</div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">💳</div>
-      <div><div class="mod-id">M05 <span class="ver-tag">v1.0</span></div><div class="mod-title">Checkout & Orders</div></div>
-    </div>
-    <div class="mod-desc">Warenkorb mit Club-Preisen, Checkout-Integration in IceHawk, Bestellhistorie</div>
-    <div class="story-list" id="list-m05"></div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">⚙️</div>
-      <div><div class="mod-id">M06 <span class="ver-tag">v1.0</span></div><div class="mod-title">Admin Backend</div></div>
-    </div>
-    <div class="mod-desc">/marketing-api/inner-circle — Member, Companies, Einladungen, Dashboard</div>
-    <div class="story-list" id="list-m06"></div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">❤️</div>
-      <div><div class="mod-id">M07 <span class="ver-tag">v1.0</span></div><div class="mod-title">Wunschliste</div></div>
-    </div>
-    <div class="mod-desc">Favoriten-Funktion — in DB persistiert, mit direktem Warenkorb-Button</div>
-    <div class="story-list" id="list-m07"></div>
-  </div>
-
-  <!-- ══ D: Public ══ -->
-  <div class="group-hdr">
-    <div class="group-hdr-num">D</div>
-    <div class="group-hdr-title">Public Landing Page</div>
-    <div class="group-hdr-count">2 Stories</div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">🌐</div>
-      <div><div class="mod-id">M08 <span class="ver-tag">v1.0</span></div><div class="mod-title">Public Landing Page</div></div>
-    </div>
-    <div class="mod-desc">Öffentliche Seite mit Club-Vorteilen, Einladungs-CTA und SEO</div>
-    <div class="story-list" id="list-m08"></div>
-  </div>
-
-  <!-- Post-MVP Divider -->
-  <div class="divider-post">
-    <div class="divider-post-line"></div>
-    <div class="divider-post-label">Post-MVP — Phase 2</div>
-    <div class="divider-post-line"></div>
-  </div>
-
-  <div class="mod-section">
-    <div class="mod-header">
-      <div class="mod-icon">❤️</div>
-      <div><div class="mod-id">M07 Post-MVP</div><div class="mod-title">Wunschliste — Erweitert</div></div>
-    </div>
-    <div class="mod-desc">Wunschliste teilen</div>
-    <div class="story-list" id="list-m07-post"></div>
-  </div>
-
-  <!-- Rollenmatrix -->
-  <div style="margin-top: 64px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-      <div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(13,148,136,0.15);border:1px solid rgba(13,148,136,0.3);border-radius:8px;font-size:13px;font-weight:700;color:var(--accent2)">◆</div>
-      <h2 style="font-size:20px;font-weight:700;letter-spacing:-0.01em">Rollenmatrix</h2>
-    </div>
-    <div class="role-matrix">
-      <table>
-        <thead>
-          <tr>
-            <th>Rolle</th>
-            <th>Beschreibung</th>
-            <th>Kann</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span style="font-family:Monaco,monospace;font-size:12px;color:var(--accent2)">admin</span></td>
-            <td style="color:var(--muted);font-size:12px">Fortuneglobe Mitarbeiter mit vollständigem Zugriff auf das Inner Circle Backend</td>
-            <td style="font-size:12px;color:var(--muted)">Member einladen · Companies verwalten · Rabattsätze setzen · Einladungen verwalten · Dashboard einsehen</td>
-          </tr>
-          <tr>
-            <td><span style="font-family:Monaco,monospace;font-size:12px;color:var(--accent2)">member</span></td>
-            <td style="color:var(--muted);font-size:12px">Eingeladenes Club-Mitglied mit Zugang zum Inner Circle Shop</td>
-            <td style="font-size:12px;color:var(--muted)">Club-Shop durchstöbern · Club-Preise sehen · Bestellen · Wunschliste · bis zu 5 Freunde einladen</td>
-          </tr>
-          <tr>
-            <td><span style="font-family:Monaco,monospace;font-size:12px;color:var(--accent2)">guest</span></td>
-            <td style="color:var(--muted);font-size:12px">Nicht eingeloggter Besucher — kein Zugriff auf Club-Inhalte</td>
-            <td style="font-size:12px;color:var(--muted)">Public Landing Page sehen · Einladung anfragen · Zu Splash-Page weitergeleitet werden</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-</div>
-
-<!-- Modal -->
-<div class="modal-bg hidden" id="story-modal" onclick="closeModal(event)">
-  <div class="modal-panel">
-    <div class="modal-head">
-      <div class="modal-head-left">
-        <div class="modal-sid" id="m-sid"></div>
-        <div class="modal-ttl" id="m-ttl"></div>
-        <div class="modal-mod" id="m-mod"></div>
-      </div>
-      <button class="modal-x" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div>
-        <div class="modal-sec-lbl">User Story</div>
-        <div class="modal-story" id="m-story"></div>
-      </div>
-      <div id="m-ac-wrap">
-        <div class="modal-sec-lbl">Acceptance Criteria</div>
-        <div class="modal-ac" id="m-ac"></div>
-      </div>
-      <div class="modal-tags-row" id="m-tags"></div>
-      <div class="modal-note" id="m-note" style="display:none"></div>
-    </div>
+  <div class="placeholder">
+    <div class="placeholder-icon">📋</div>
+    <div class="placeholder-title">Backlog wird aufgebaut</div>
+    <div class="placeholder-sub">User Stories werden nach dem Kickoff-Termin gemeinsam mit Fortuneglobe definiert und priorisiert.</div>
   </div>
 </div>
-
 <div class="footer">
-  <strong>Inner Circle Club — Backlog & User Stories</strong>
+  <strong>Inner Circle Club — Backlog</strong>
   <div class="footer-nav">
     <a href="phasen.html">Phasen →</a>
   </div>
 </div>
-
-<script>
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function toggleTheme(){
-  var l=document.body.classList.toggle('light');
-  localStorage.setItem('theme',l?'light':'dark');
-  var b=document.getElementById('theme-toggle-btn');
-  if(b)b.textContent=l?'🌙':'☀️';
-}
-document.addEventListener('DOMContentLoaded',function(){
-  var b=document.getElementById('theme-toggle-btn');
-  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
-});
-
-// ── Modal ──────────────────────────────────────────────────────────────────────
-function openModal(id) {
-  var s = STORIES[id];
-  if (!s) return;
-  document.getElementById('m-sid').textContent = id;
-  document.getElementById('m-ttl').textContent = s.title;
-  document.getElementById('m-mod').textContent = s.mod;
-  document.getElementById('m-story').innerHTML = s.story;
-  var ac = document.getElementById('m-ac');
-  ac.innerHTML = '';
-  (s.ac || []).forEach(function(a){
-    var div = document.createElement('div');
-    div.className = 'modal-ac-item';
-    div.innerHTML = '<span class="modal-ac-check">✓</span><span>' + a + '</span>';
-    ac.appendChild(div);
-  });
-  var tags = document.getElementById('m-tags');
-  tags.innerHTML = '';
-  var scopeClass = s.scope === 'MVP' ? 'b-mvp' : 'b-post';
-  tags.innerHTML += '<span class="b ' + scopeClass + '">' + s.scope + '</span>';
-  if (s.phase) {
-    var pc = 'b-p' + s.phase.replace('P','');
-    tags.innerHTML += '<span class="b ' + pc + '">' + s.phase + '</span>';
-  }
-  if (s.size) {
-    var sc = 'b-' + s.size.toLowerCase();
-    tags.innerHTML += '<span class="b ' + sc + '">' + s.size + '</span>';
-  }
-  var note = document.getElementById('m-note');
-  if (s.note) { note.textContent = '💡 ' + s.note; note.style.display = ''; }
-  else note.style.display = 'none';
-  document.getElementById('story-modal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(e) {
-  if (e && e.target !== document.getElementById('story-modal')) return;
-  document.getElementById('story-modal').classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeModal();
-});
-
-// ── Render Stories ─────────────────────────────────────────────────────────────
-function phaseClass(p) {
-  if (!p) return '';
-  return 'b-p' + p.replace('P','');
-}
-function sizeClass(s) { return s ? 'b-' + s.toLowerCase() : ''; }
-
-function renderStories(containerId, modulePrefix, scopeFilter) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
-  var rows = [];
-  Object.entries(STORIES).forEach(function([id, s]) {
-    if (!id.startsWith(modulePrefix)) return;
-    if (scopeFilter && s.scope !== scopeFilter) return;
-    if (!scopeFilter && s.scope === 'Post-MVP') return;
-    rows.push([id, s]);
-  });
-  if (rows.length === 0) { container.style.display = 'none'; return; }
-  container.innerHTML = rows.map(function([id, s]) {
-    var isPost = s.scope === 'Post-MVP';
-    var scopeClass = isPost ? 'b-post' : 'b-mvp';
-    var scopeLabel = isPost ? 'Post-MVP' : 'MVP';
-    var phClass = phaseClass(s.phase);
-    var szClass = sizeClass(s.size);
-    return '<div class="story-row' + (isPost ? ' post' : '') + '" id="' + id + '" data-us="' + id + '" onclick="openModal(\'' + id + '\')">'
-      + '<div class="s-id">' + id + '</div>'
-      + '<div class="s-text"><div class="s-title">' + s.title + '</div>'
-      + '<div class="s-body">' + s.story + '</div></div>'
-      + '<div class="s-tags">'
-      + '<span class="b ' + scopeClass + '">' + scopeLabel + '</span>'
-      + (s.phase ? '<span class="b ' + phClass + '">' + s.phase + '</span>' : '')
-      + (s.size ? '<span class="b ' + szClass + '">' + s.size + '</span>' : '')
-      + '</div></div>';
-  }).join('');
-}
-
-renderStories('list-m01', 'US-01-');
-renderStories('list-m02', 'US-02-');
-renderStories('list-m03', 'US-03-');
-renderStories('list-m04', 'US-04-');
-renderStories('list-m05', 'US-05-');
-renderStories('list-m06', 'US-06-');
-renderStories('list-m07', 'US-07-', 'MVP');
-renderStories('list-m08', 'US-08-');
-renderStories('list-m07-post', 'US-07-', 'Post-MVP');
-
-// Update summary counts
-var mvp = Object.values(STORIES).filter(function(s){ return s.scope === 'MVP'; }).length;
-var post = Object.values(STORIES).filter(function(s){ return s.scope === 'Post-MVP'; }).length;
-document.getElementById('mvp-count').textContent = mvp;
-document.getElementById('post-count').textContent = post;
-</script>
 </body>
 </html>
