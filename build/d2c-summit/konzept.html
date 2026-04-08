@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Konzept & Scope — D2C Summit Platform</title>
+<title>Konzept — D2C Summit Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
@@ -12,6 +14,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
+/* ===== Nav ===== */
 .nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
 .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
 .nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; flex-shrink: 0; }
@@ -22,64 +25,87 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
 .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
 .nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* ===== Page Header ===== */
 .page-hdr { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
 .page-hdr-inner { max-width: 1100px; margin: 0 auto; }
 .page-bc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .page-bc a { color: var(--muted); text-decoration: none; }
-.page-bc a:hover { color: var(--text); }
 .page-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
 .page-title span { color: var(--accent2); }
 .page-sub { color: var(--muted); font-size: 14px; }
+/* ===== Container ===== */
 .container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
-.section { margin-bottom: 56px; }
-.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.section { margin-bottom: 48px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 .section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
 .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-.card + .card { margin-top: 12px; }
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.vision-card { background: rgba(13,148,136,0.06); border: 1px solid rgba(13,148,136,0.25); border-radius: 14px; padding: 28px 32px; }
-.vision-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); margin-bottom: 12px; }
-.vision-text { font-size: 16px; color: var(--text); line-height: 1.7; }
-.scope-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.scope-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; padding: 8px 0; border-bottom: 1px solid rgba(30,42,58,0.5); }
-.scope-item:last-child { border-bottom: none; }
-.scope-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
-.scope-name { font-weight: 600; color: var(--text); }
-.scope-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 100px; font-size: 11px; font-weight: 600; }
-.badge-teal { background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); }
-.badge-gold { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: var(--gold); }
-.badge-muted { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); }
-.badge-green { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--green); }
-.badge-red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
+/* ===== Vision ===== */
+.vision-card { background: rgba(13,148,136,0.06); border: 1px solid rgba(13,148,136,0.25); border-radius: 14px; padding: 28px 32px; margin-bottom: 12px; }
+.vision-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); margin-bottom: 10px; }
+.vision-text { font-size: 15px; color: var(--text); line-height: 1.75; }
+.goal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.goal-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; gap: 12px; align-items: flex-start; }
+.goal-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.goal-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.goal-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+/* ===== Accordion ===== */
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+.acc-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
+.acc-item.open { border-color: rgba(13,148,136,0.35); }
+.acc-trigger { display: flex; align-items: center; gap: 16px; padding: 20px 24px; cursor: pointer; user-select: none; width: 100%; background: none; border: none; color: var(--text); text-align: left; }
+.acc-trigger:hover { background: rgba(255,255,255,0.02); }
+.acc-domain-icon { font-size: 22px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); border-radius: 10px; flex-shrink: 0; }
+.acc-domain-body { flex: 1; min-width: 0; }
+.acc-domain-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.acc-domain-url { font-size: 11px; color: var(--accent2); font-family: 'Monaco', monospace; }
+.acc-meta { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.acc-count { font-size: 12px; color: var(--muted); font-weight: 500; }
+.acc-chevron { color: var(--muted); font-size: 14px; transition: transform 0.25s; flex-shrink: 0; }
+.acc-item.open .acc-chevron { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 24px 24px; }
+.acc-item.open .acc-body { display: block; }
+/* Feature groups */
+.feat-group { margin-bottom: 20px; }
+.feat-group:last-child { margin-bottom: 0; }
+.feat-group-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(13,148,136,0.15); }
+.feat-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px; }
+.feat-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--card2); border: 1px solid rgba(255,255,255,0.03); }
+.feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; margin-top: 5px; }
+.feat-content { flex: 1; min-width: 0; }
+.feat-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.feat-note { font-size: 11px; color: var(--muted); margin-top: 1px; }
+/* Domain color variants */
+.acc-item[data-domain="website"] .acc-domain-icon { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.25); }
+.acc-item[data-domain="mysummit"] .acc-domain-icon { background: rgba(13,148,136,0.1); border-color: rgba(13,148,136,0.25); }
+.acc-item[data-domain="admin"] .acc-domain-icon { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.25); }
+.acc-item[data-domain="checkin"] .acc-domain-icon { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.25); }
+/* ===== Roles Table ===== */
+.table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
 td { padding: 10px 16px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: rgba(255,255,255,0.02); }
-.table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-td code { font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; background: rgba(13,148,136,0.08); color: var(--accent2); padding: 1px 6px; border-radius: 4px; }
-.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 100px; font-size: 12px; color: var(--muted); }
-.pill.accent { background: rgba(13,148,136,0.1); border-color: rgba(13,148,136,0.25); color: var(--accent2); }
+.domain-tag { font-size: 11px; font-family: 'Monaco', monospace; color: var(--accent2); }
+/* ===== Design System ===== */
+.design-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.design-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.design-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 12px; }
+.color-swatch { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.swatch { width: 24px; height: 24px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 600; }
+.swatch-hex { font-size: 10px; color: var(--muted); font-family: monospace; }
+/* ===== Footer ===== */
 .footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
 .footer strong { color: var(--text); }
 .footer-nav { display: flex; gap: 16px; }
 .footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
 .footer-nav a:hover { color: var(--accent2); }
-@media (max-width: 768px) {
-  .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; }
-  .nav-inner { padding: 0 16px; }
-  .two-col { grid-template-columns: 1fr; }
-  .card-grid { grid-template-columns: 1fr; }
-}
 /* ===== Light Mode ===== */
 body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
-body.light .nav { background: rgba(255,255,255,0.95); border-bottom-color: #e2e8f0; }
+body.light .nav { background: rgba(255,255,255,0.95); }
 body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
-body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
 body.light .nav-link { color: #64748b; }
 body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
 body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
@@ -88,16 +114,19 @@ body.light .nav-brand-text { color: #0f172a; }
 body.light .nav-brand-dot { background: #0f766e; }
 body.light .vision-card { background: rgba(13,148,136,0.04); }
 body.light .section-num { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); }
+body.light .acc-trigger:hover { background: rgba(0,0,0,0.02); }
+body.light .feat-item { background: #f8fafc; border-color: #e2e8f0; }
 body.light th { background: #f1f5f9; color: #64748b; }
 body.light tr:hover td { background: rgba(0,0,0,0.015); }
-body.light .pill { background: rgba(0,0,0,0.04); border-color: #e2e8f0; color: #64748b; }
 body.light .footer { border-top-color: #e2e8f0; }
-body.light .phase-hdr { background: rgba(13,148,136,0.06); border-color: rgba(13,148,136,0.2); }
-body.light .flow-step { background: #f1f5f9; border-color: #e2e8f0; }
-body.light .flow-arrow { color: #94a3b8; }
-.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
-.theme-toggle:hover { background: rgba(255,255,255,0.08); }
-body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
+body.light .theme-toggle { border-color: #e2e8f0; }
+@media (max-width: 768px) {
+  .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; }
+  .nav-inner { padding: 0 16px; }
+  .goal-grid, .feat-list, .design-grid { grid-template-columns: 1fr; }
+  .acc-trigger { padding: 16px; }
+  .acc-body { padding: 0 16px 16px; }
+}
 </style>
 </head>
 <body>
@@ -123,386 +152,546 @@ body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
 
 <div class="page-hdr">
   <div class="page-hdr-inner">
-    <div class="page-bc"><a href="index.html">D2C Summit</a> / Konzept & Scope</div>
-    <div class="page-title">Konzept &amp; <span>Scope</span></div>
-    <div class="page-ver" style="font-size:11px;color:var(--muted);margin-bottom:8px;font-family:Monaco,monospace">v1.5 — 28.03.2026</div>
-    <div class="page-sub">Vision, was wir bauen (und was nicht), Portale, Design System und Rollen</div>
+    <div class="page-bc"><a href="index.html">D2C Summit</a> / Konzept</div>
+    <div class="page-title">Konzept &amp; <span>Funktionen</span></div>
+    <div class="page-sub">Was wir bauen, warum wir es bauen und welche Funktionen jeder Bereich hat</div>
   </div>
 </div>
 
 <div class="container">
 
+  <!-- 01 Ziel -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">01</div>
-      <h2 class="section-title">Vision</h2>
+      <h2 class="section-title">Ziel</h2>
     </div>
     <div class="vision-card">
-      <div class="vision-title">Projektziel</div>
-      <div class="vision-text">Eine vollständige, <strong>wiederverwendbare Event Management Platform</strong> für den D2C Summit — jährlich durchführbar, ohne jedes Mal von vorne zu beginnen. Ein einziges Laravel-Backend als <strong>Single Source of Truth</strong> für alle Frontends. Was einmal konfiguriert ist (Programm, Speaker, Tickets, Sponsoren), erscheint automatisch überall — auf der Public Website, im My Summit, in der Check-in App.</div>
+      <div class="vision-label">Was wir bauen</div>
+      <div class="vision-text">Eine <strong>vollständige, wiederverwendbare Event Management Platform</strong> für den D2C Summit — ein einziges Laravel-Backend als Single Source of Truth für alle Frontends. Was einmal konfiguriert ist (Programm, Speaker, Tickets, Sponsoren), erscheint automatisch auf der Website, im Teilnehmer-Portal und in der Check-in App.</div>
     </div>
-    <div class="card" style="margin-top:12px">
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">
-        Das erste Event (2025) wurde bereits durchgeführt. Die neue Platform wird jetzt <strong>Greenfield gebaut</strong> — mit dem Ziel, jedes Jahr dasselbe System zu nutzen und nur die Inhalte zu aktualisieren. Kein Wegwerfprojekt, sondern ein dauerhaftes Werkzeug.
+    <div class="goal-grid">
+      <div class="goal-card">
+        <div class="goal-icon">🔁</div>
+        <div>
+          <div class="goal-title">Jährlich wiederverwendbar</div>
+          <div class="goal-desc">Kein Wegwerfprojekt. Dasselbe System läuft jedes Jahr — nur die Inhalte werden aktualisiert.</div>
+        </div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">🔗</div>
+        <div>
+          <div class="goal-title">Single Source of Truth</div>
+          <div class="goal-desc">Ein Backend, alle Frontends. Kein Datenchaos zwischen verschiedenen Tools.</div>
+        </div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">⚡</div>
+        <div>
+          <div class="goal-title">Greenfield — sauber gebaut</div>
+          <div class="goal-desc">Laravel + Nuxt 4. Kein Legacy-Code, keine Tool-Abhängigkeiten, skalierbar von Tag 1.</div>
+        </div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">🎯</div>
+        <div>
+          <div class="goal-title">Professionelle Teilnehmererfahrung</div>
+          <div class="goal-desc">Persönliches Portal, automatisierte Kommunikation, Self-Service für Sponsoren & Speaker.</div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- 02 Funktionen & Anforderungen -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">02</div>
-      <h2 class="section-title">In Scope — MVP (Woche 1–12)</h2>
+      <h2 class="section-title">Funktionen & Anforderungen</h2>
     </div>
-    <div class="card">
-      <ul class="scope-list">
-        <li class="scope-item">
-          <span class="scope-icon">🌐</span>
-          <div><div class="scope-name">Public Website</div><div class="scope-desc">Home, Programm, Speaker, Sponsoren, Tickets, FAQ — vollständig aus dem Backend gespeist</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">🏢</span>
-          <div><div class="scope-name">Unternehmens-Profile <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);padding:1px 6px;border-radius:100px;margin-left:4px">Neu</span></div><div class="scope-desc">Unternehmen als eigene Entität — Logo, Sichtbarkeit auf Website, Tickets zuordnen, Sponsor-Typ</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">👥</span>
-          <div><div class="scope-name">Teilnehmer-Verwaltung</div><div class="scope-desc">Attendees im Admin — Unternehmens-Zuordnung, Filter, Export, Kommunikations-Status</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">💳</span>
-          <div><div class="scope-name">Ticket-System via Payrexx</div><div class="scope-desc">Ticket-Kategorien, Checkout, QR-Code, Ticket-PDF, Voucher-System, Bestätigungsmail</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">⭐</span>
-          <div><div class="scope-name">Sponsor-Verwaltung (Admin)</div><div class="scope-desc">Pakete definieren, Logos im Admin hochladen, nach Rang auf Website anzeigen</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">⚙️</span>
-          <div><div class="scope-name">Admin-Backend</div><div class="scope-desc">Event, Programm, Speaker, Tickets, Orders, Unternehmen, Teilnehmer, FAQ — vollständige Steuerung</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">🔐</span>
-          <div><div class="scope-name">Rollen & Rechte</div><div class="scope-desc">Vollständige Berechtigungs-Architektur von Tag 1 — 7 Rollen, pro Event vergeben</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">📧</span>
-          <div><div class="scope-name">Kommunikations-Basis</div><div class="scope-desc">Transaktionale Mails + gezielte Updates an Teilnehmer-Gruppen (z.B. "Masterclasses jetzt buchbar")</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">🪪</span>
-          <div><div class="scope-name">My Summit — Fundament</div><div class="scope-desc">Login, Ticket-Ansicht mit QR, persönliches Profil, Programm-Übersicht (read-only)</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">📱</span>
-          <div><div class="scope-name">Check-in Web-App</div><div class="scope-desc">QR-Scanner (Browser), Ticket-Validierung, Live-Einlass-Zähler</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-        <li class="scope-item">
-          <span class="scope-icon">📊</span>
-          <div><div class="scope-name">Basis-Statistiken</div><div class="scope-desc">Ticket-Verkäufe, Umsatz, Check-in Rate — Echtzeit im Admin</div></div>
-          <span class="badge badge-teal" style="margin-left:auto;flex-shrink:0">MVP</span>
-        </li>
-      </ul>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px">4 Bereiche — klicke auf einen Bereich um die Anforderungen aufzuklappen.</p>
+
+    <div class="accordion">
+
+      <!-- PUBLIC WEBSITE -->
+      <div class="acc-item" data-domain="website" id="acc-website">
+        <button class="acc-trigger" onclick="toggleAcc('website')">
+          <div class="acc-domain-icon">🌐</div>
+          <div class="acc-domain-body">
+            <div class="acc-domain-name">Public Website</div>
+            <div class="acc-domain-url">d2c-summit.ch · öffentlich, kein Login</div>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-count">6 Bereiche</span>
+            <span class="acc-chevron">▼</span>
+          </div>
+        </button>
+        <div class="acc-body">
+          <div class="feat-list">
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Home & Event-Info</div>
+                <div class="feat-note">Highlights, Datum, Location, CTA Ticket kaufen</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Programm & Tagesplan</div>
+                <div class="feat-note">Sessions, Stages, Speaker-Zuordnung — aus dem Backend</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Speaker-Übersicht & Detailseiten</div>
+                <div class="feat-note">Bio, Sessions, Social Links — aus dem Admin gepflegt</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Sponsoren</div>
+                <div class="feat-note">Nach Paket-Rang sortiert, Logo & Verlinkung</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Tickets kaufen</div>
+                <div class="feat-note">Ticket-Kategorien, Voucher-Eingabe, Payrexx-Checkout</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">FAQ & Infoseiten</div>
+                <div class="feat-note">Statische Seiten, aus dem Admin pflegbar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY SUMMIT -->
+      <div class="acc-item" data-domain="mysummit" id="acc-mysummit">
+        <button class="acc-trigger" onclick="toggleAcc('mysummit')">
+          <div class="acc-domain-icon">🪪</div>
+          <div class="acc-domain-body">
+            <div class="acc-domain-name">My Summit — Teilnehmer-Portal</div>
+            <div class="acc-domain-url">my.d2c-summit.ch · Login erforderlich · rollenbasiert</div>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-count">3 Rollen · 15 Features</span>
+            <span class="acc-chevron">▼</span>
+          </div>
+        </button>
+        <div class="acc-body">
+          <div class="feat-group">
+            <div class="feat-group-title">Teilnehmer</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Mein Ticket & QR-Code</div>
+                  <div class="feat-note">Digitales Ticket, QR für Check-in</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Persönlicher Tagesplan</div>
+                  <div class="feat-note">Gebuchte Sessions auf einen Blick</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Sessions buchen & Warteliste</div>
+                  <div class="feat-note">Kapazitätsbegrenzte Sessions, automatische Warteliste</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Badge & Zertifikat</div>
+                  <div class="feat-note">Downloadbar nach dem Event</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Materialien & Präsentationen</div>
+                  <div class="feat-note">Speaker-Slides, Unterlagen nach dem Event</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Social Share Cards</div>
+                  <div class="feat-note">Personalisierte Cards für LinkedIn etc.</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Profil bearbeiten</div>
+                  <div class="feat-note">Name, Foto, Unternehmen, Bio</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feat-group">
+            <div class="feat-group-title">Sponsor</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Firmenprofil pflegen</div>
+                  <div class="feat-note">Logo, Beschreibung, Website-Link</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Logo & Assets hochladen</div>
+                  <div class="feat-note">Erscheint automatisch auf der Public Website</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Materialien herunterladen</div>
+                  <div class="feat-note">Sponsor-Kit, Unterlagen</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Statistiken</div>
+                  <div class="feat-note">Impressions, Klicks auf Firmenprofil</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feat-group">
+            <div class="feat-group-title">Speaker</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Eigenes Profil bearbeiten</div>
+                  <div class="feat-note">Bio, Foto, Social Links</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Präsentationen hochladen</div>
+                  <div class="feat-note">Slides für Teilnehmer bereitstellen</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Session-Infos & Feedback</div>
+                  <div class="feat-note">Eigene Sessions sehen, Teilnehmer-Feedback nach Event</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN BACKEND -->
+      <div class="acc-item" data-domain="admin" id="acc-admin">
+        <button class="acc-trigger" onclick="toggleAcc('admin')">
+          <div class="acc-domain-icon">⚙️</div>
+          <div class="acc-domain-body">
+            <div class="acc-domain-name">Admin Backend</div>
+            <div class="acc-domain-url">admin.d2c-summit.ch · nur Organizer & Admins</div>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-count">12 Bereiche</span>
+            <span class="acc-chevron">▼</span>
+          </div>
+        </button>
+        <div class="acc-body">
+          <div class="feat-group">
+            <div class="feat-group-title">Event & Programm</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Events & Venues verwalten</div>
+                  <div class="feat-note">Neue Events anlegen, Location, Datum, Clonen</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Programm, Sessions & Stages</div>
+                  <div class="feat-note">Zeitplan aufbauen, Stages definieren, Sessions zuordnen</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Speaker-Management</div>
+                  <div class="feat-note">Speaker anlegen, Sessions zuweisen, Kommunikation</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feat-group">
+            <div class="feat-group-title">Teilnehmer & Tickets</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Ticket-Kategorien & Preise</div>
+                  <div class="feat-note">Early Bird, Regular, VIP — Kontingente, Laufzeiten</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Voucher-System</div>
+                  <div class="feat-note">Rabattcodes, Direktlinks, Einzel- oder Mehrfachnutzung</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Orders & Rechnungen</div>
+                  <div class="feat-note">Bestellübersicht, Rechnungs-PDF, Stornos</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Teilnehmer-Verwaltung</div>
+                  <div class="feat-note">Liste, Filter, Export, Unternehmens-Zuordnung, Status</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Unternehmens-Profile</div>
+                  <div class="feat-note">Unternehmen anlegen, Tickets zuordnen, Sponsor-Typ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feat-group">
+            <div class="feat-group-title">Sponsoren & Kommunikation</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Sponsor-Pakete & -Verwaltung</div>
+                  <div class="feat-note">Pakete definieren, Logos hochladen, Rang auf Website</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Marketing-Kampagnen & Automationen</div>
+                  <div class="feat-note">Mailtrap-Anbindung, Segmentierung, automatische E-Mails</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">E-Mail Templates</div>
+                  <div class="feat-note">Transaktional & Marketing — Bestätigung, Reminder, Updates</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feat-group">
+            <div class="feat-group-title">Reporting & Verwaltung</div>
+            <div class="feat-list">
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Statistiken & Reporting</div>
+                  <div class="feat-note">Ticket-Verkäufe, Umsatz, Check-in Rate, Session-Auslastung</div>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-dot"></div>
+                <div class="feat-content">
+                  <div class="feat-name">Rollen-Verwaltung</div>
+                  <div class="feat-note">7 Rollen, pro Event vergeben, vollständige Berechtigungs-Architektur</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECK-IN APP -->
+      <div class="acc-item" data-domain="checkin" id="acc-checkin">
+        <button class="acc-trigger" onclick="toggleAcc('checkin')">
+          <div class="acc-domain-icon">📱</div>
+          <div class="acc-domain-body">
+            <div class="acc-domain-name">Check-in App</div>
+            <div class="acc-domain-url">checkin.d2c-summit.ch · nur am Eventtag · mobiloptimiert</div>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-count">5 Funktionen</span>
+            <span class="acc-chevron">▼</span>
+          </div>
+        </button>
+        <div class="acc-body">
+          <div class="feat-list">
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">QR-Code scannen — zwei Spuren</div>
+                <div class="feat-note">Registration Desk (Staff mit Hand-Scanner) + Self Check-in Kiosk (Tablet, selbst scannen)</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Ticket validieren & Einlass bestätigen</div>
+                <div class="feat-note">Gültig / Ungültig / Bereits eingecheckt — sofortiges Feedback</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Badge-Druck</div>
+                <div class="feat-note">Automatisch nach Scan: Brother QL-820NWB via WiFi — Etikett auf Badge kleben</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Live Einlass-Statistiken</div>
+                <div class="feat-note">Echtzeit-Zähler: eingecheckt / gesamt — sichtbar für Staff</div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"></div>
+              <div class="feat-content">
+                <div class="feat-name">Offline-Fallback</div>
+                <div class="feat-note">Funktioniert auch bei schlechtem WLAN am Veranstaltungsort</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
+  <!-- 03 Rollen & Zugang -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">03</div>
-      <h2 class="section-title">Post-MVP — Phase II (nach Go-Live)</h2>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">🪪</div>
-        <div style="font-weight:700;margin-bottom:4px">My Summit — Vollausbau</div>
-        <div style="font-size:13px;color:var(--muted)">Session-Buchung, Warteliste, Materialien, Badge, Social Share Cards, Zertifikat</div>
-        <div style="margin-top:8px"><span class="badge badge-gold">Priorität 1</span></div>
-      </div>
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">🎤</div>
-        <div style="font-weight:700;margin-bottom:4px">Speaker Self-Service Portal</div>
-        <div style="font-size:13px;color:var(--muted)">Speaker-Login, Profil + Präsentationen selbst pflegen, Feedback einsehen</div>
-        <div style="margin-top:8px"><span class="badge badge-muted">Phase II</span></div>
-      </div>
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">⭐</div>
-        <div style="font-weight:700;margin-bottom:4px">Sponsor Self-Service Portal</div>
-        <div style="font-size:13px;color:var(--muted)">Sponsor-Login, Logo + Profil selbst pflegen, Impressions-Statistiken</div>
-        <div style="margin-top:8px"><span class="badge badge-muted">Phase II</span></div>
-      </div>
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">📧</div>
-        <div style="font-weight:700;margin-bottom:4px">Marketing Engine</div>
-        <div style="font-size:13px;color:var(--muted)">Kampagnen, automatisierte Sequenzen, UTM-Tracking, Segmentierung</div>
-        <div style="margin-top:8px"><span class="badge badge-muted">Phase II</span></div>
-      </div>
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">📊</div>
-        <div style="font-weight:700;margin-bottom:4px">Statistics Dashboard</div>
-        <div style="font-size:13px;color:var(--muted)">Session-Auslastung, Marketing-Stats, Vorjahresvergleich, Feedback-Ratings</div>
-        <div style="margin-top:8px"><span class="badge badge-muted">Phase II</span></div>
-      </div>
-      <div class="card">
-        <div style="font-size:18px;margin-bottom:8px">🔁</div>
-        <div style="font-weight:700;margin-bottom:4px">Event-Klon & Multi-Year</div>
-        <div style="font-size:13px;color:var(--muted)">Event klonen für Folgejahre, Inhalte übernehmen, Archiv mit Statistiken</div>
-        <div style="margin-top:8px"><span class="badge badge-muted">Phase II</span></div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">04</div>
-      <h2 class="section-title">Domains & Portale</h2>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-
-      <div class="card" style="border-left:3px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <span style="font-size:20px">🌐</span>
-          <div>
-            <div style="font-weight:700;font-size:15px">d2c-summit.ch — Public Website</div>
-            <div style="font-size:12px;color:var(--accent2);font-family:monospace">Öffentlich · kein Login nötig</div>
-          </div>
-        </div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
-          Die öffentliche Eventseite — für alle sichtbar. Alle Inhalte kommen aus dem Admin-Backend (kein separates CMS).<br>
-          <strong style="color:var(--text)">Seiten:</strong> Home · Event-Info &amp; Highlights · Programm &amp; Tagesplan · Speaker-Übersicht &amp; Detailseiten · Sponsoren · Tickets kaufen (inkl. Voucher-Eingabe) · FAQ &amp; Infoseiten
-        </div>
-      </div>
-
-      <div class="card" style="border-left:3px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <span style="font-size:20px">🪪</span>
-          <div>
-            <div style="font-weight:700;font-size:15px">my.d2c-summit.ch — My Summit</div>
-            <div style="font-size:12px;color:var(--accent2);font-family:monospace">Login erforderlich · rollenbasierte Ansicht</div>
-          </div>
-        </div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
-          Ein Portal — drei Bereiche. Nach dem Login sieht jede Person ihren eigenen Bereich entsprechend der zugewiesenen Rolle.
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px">
-          <div style="background:rgba(13,148,136,0.06);border:1px solid rgba(13,148,136,0.2);border-radius:10px;padding:14px">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent2);margin-bottom:8px">Teilnehmer</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">Mein Ticket &amp; QR-Code · Tagesplan · Sessions buchen · Warteliste · Badge &amp; Zertifikat · Materialien &amp; Präsentationen · Social Share Cards · Profil</div>
-          </div>
-          <div style="background:rgba(13,148,136,0.06);border:1px solid rgba(13,148,136,0.2);border-radius:10px;padding:14px">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent2);margin-bottom:8px">Sponsor</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">Firmenprofil pflegen · Logo hochladen · Sponsor-Materialien downloaden · Statistiken (Impressions, Klicks)</div>
-          </div>
-          <div style="background:rgba(13,148,136,0.06);border:1px solid rgba(13,148,136,0.2);border-radius:10px;padding:14px">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent2);margin-bottom:8px">Speaker</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">Eigenes Profil bearbeiten · Präsentationen hochladen · Session-Infos · Feedback nach dem Event einsehen</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="border-left:3px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <span style="font-size:20px">⚙️</span>
-          <div>
-            <div style="font-weight:700;font-size:15px">admin.d2c-summit.ch — Admin Backend</div>
-            <div style="font-size:12px;color:var(--accent2);font-family:monospace">Nur für Organizer &amp; Admins</div>
-          </div>
-        </div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
-          Die vollständige Schaltzentrale — von hier aus wird alles gesteuert, was auf der Public Website und in My Summit erscheint.<br>
-          <strong style="color:var(--text)">Bereiche:</strong> Events &amp; Venues · Programm, Sessions &amp; Stages · Speaker · Ticket-Kategorien &amp; Voucher · Orders &amp; Rechnungen · Sponsoren &amp; Pakete · Marketing-Kampagnen &amp; Automationen · E-Mail Templates · Statistiken &amp; Reporting · Rollen-Verwaltung
-        </div>
-      </div>
-
-      <div class="card" style="border-left:3px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <span style="font-size:20px">📱</span>
-          <div>
-            <div style="font-weight:700;font-size:15px">checkin.d2c-summit.ch — Check-in App</div>
-            <div style="font-size:12px;color:var(--accent2);font-family:monospace">Nur am Eventtag · mobiloptimiert</div>
-          </div>
-        </div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
-          Minimale, mobiloptimierte App für das Einlass-Personal — kein App-Download, läuft im Browser.<br>
-          <strong style="color:var(--text)">Funktionen:</strong> QR-Code scannen · Ticket validieren · Einlass bestätigen · Fehlermeldungen (ungültig / bereits eingecheckt) · Live Einlass-Statistiken · Offline-Fallback
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">05</div>
-      <h2 class="section-title">Design System</h2>
-    </div>
-    <div class="card" style="margin-bottom:12px;border-left:3px solid #B7003D">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#E5004F;margin-bottom:6px">Design-Richtung — "The Electric Editorial"</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">Magazine-Ästhetik mit Luxus-Editorial-Charakter — hoher Kontrast, asymmetrische Layouts, markante Typografie. Vorbereitet in Google Stitch.</div>
-    </div>
-    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:12px">
-      <div class="card">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:14px">Farbpalette</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:28px;height:28px;border-radius:6px;background:#B7003D;flex-shrink:0"></div>
-            <div><div style="font-size:13px;font-weight:600">Primary</div><div style="font-size:11px;color:var(--muted);font-family:monospace">#B7003D</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:28px;height:28px;border-radius:6px;background:#E5004F;flex-shrink:0"></div>
-            <div><div style="font-size:13px;font-weight:600">Accent</div><div style="font-size:11px;color:var(--muted);font-family:monospace">#E5004F</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:28px;height:28px;border-radius:6px;background:#765B00;flex-shrink:0"></div>
-            <div><div style="font-size:13px;font-weight:600">Tertiary / Gold</div><div style="font-size:11px;color:var(--muted);font-family:monospace">#765B00</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:28px;height:28px;border-radius:6px;background:#FCF9F8;border:1px solid rgba(255,255,255,0.1);flex-shrink:0"></div>
-            <div><div style="font-size:13px;font-weight:600">Surface</div><div style="font-size:11px;color:var(--muted);font-family:monospace">#FCF9F8 — Warm-Weiss</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:28px;height:28px;border-radius:6px;background:#313030;flex-shrink:0"></div>
-            <div><div style="font-size:13px;font-weight:600">Inverse Surface</div><div style="font-size:11px;color:var(--muted);font-family:monospace">#313030 — Dunkel</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:14px">Typografie</div>
-        <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#B7003D;margin-bottom:6px">Manrope</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
-          <div style="margin-bottom:4px"><span style="color:var(--text);font-weight:600">Display:</span> Impact, Headlines eng (0.9×)</div>
-          <div style="margin-bottom:4px"><span style="color:var(--text);font-weight:600">Body:</span> Line-height 1.6×</div>
-          <div style="margin-bottom:4px"><span style="color:var(--text);font-weight:600">Labels:</span> Uppercase, 0.05em Spacing</div>
-        </div>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Sonstiges</div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.7">
-            Eckenradius: <span style="color:var(--text)">0.375rem (ROUND_FOUR)</span><br>
-            Modus: <span style="color:var(--text)">Light Mode</span><br>
-            Schatten: <span style="color:var(--text)">Tonal, kein Schwarz</span>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:14px">Designprinzipien</div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#10b981;flex-shrink:0">✓</span><span><strong style="color:var(--text)">Glassmorphism</strong> für schwebende Elemente (80% Opacity, 12px Blur)</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#10b981;flex-shrink:0">✓</span><span><strong style="color:var(--text)">Tonale Schichtung</strong> statt Box-Shadows für Tiefe</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#10b981;flex-shrink:0">✓</span><span><strong style="color:var(--text)">Grosse Display-Typo</strong> die an Kanten „blutet"</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#10b981;flex-shrink:0">✓</span><span><strong style="color:var(--text)">5–6 rem Abstand</strong> zwischen Hauptsektionen</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✗</span><span style="color:var(--muted)">Keine 1px-Linien als Trenner</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✗</span><span style="color:var(--muted)">Kein Schwarz in Schatten</span></div>
-          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✗</span><span style="color:var(--muted)">Primary-Farbe nicht für Fliesstext</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="card" style="background:rgba(183,0,61,0.04);border-color:rgba(183,0,61,0.2)">
-      <div style="font-size:13px;color:var(--muted)"><strong style="color:var(--text)">Quelle:</strong> Google Stitch Projekt — finales Design-System vom CTO/Designer zu validieren und als Komponenten-Bibliothek auszubauen. Stitch dient als Startpunkt für das Design-Briefing ans Entwicklungsteam.</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">06</div>
-      <h2 class="section-title">Modul-Übersicht & Backlog</h2>
-    </div>
-    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Alle 19 Module mit Story-Counts — klicke auf eine Story-ID um die Details im Backlog zu öffnen.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Modul</th><th>Bereich</th><th>MVP Stories</th><th>Post-MVP</th><th>Phase</th></tr></thead>
-        <tbody>
-          <tr><td><code>M01</code> Event Engine</td><td>Core Platform</td><td><a href="module.html#US-01-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-01-1</a> <a href="module.html#US-01-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-01-2</a> <a href="module.html#US-01-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-01-3</a></td><td style="color:var(--muted);font-size:12px">US-01-4</td><td><span class="badge" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc">P1–P2</span></td></tr>
-          <tr><td><code>M02</code> Programm-Manager</td><td>Core Platform</td><td><a href="module.html#US-02-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-02-1</a> <a href="module.html#US-02-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-02-2</a> <a href="module.html#US-02-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-02-3</a></td><td style="color:var(--muted);font-size:12px">US-02-4</td><td><span class="badge badge-teal">P2</span></td></tr>
-          <tr><td><code>M03</code> Speaker-Management</td><td>Core Platform</td><td><a href="module.html#US-03-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-03-1</a> <a href="module.html#US-03-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-03-2</a></td><td style="color:var(--muted);font-size:12px">US-03-3</td><td><span class="badge badge-teal">P2</span></td></tr>
-          <tr><td><code>M04</code> Unternehmens-Profile</td><td>Unternehmen & Teilnehmer</td><td><a href="module.html#US-04-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-04-1</a> <a href="module.html#US-04-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-04-2</a> <a href="module.html#US-04-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-04-3</a> <a href="module.html#US-04-4" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-04-4</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7">P3</span></td></tr>
-          <tr><td><code>M05</code> Teilnehmer-Verwaltung</td><td>Unternehmen & Teilnehmer</td><td><a href="module.html#US-05-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-05-1</a> <a href="module.html#US-05-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-05-2</a> <a href="module.html#US-05-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-05-3</a> <a href="module.html#US-05-4" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-05-4</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7">P3</span></td></tr>
-          <tr><td><code>M06</code> Ticket-System via Payrexx</td><td>Unternehmen & Teilnehmer</td><td><a href="module.html#US-06-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-06-1</a> <a href="module.html#US-06-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-06-2</a> <a href="module.html#US-06-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-06-3</a> <a href="module.html#US-06-4" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-06-4</a> <a href="module.html#US-06-5" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-06-5</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7">P3</span></td></tr>
-          <tr><td><code>M07</code> Rollen & Rechte</td><td>Rollen, Admin & Portale</td><td><a href="module.html#US-07-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-07-1</a> <a href="module.html#US-07-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-07-2</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc">P1</span></td></tr>
-          <tr><td><code>M08</code> My Summit — Basis</td><td>Rollen, Admin & Portale</td><td><a href="module.html#US-08-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-08-1</a> <a href="module.html#US-08-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-08-2</a> <a href="module.html#US-08-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-08-3</a></td><td style="color:var(--muted);font-size:12px">US-08-4, US-08-5</td><td><span class="badge" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:#fdba74">P5</span></td></tr>
-          <tr><td><code>M09</code> Sponsor-Verwaltung</td><td>Rollen, Admin & Portale</td><td><a href="module.html#US-09-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-09-1</a> <a href="module.html#US-09-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-09-2</a> <a href="module.html#US-09-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-09-3</a></td><td style="color:var(--muted);font-size:12px">US-09-4</td><td><span class="badge" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b">P4</span></td></tr>
-          <tr><td><code>M10</code> Kommunikations-Basis</td><td>Kommunikation & Statistiken</td><td><a href="module.html#US-10-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-10-1</a> <a href="module.html#US-10-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-10-2</a> <a href="module.html#US-10-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-10-3</a></td><td style="color:var(--muted);font-size:12px">US-10-4, US-10-5</td><td><span class="badge" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b">P4</span></td></tr>
-          <tr><td><code>M11</code> Statistiken</td><td>Kommunikation & Statistiken</td><td><a href="module.html#US-11-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-11-1</a> <a href="module.html#US-11-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-11-2</a></td><td style="color:var(--muted);font-size:12px">US-11-3</td><td><span class="badge" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:#fdba74">P5</span></td></tr>
-          <tr><td><code>M12</code> Public Website</td><td>Frontends & Event-Tools</td><td><a href="module.html#US-12-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-12-1</a> <a href="module.html#US-12-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-12-2</a> <a href="module.html#US-12-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-12-3</a> <a href="module.html#US-12-4" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-12-4</a> <a href="module.html#US-12-5" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-12-5</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge badge-teal">P2</span></td></tr>
-          <tr><td><code>M13</code> Check-in & Badge-Druck</td><td>Frontends & Event-Tools</td><td><a href="module.html#US-13-1" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-13-1</a> <a href="module.html#US-13-2" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-13-2</a> <a href="module.html#US-13-3" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-13-3</a> <a href="module.html#US-13-4" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-13-4</a> <a href="module.html#US-13-5" style="color:var(--accent2);text-decoration:none;font-size:11px;font-family:Monaco,monospace">US-13-5</a></td><td style="color:var(--muted);font-size:12px">—</td><td><span class="badge" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:#fdba74">P5</span></td></tr>
-          <tr style="opacity:0.6"><td><code>M14–M19</code> Website & Content</td><td>Post-MVP</td><td>—</td><td style="color:var(--muted);font-size:12px">US-14-1 bis US-19-2 (14 Stories)</td><td><span class="badge badge-muted">Phase II</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">07</div>
       <h2 class="section-title">Rollen & Zugang</h2>
     </div>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Rolle</th>
-            <th>Was sie sehen / tun können</th>
-            <th>Domain</th>
-          </tr>
+          <tr><th>Rolle</th><th>Was sie sehen / tun können</th><th>Domain</th></tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Super Admin</strong></td>
             <td>Alles — Events anlegen, Rollen vergeben, vollständiger Zugang</td>
-            <td>admin.d2c-summit.ch</td>
+            <td><span class="domain-tag">admin.*</span></td>
           </tr>
           <tr>
             <td><strong>Organizer</strong></td>
             <td>Event-Inhalte, Programm, Speaker, Tickets verwalten (kein Finanz-Admin)</td>
-            <td>admin.d2c-summit.ch</td>
+            <td><span class="domain-tag">admin.*</span></td>
           </tr>
           <tr>
             <td><strong>Sponsor Manager</strong></td>
             <td>Sponsor-Pakete definieren, Sponsoren zuweisen und verwalten</td>
-            <td>admin.d2c-summit.ch</td>
+            <td><span class="domain-tag">admin.*</span></td>
           </tr>
           <tr>
             <td><strong>Teilnehmer</strong></td>
-            <td>Ticket &amp; QR, Tagesplan, Sessions buchen, Badge, Materialien, Zertifikat</td>
-            <td>my.d2c-summit.ch</td>
+            <td>Ticket & QR, Tagesplan, Sessions buchen, Badge, Materialien, Zertifikat</td>
+            <td><span class="domain-tag">my.*</span></td>
           </tr>
           <tr>
             <td><strong>Speaker</strong></td>
             <td>Eigenes Profil bearbeiten, Präsentationen hochladen, Feedback einsehen</td>
-            <td>my.d2c-summit.ch</td>
+            <td><span class="domain-tag">my.*</span></td>
           </tr>
           <tr>
             <td><strong>Sponsor</strong></td>
             <td>Firmenprofil, Logo-Upload, Materialien-Download, Impression-Statistiken</td>
-            <td>my.d2c-summit.ch</td>
+            <td><span class="domain-tag">my.*</span></td>
           </tr>
           <tr>
             <td><strong>Check-in</strong></td>
             <td>Nur QR-Scanner und Einlass-Statistiken — kein sonstiger Zugang</td>
-            <td>checkin.d2c-summit.ch</td>
+            <td><span class="domain-tag">checkin.*</span></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="card" style="margin-top:12px">
-      <div style="font-size:13px;color:var(--muted)"><strong style="color:var(--text)">Wichtig:</strong> Rollen sind <strong style="color:var(--text)">pro Event</strong> vergeben. Dieselbe Person kann in verschiedenen Jahren verschiedene Rollen haben — oder gleichzeitig Teilnehmer und Speaker sein.</div>
+    <div style="margin-top:10px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--muted)">
+      <strong style="color:var(--text)">Wichtig:</strong> Rollen sind <strong style="color:var(--text)">pro Event</strong> vergeben. Dieselbe Person kann in verschiedenen Jahren verschiedene Rollen haben — oder gleichzeitig Teilnehmer und Speaker sein.
+    </div>
+  </div>
+
+  <!-- 04 Design System -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Design System</h2>
+    </div>
+    <div style="margin-bottom:12px;padding:16px 20px;background:rgba(183,0,61,0.04);border:1px solid rgba(183,0,61,0.2);border-radius:12px;font-size:13px;color:var(--muted)">
+      <strong style="color:var(--text)">"The Electric Editorial"</strong> — Magazine-Ästhetik mit Luxus-Editorial-Charakter. Hoher Kontrast, asymmetrische Layouts, markante Typografie. Vorbereitet in Google Stitch.
+    </div>
+    <div class="design-grid">
+      <div class="design-card">
+        <div class="design-card-label">Farbpalette</div>
+        <div class="color-swatch"><div class="swatch" style="background:#B7003D"></div><div><div class="swatch-name">Primary</div><div class="swatch-hex">#B7003D</div></div></div>
+        <div class="color-swatch"><div class="swatch" style="background:#E5004F"></div><div><div class="swatch-name">Accent</div><div class="swatch-hex">#E5004F</div></div></div>
+        <div class="color-swatch"><div class="swatch" style="background:#765B00"></div><div><div class="swatch-name">Gold</div><div class="swatch-hex">#765B00</div></div></div>
+        <div class="color-swatch"><div class="swatch" style="background:#FCF9F8;border:1px solid rgba(0,0,0,0.1)"></div><div><div class="swatch-name">Surface</div><div class="swatch-hex">#FCF9F8 — Warm-Weiss</div></div></div>
+        <div class="color-swatch"><div class="swatch" style="background:#313030"></div><div><div class="swatch-name">Dark</div><div class="swatch-hex">#313030</div></div></div>
+      </div>
+      <div class="design-card">
+        <div class="design-card-label">Typografie</div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#B7003D;margin-bottom:8px">Manrope</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          <div><span style="color:var(--text);font-weight:600">Display:</span> Impact-Charakter, Headlines eng (0.9×)</div>
+          <div><span style="color:var(--text);font-weight:600">Body:</span> Line-height 1.6×</div>
+          <div><span style="color:var(--text);font-weight:600">Labels:</span> Uppercase, 0.05em Spacing</div>
+          <div style="margin-top:8px"><span style="color:var(--text);font-weight:600">Radius:</span> 0.375rem · <span style="color:var(--text);font-weight:600">Mode:</span> Light</div>
+        </div>
+      </div>
+      <div class="design-card">
+        <div class="design-card-label">Prinzipien</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px">
+          <div style="display:flex;gap:8px"><span style="color:#10b981;flex-shrink:0">✓</span><span>Glassmorphism für schwebende Elemente</span></div>
+          <div style="display:flex;gap:8px"><span style="color:#10b981;flex-shrink:0">✓</span><span>Tonale Schichtung statt Box-Shadows</span></div>
+          <div style="display:flex;gap:8px"><span style="color:#10b981;flex-shrink:0">✓</span><span>Grosse Display-Typo die an Kanten „blutet"</span></div>
+          <div style="display:flex;gap:8px"><span style="color:#10b981;flex-shrink:0">✓</span><span>5–6 rem Abstand zwischen Hauptsektionen</span></div>
+          <div style="display:flex;gap:8px"><span style="color:#ef4444;flex-shrink:0">✗</span><span style="color:var(--muted)">Kein Schwarz in Schatten</span></div>
+          <div style="display:flex;gap:8px"><span style="color:#ef4444;flex-shrink:0">✗</span><span style="color:var(--muted)">Primary-Farbe nicht für Fliesstext</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
 </div>
 
 <div class="footer">
-  <strong>D2C Summit — Konzept & Scope</strong>
+  <strong>D2C Summit — Konzept & Funktionen</strong>
   <div class="footer-nav">
     <a href="index.html">← Übersicht</a>
-    <a href="module.html">Module →</a>
+    <a href="module.html">Backlog →</a>
   </div>
 </div>
 
@@ -516,6 +705,18 @@ function toggleTheme(){
 document.addEventListener('DOMContentLoaded',function(){
   var b=document.getElementById('theme-toggle-btn');
   if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+});
+
+function toggleAcc(id) {
+  var item = document.getElementById('acc-' + id);
+  item.classList.toggle('open');
+}
+
+// Open all on load for better first impression
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.acc-item').forEach(function(el) {
+    el.classList.add('open');
+  });
 });
 </script>
 </body>
