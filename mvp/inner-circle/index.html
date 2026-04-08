@@ -93,6 +93,19 @@ body.light .flow-arrow { color: #94a3b8; }
 .theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; line-height: 1; }
 .theme-toggle:hover { background: rgba(255,255,255,0.08); }
 body.light .theme-toggle:hover { background: rgba(0,0,0,0.05); }
+/* ===== MVP Frame ===== */
+.frame-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.frame-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; }
+.frame-card.full { grid-column: 1 / -1; }
+.frame-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent2); margin-bottom: 10px; }
+.frame-text { font-size: 14px; color: var(--text); line-height: 1.7; }
+.frame-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.frame-list li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; line-height: 1.5; }
+.frame-list li::before { content: '→'; color: var(--accent2); flex-shrink: 0; font-weight: 700; }
+.frame-list li strong { color: var(--text); }
+.frame-card.hypothesis { border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.04); }
+body.light .frame-card.hypothesis { background: rgba(13,148,136,0.03); border-color: rgba(13,148,136,0.2); }
+@media (max-width: 640px) { .frame-grid { grid-template-columns: 1fr; } }
 /* ===== MVP Sections ===== */
 .mvp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
 .mvp-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
@@ -167,6 +180,37 @@ body.light .cl-entry { border-bottom-color: #e2e8f0; }
 </div>
 
 <div class="container">
+
+  <!-- MVP Framing -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">MVP Framing</h2>
+    </div>
+    <div class="frame-grid">
+      <div class="frame-card">
+        <div class="frame-label">Problem</div>
+        <div class="frame-text">Fortuneglobe hat keine differenzierte Kundenbindung — alle B2B-Kunden haben dieselbe Shop-Erfahrung, es gibt keinen Anreiz mehr, häufiger oder exklusiver zu kaufen.</div>
+      </div>
+      <div class="frame-card">
+        <div class="frame-label">Zielgruppe</div>
+        <div class="frame-text">Mitarbeitende von B2B-Partnerunternehmen, die bereits Zugang zur Fortuneglobe-Plattform haben — aber kein besonderes Incentive für Loyalität oder häufigere Bestellungen.</div>
+      </div>
+      <div class="frame-card hypothesis full">
+        <div class="frame-label">Hypothese</div>
+        <div class="frame-text">Wenn wir B2B-Mitarbeitenden einen einladungsbasierten exklusiven Club mit 20% Rabatt anbieten, nehmen sie das Angebot an, bestellen häufiger — und Fortuneglobe generiert messbaren Zusatzumsatz ohne neue Kerninfrastruktur.</div>
+      </div>
+      <div class="frame-card full">
+        <div class="frame-label">Wie wir das testen — Minimal Scope</div>
+        <ul class="frame-list">
+          <li><strong>Gated Shop:</strong> Alle Seiten hinter Login — nur eingeladene Mitglieder sehen Produkte und Club-Preise</li>
+          <li><strong>Einladungssystem:</strong> Admin-Einladungen + Member-Referrals (max. 5 pro Mitglied, Phase 1)</li>
+          <li><strong>Club-Preis:</strong> Einheitlich 20% Rabatt auf alle Produkte aus dem bestehenden GM+CYS-Feed</li>
+          <li><strong>Kein</strong> neuer Checkout, kein neues ERP — alles auf bestehender IceHawk-Infrastruktur</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <div class="section">
     <div class="section-header">
@@ -273,7 +317,7 @@ body.light .cl-entry { border-bottom-color: #e2e8f0; }
 
   <div class="section">
     <div class="section-header">
-      <div class="section-num">01</div>
+      <div class="section-num">→</div>
       <h2 class="section-title">Dokumente</h2>
     </div>
     <div class="nav-cards">
