@@ -142,6 +142,27 @@ td:last-child { color: var(--muted); font-weight: 400; }
 .req-thread-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
 .req-thread-btn { padding: 4px 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); border-radius: 6px; color: var(--accent2); font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1; }
 .req-thread-btn:hover { background: rgba(13,148,136,0.2); }
+/* Inline editor */
+.req-actions { display: inline-flex; gap: 3px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
+.req-item:hover .req-actions { opacity: 1; }
+.req-edit-btn, .req-delete-btn { font-size: 11px; color: rgba(100,116,139,0.5); cursor: pointer; padding: 1px 3px; border-radius: 3px; transition: color 0.1s, background 0.1s; user-select: none; line-height: 1.45; }
+.req-edit-btn:hover { color: var(--accent2); background: rgba(13,148,136,0.1); }
+.req-delete-btn:hover { color: var(--red); background: rgba(239,68,68,0.08); }
+.req-text-editing { background: rgba(13,148,136,0.06); border-radius: 4px; outline: 1px solid rgba(13,148,136,0.3); padding: 0 3px; }
+.req-add-row { margin-top: 8px; }
+.req-add-btn { background: none; border: 1px dashed rgba(13,148,136,0.2); color: rgba(13,148,136,0.45); border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.15s; width: 100%; }
+.req-add-btn:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(13,148,136,0.04); }
+.req-add-form { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
+.req-add-input { background: var(--card); border: 1px solid rgba(13,148,136,0.3); border-radius: 6px; padding: 6px 10px; font-size: 12px; color: var(--text); font-family: inherit; resize: none; }
+.req-add-input:focus { outline: none; border-color: var(--accent2); }
+.req-add-actions { display: flex; gap: 6px; }
+.req-add-save { background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); border-radius: 6px; padding: 4px 12px; font-size: 11px; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.req-add-save:hover { background: rgba(13,148,136,0.22); }
+.req-add-cancel { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-family: inherit; }
+.req-add-cancel:hover { background: rgba(255,255,255,0.04); }
+body.light .req-add-input { background: #f8fafc; border-color: rgba(15,118,110,0.3); }
+body.light .req-add-btn { border-color: rgba(15,118,110,0.2); color: rgba(15,118,110,0.45); }
+body.light .req-add-btn:hover { border-color: #0f766e; color: #0f766e; }
 .author-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .author-bar-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .author-name-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; font-size: 12px; color: var(--text); font-family: inherit; width: 160px; }
@@ -407,9 +428,9 @@ var _sb=supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbGJ4cmVxZHZnaWRrbmVsaHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTg3ODMsImV4cCI6MjA4OTg3NDc4M30.Tio8pDdDPuawqGwJtHV6234WJUYuFn2y1RVDOM0Nf64'
 );
 
-// ─── Requirements-Daten (direkt editierbar) ───────────────────
-// Neue Anforderung einfügen: {id:'eindeutige-id', text:'Anforderungstext'}
-// Optional: is_tbd:true für offene Punkte (erscheint mit ? Marker)
+// ─── Requirements-Daten (Referenz-Snapshot) ──────────────────
+// Source of Truth ist Supabase. Neue Requirements über den "+ Anforderung"
+// Button direkt im Browser hinzufügen — sie werden sofort in Supabase gespeichert.
 var REQUIREMENTS_DATA=[
   {slug:'auth-members',name:'Auth, Invitation & Member Management',icon:'🔐',feature_groups:[],features:[
     {id:'5983daac-8142-4e91-9927-4465153d9c15',name:'M01 · Auth & Invitation',description:'Gated Entry, Splash Page, Login, Passwort-Reset, Admin-Einladungen, Member-Referrals',sort_order:1,requirements:[
@@ -432,7 +453,7 @@ var REQUIREMENTS_DATA=[
     {id:'7d13cb79-e658-4cff-974c-c02e54f892ea',name:'M03 · Produktfeed & Katalog',description:'Feed-Import (GM+CYS), Produktkatalog mit Freitextsuche, Filter und Sortierung, Detailseite, Colorpicker',sort_order:1,requirements:[
       {id:'4a379fa4-297f-46a7-8ec1-5cd84addcb24',text:'Produktfeed importieren (GM+CYS) — Cronjob täglich, Speicherung als Produktkatalog',sort_order:1},
       {id:'8a7a8ce9-4d35-4cb7-a999-8ba1255f3ea1',text:'Produktkatalog mit Kategorie-Navigation (3 Ebenen), Freitextsuche und Filter (Kategorie, Grösse, Farbe, Geschlecht)',sort_order:2},
-      {id:'m03-sortierung',text:'Sortierung: Neuheiten (Standard), Preis aufsteigend, Preis absteigend',sort_order:3},
+      {id:'b9d0daf1-53f5-4687-b880-a81898ec5efb',text:'Sortierung: Neuheiten (Standard), Preis aufsteigend, Preis absteigend',sort_order:3},
       {id:'2816051c-c2a3-4e1e-8e22-ec3f3fc837c2',text:'Produktdetailseite — Bildergalerie, Variantenauswahl (Farbe/Grösse), Club-Preis prominent',sort_order:4},
       {id:'35cc360a-f5b0-4592-bf27-fe23fddf1395',text:'Varianten als Colorpicker (Farbe) und Buttons (Grösse) — nicht verfügbare Grössen ausgegraut',sort_order:5}
     ]},
@@ -446,14 +467,14 @@ var REQUIREMENTS_DATA=[
     {id:'c3b8498f-8f59-4b43-bb09-ef3bba15edf0',name:'M05 · Checkout & Orders',description:'Warenkorb, Checkout via Saferpay + PayPal (IceHawk), vollständige Bestellübergabe an FG',sort_order:1,requirements:[
       {id:'b12c275b-20f1-49c8-b495-86386d440fdd',text:'Warenkorb mit Club-Preisen — Mini-Cart in Navigation mit Artikel-Anzahl-Badge',sort_order:1},
       {id:'44c4521c-a860-4469-8223-fab6daca7ade',text:'Checkout via IceHawk-Pipeline — Saferpay + PayPal, Club-Preis an Zahlungsanbieter, keine Doppelrabattierung',sort_order:2},
-      {id:'m05-fg-bestellubergabe',text:'Vollständige Bestelldaten an FG Order-Management übergeben — Kundendaten, Lieferadresse, Produkte, Varianten, Preise, Zeitstempel',sort_order:3},
+      {id:'cd885641-2704-4a42-abb8-f5f462dedf68',text:'Vollständige Bestelldaten an FG Order-Management übergeben — Kundendaten, Lieferadresse, Produkte, Varianten, Preise, Zeitstempel',sort_order:3},
       {id:'e00a3567-da16-452b-86d7-d5fc187dcfc9',text:'Bestellhistorie im Member-Konto — Status und Detailansicht der Club-Bestellungen',sort_order:4}
     ]},
     {id:'558e37b6-225c-43e8-aa6b-38250c89c2d1',name:'M06 · Admin Backend',description:'/marketing-api/inner-circle — Member, Companies, Einladungen, Dashboard, konfigurierbare Einladungslimits',sort_order:2,requirements:[
       {id:'5a754acf-be7c-4276-a934-82f8223085c3',text:'Admin Backend unter /marketing-api/inner-circle — Member, Companies, Einladungen verwalten',sort_order:1},
       {id:'1567ee4e-ac7c-4702-8555-d20c51e37521',text:'Einladungsübersicht — Status (pending/accepted/expired), abgelaufene Einladungen erneut versenden',sort_order:2},
       {id:'77a646e6-07fc-4661-8613-ebb45251675e',text:'Referral-Tracking — wer hat wen geworben, Referral-Baum (Tiefe 1)',sort_order:3},
-      {id:'m06-einladungslimit',text:'Anzahl erlaubter Einladungen pro Member konfigurierbar (Standard: 5) — durch Admin anpassbar',sort_order:4},
+      {id:'d47fbce4-0f11-4d3d-a574-40313c1690df',text:'Anzahl erlaubter Einladungen pro Member konfigurierbar (Standard: 5) — durch Admin anpassbar',sort_order:4},
       {id:'e0d50427-bee0-4ddb-a3df-b9b48d2b8323',text:'Admin-Dashboard — Gesamtmember, aktive Member, Companies, offene Einladungen, Top-Referrer',sort_order:5}
     ]},
     {id:'739fd110-194e-40ed-b24b-ad77ac5bb2e3',name:'M07 · Wunschliste',description:'Favoriten-Funktion — in DB persistiert, mit direktem Warenkorb-Button',sort_order:3,requirements:[
@@ -468,6 +489,8 @@ var REQUIREMENTS_DATA=[
     ]}
   ]}
 ];
+
+var _projectId;
 
 // ─── Theme ────────────────────────────────────────────────────
 function toggleTheme(){
@@ -508,11 +531,24 @@ function renderRequirements(reqs){
 }
 
 function renderFeature(feat){
+  var fid=feat.id;
   var reqHtml=renderRequirements(feat.requirements||[]);
-  return '<div class="feat-item" data-fid="'+feat.id+'">'+
+  return '<div class="feat-item" data-fid="'+fid+'">'+
     '<div class="feat-header" onclick="toggleFeat(this.closest(\'.feat-item\'))"><div class="feat-dot"></div><div class="feat-name">'+esc(feat.name)+'</div><span class="feat-chevron">+</span></div>'+
     '<div class="feat-note">'+esc(feat.description||'')+'</div>'+
-    '<div class="feat-detail">'+reqHtml+'</div>'+
+    '<div class="feat-detail">'+
+      reqHtml+
+      '<div class="req-add-row">'+
+        '<button class="req-add-btn" onclick="event.stopPropagation();startAddReq(\''+fid+'\')">+ Anforderung</button>'+
+      '</div>'+
+      '<div class="req-add-form" id="radd-'+fid+'" style="display:none">'+
+        '<textarea class="req-add-input" id="radd-inp-'+fid+'" placeholder="Neue Anforderung…" rows="2" onclick="event.stopPropagation()" onkeydown="handleAddReqKey(event,\''+fid+'\')"></textarea>'+
+        '<div class="req-add-actions">'+
+          '<button class="req-add-save" onclick="event.stopPropagation();saveNewReq(\''+fid+'\')">Speichern</button>'+
+          '<button class="req-add-cancel" onclick="event.stopPropagation();cancelAddReq(\''+fid+'\')">Abbrechen</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
     '</div>';
 }
 
@@ -545,8 +581,16 @@ function renderDomain(domain){
     '</div>';
 }
 
-function loadProject(){
-  var domains=REQUIREMENTS_DATA;
+async function loadProject(){
+  var res=await _sb.from('projects')
+    .select('id,name,domains(id,slug,name,subtitle,icon,sort_order,feature_groups(id,name,sort_order),features(id,name,description,group_id,sort_order,requirements(id,text,is_tbd,section,sort_order)))')
+    .eq('slug',PROJECT_SLUG).single();
+  if(res.error){
+    document.getElementById('accordion').innerHTML='<div style="padding:40px;text-align:center;color:#ef4444">Fehler beim Laden der Inhalte</div>';
+    return;
+  }
+  _projectId=res.data.id;
+  var domains=(res.data.domains||[]).slice().sort(function(a,b){return a.sort_order-b.sort_order;});
   document.getElementById('accordion').innerHTML=domains.map(renderDomain).join('');
   setupReqItems();
   loadAllReqStatuses();
@@ -570,7 +614,11 @@ function setupReqItems(){
       li.innerHTML=
         '<div class="req-row">'+
           '<span class="req-marker" title="Klicken zum Bestätigen">'+marker+'</span>'+
-          '<span class="req-text">'+inner+'</span>'+
+          '<span class="req-text" id="rtxt-'+rid+'">'+inner+'</span>'+
+          '<span class="req-actions">'+
+            '<span class="req-edit-btn" title="Bearbeiten" onclick="event.stopPropagation();startEditReq(\''+rid+'\')">✎</span>'+
+            '<span class="req-delete-btn" title="Löschen" onclick="event.stopPropagation();deleteReq(\''+rid+'\')">×</span>'+
+          '</span>'+
           '<span class="req-chat" id="rcht-'+rid+'">💬</span>'+
         '</div>'+
         '<div class="req-thread" id="rthrd-'+rid+'">'+
@@ -695,6 +743,107 @@ function setupRealtime(){
       if(el&&thread&&thread.classList.contains('open')){ el.querySelector('.req-thread-empty')&&(el.innerHTML=''); el.insertAdjacentHTML('beforeend',reqMsgHtml(r)); }
     })
     .subscribe();
+}
+
+// ─── Add Requirement ─────────────────────────────────────────
+function startAddReq(fid){
+  var form=document.getElementById('radd-'+fid); if(!form) return;
+  form.style.display='flex';
+  var inp=document.getElementById('radd-inp-'+fid);
+  if(inp) setTimeout(function(){inp.focus();},50);
+}
+function cancelAddReq(fid){
+  var form=document.getElementById('radd-'+fid);
+  if(form){ form.style.display='none'; }
+  var inp=document.getElementById('radd-inp-'+fid);
+  if(inp) inp.value='';
+}
+function handleAddReqKey(e,fid){ e.stopPropagation(); if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();saveNewReq(fid);} if(e.key==='Escape'){cancelAddReq(fid);} }
+async function saveNewReq(fid){
+  var inp=document.getElementById('radd-inp-'+fid); if(!inp) return;
+  var text=inp.value.trim(); if(!text) return;
+  var rid=crypto.randomUUID();
+  // find or create req-list container
+  var featEl=document.querySelector('[data-fid="'+fid+'"]');
+  var container=featEl&&featEl.querySelector('.req-list');
+  if(!container){
+    var grp=document.createElement('div'); grp.className='feat-detail-group';
+    grp.innerHTML='<ul class="req-list"></ul>';
+    var addRow=featEl&&featEl.querySelector('.req-add-row');
+    var detail=featEl&&featEl.querySelector('.feat-detail');
+    if(detail&&addRow) detail.insertBefore(grp,addRow);
+    container=grp.querySelector('.req-list');
+  }
+  // build li
+  var li=document.createElement('li');
+  li.className='req-item'; li.dataset.reqId=rid; li.dataset.rid=rid;
+  li.innerHTML=
+    '<div class="req-row">'+
+      '<span class="req-marker" title="Klicken zum Bestätigen">—</span>'+
+      '<span class="req-text" id="rtxt-'+rid+'">'+esc(text)+'</span>'+
+      '<span class="req-actions">'+
+        '<span class="req-edit-btn" title="Bearbeiten" onclick="event.stopPropagation();startEditReq(\''+rid+'\')">✎</span>'+
+        '<span class="req-delete-btn" title="Löschen" onclick="event.stopPropagation();deleteReq(\''+rid+'\')">×</span>'+
+      '</span>'+
+      '<span class="req-chat" id="rcht-'+rid+'">💬</span>'+
+    '</div>'+
+    '<div class="req-thread" id="rthrd-'+rid+'">'+
+      '<div class="req-thread-comments" id="rtcmts-'+rid+'"><span class="req-thread-empty">Noch keine Kommentare</span></div>'+
+      '<div class="req-thread-input-row">'+
+        '<textarea class="req-thread-input" id="rtinp-'+rid+'" placeholder="Kommentar… (Enter senden)" rows="1" onclick="event.stopPropagation()" onkeydown="handleReqKey(event,\''+rid+'\')"></textarea>'+
+        '<button class="req-thread-btn" onclick="event.stopPropagation();addReqComment(\''+rid+'\')">→</button>'+
+      '</div>'+
+    '</div>';
+  li.querySelector('.req-marker').addEventListener('click',function(e){
+    e.stopPropagation();
+    var author=getAuthor();
+    if(!author){document.getElementById('author-input').focus();alert('Bitte zuerst deinen Namen eingeben.');return;}
+    toggleReqStatus(rid,author,li);
+  });
+  li.querySelector('.req-chat').addEventListener('click',function(e){
+    e.stopPropagation(); toggleReqThread(rid,li);
+  });
+  if(container) container.appendChild(li);
+  // clear & hide form
+  inp.value=''; cancelAddReq(fid);
+  // save to Supabase
+  var existingCount=(container&&container.querySelectorAll('.req-item').length)||1;
+  await _sb.from('requirements').insert({id:rid,feature_id:fid,text:text,sort_order:existingCount,is_tbd:false});
+}
+
+// ─── Edit Requirement ─────────────────────────────────────────
+function startEditReq(rid){
+  var span=document.getElementById('rtxt-'+rid); if(!span) return;
+  var original=span.textContent;
+  span.contentEditable='true';
+  span.classList.add('req-text-editing');
+  span.focus();
+  var range=document.createRange(); var sel=window.getSelection();
+  range.selectNodeContents(span); range.collapse(false);
+  sel.removeAllRanges(); sel.addRange(range);
+  function onBlur(){
+    span.removeEventListener('blur',onBlur);
+    span.removeEventListener('keydown',onKey);
+    var newText=span.textContent.trim();
+    span.contentEditable='false';
+    span.classList.remove('req-text-editing');
+    if(newText&&newText!==original) _sb.from('requirements').update({text:newText}).eq('id',rid);
+    else span.textContent=original;
+  }
+  function onKey(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();span.blur();}
+    if(e.key==='Escape'){e.preventDefault();span.textContent=original;span.blur();}
+  }
+  span.addEventListener('blur',onBlur);
+  span.addEventListener('keydown',onKey);
+}
+
+// ─── Delete Requirement ───────────────────────────────────────
+async function deleteReq(rid){
+  if(!confirm('Anforderung löschen?')) return;
+  var li=document.querySelector('[data-rid="'+rid+'"]');
+  if(li) li.remove();
+  await _sb.from('requirements').delete().eq('id',rid);
 }
 
 // ─── Init ─────────────────────────────────────────────────────
