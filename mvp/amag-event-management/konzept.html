@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konzept — AMAG Event Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
+  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
+  --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; flex-shrink: 0; }
+.nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
+.nav-sep { color: var(--border); font-size: 18px; margin: 0 4px; }
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.page-hdr { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
+.page-hdr-inner { max-width: 1100px; margin: 0 auto; }
+.page-bc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.page-bc a { color: var(--muted); text-decoration: none; }
+.page-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.page-title span { color: var(--accent2); }
+.page-sub { color: var(--muted); font-size: 14px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+.section { margin-bottom: 48px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
+.section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+/* Scope boxes */
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.scope-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.scope-box.in { border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.03); }
+.scope-box.out { border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.03); }
+.scope-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.scope-box.in .scope-label { color: var(--green); }
+.scope-box.out .scope-label { color: var(--red); }
+.scope-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.scope-list li { font-size: 12px; color: var(--muted); display: flex; gap: 7px; line-height: 1.5; }
+.scope-box.in .scope-list li::before { content: '✓'; color: var(--green); flex-shrink: 0; font-weight: 700; }
+.scope-box.out .scope-list li::before { content: '✗'; color: var(--red); flex-shrink: 0; font-weight: 700; }
+.deploy-box { background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.2); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.8; }
+.deploy-box strong { color: var(--text); }
+/* Accordion */
+.accordion { display: flex; flex-direction: column; gap: 10px; }
+.acc-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
+.acc-item.open { border-color: rgba(13,148,136,0.35); }
+.acc-trigger { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; width: 100%; background: none; border: none; color: var(--text); text-align: left; }
+.acc-trigger:hover { background: rgba(255,255,255,0.02); }
+.acc-domain-icon { font-size: 20px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); border-radius: 10px; flex-shrink: 0; }
+.acc-domain-body { flex: 1; min-width: 0; }
+.acc-domain-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.acc-domain-url { font-size: 11px; color: var(--accent2); font-family: 'Monaco', monospace; }
+.acc-meta { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.acc-count { font-size: 12px; color: var(--muted); }
+.acc-chevron { color: var(--muted); font-size: 13px; transition: transform 0.25s; flex-shrink: 0; }
+.acc-item.open .acc-chevron { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 22px 22px; }
+.acc-item.open .acc-body { display: block; }
+.feat-group { margin-bottom: 18px; }
+.feat-group:last-child { margin-bottom: 0; }
+.feat-group-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent2); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid rgba(13,148,136,0.12); }
+.feat-list { display: flex; flex-direction: column; gap: 5px; }
+.feat-item { background: var(--card2); border: 1px solid rgba(255,255,255,0.04); border-radius: 9px; padding: 10px 12px; transition: border-color 0.15s; }
+.feat-header { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; }
+.feat-item:hover { border-color: rgba(13,148,136,0.25); }
+.feat-item.open { border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.04); }
+.feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+.feat-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+.feat-note { font-size: 11px; color: var(--muted); margin-top: 2px; margin-left: 14px; }
+.feat-chevron { font-size: 11px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
+.feat-item.open .feat-chevron { transform: rotate(45deg); color: var(--accent2); }
+.feat-detail { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(13,148,136,0.12); }
+.feat-item.open .feat-detail { display: block; }
+.feat-detail-group { margin-bottom: 10px; }
+.feat-detail-group:last-child { margin-bottom: 0; }
+.feat-detail-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 5px; }
+.req-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.req-item { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; align-items: stretch; gap: 0; line-height: 1.45; padding: 2px 0; }
+.req-item.tbd { color: rgba(100,116,139,0.7); }
+.legend-row { display: flex; gap: 16px; margin-bottom: 12px; font-size: 12px; color: var(--muted); }
+.legend-item { display: flex; gap: 5px; align-items: center; }
+.legend-dash { color: rgba(13,148,136,0.7); font-weight: 700; }
+.legend-q { color: var(--gold); font-weight: 700; }
+/* Req Collab */
+.req-row { display: flex; align-items: flex-start; gap: 6px; width: 100%; padding: 2px 0; }
+.req-marker { font-size: 11px; flex-shrink: 0; cursor: pointer; color: rgba(13,148,136,0.5); transition: color 0.15s, transform 0.1s; user-select: none; min-width: 10px; text-align: center; line-height: 1.45; }
+.req-marker:hover { color: var(--accent2); transform: scale(1.3); }
+.req-item.tbd .req-marker { color: var(--gold); }
+.req-item.req-confirmed .req-marker { color: var(--green); }
+.req-item.req-confirmed .req-text { color: var(--text); }
+.req-text { flex: 1; min-width: 0; line-height: 1.45; }
+.req-chat { flex-shrink: 0; font-size: 10px; color: rgba(100,116,139,0.2); cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: all 0.1s; white-space: nowrap; line-height: 1.6; }
+.req-chat:hover { color: var(--accent2); background: rgba(13,148,136,0.08); }
+.req-chat.has-comments { color: rgba(13,148,136,0.65); }
+.req-thread { display: none; margin: 4px 0 4px 16px; padding: 7px 10px; background: rgba(13,148,136,0.03); border-left: 2px solid rgba(13,148,136,0.18); border-radius: 0 6px 6px 0; }
+.req-thread.open { display: block; }
+.req-thread-comments { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+.req-thread-msg { font-size: 11px; line-height: 1.5; }
+.req-thread-author { font-weight: 700; color: var(--accent2); margin-right: 4px; }
+.req-thread-time { color: rgba(100,116,139,0.4); margin-right: 5px; font-size: 10px; }
+.req-thread-text { color: rgba(226,232,240,0.72); }
+.req-thread-empty { display: block; font-size: 11px; color: rgba(100,116,139,0.4); font-style: italic; margin-bottom: 6px; }
+.req-thread-input-row { display: flex; gap: 5px; }
+.req-thread-input { flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 11px; color: var(--text); font-family: inherit; resize: none; min-height: 28px; }
+.req-thread-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.req-thread-btn { padding: 4px 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); border-radius: 6px; color: var(--accent2); font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1; }
+.req-thread-btn:hover { background: rgba(13,148,136,0.2); }
+.author-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.author-bar-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.author-name-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; font-size: 12px; color: var(--text); font-family: inherit; width: 160px; }
+.author-name-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.author-bar-hint { font-size: 11px; color: rgba(100,116,139,0.5); }
+.footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.footer strong { color: var(--text); }
+.footer-nav { display: flex; gap: 16px; }
+.footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
+.footer-nav a:hover { color: var(--accent2); }
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light .nav { background: rgba(255,255,255,0.95); }
+body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .nav-link { color: #64748b; }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
+body.light .nav-sep { color: #cbd5e1; }
+body.light .feat-item { background: #f8fafc; border-color: #e2e8f0; }
+body.light .feat-item:hover, body.light .feat-item.open { border-color: #0f766e; }
+body.light .feat-item.open { background: rgba(13,148,136,0.03); }
+body.light .req-thread { background: rgba(13,148,136,0.03); border-left-color: rgba(13,148,136,0.22); }
+body.light .req-thread-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .req-thread-text { color: #475569; }
+body.light .author-name-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .author-bar { background: rgba(13,148,136,0.04); border-color: rgba(13,148,136,0.15); }
+body.light .scope-box.in { background: rgba(16,185,129,0.02); border-color: rgba(16,185,129,0.2); }
+body.light .scope-box.out { background: rgba(239,68,68,0.02); border-color: rgba(239,68,68,0.15); }
+body.light .acc-trigger:hover { background: rgba(0,0,0,0.02); }
+body.light .footer { border-top-color: #e2e8f0; }
+body.light .theme-toggle { border-color: #e2e8f0; }
+@media (max-width: 768px) {
+  .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; }
+  .nav-inner { padding: 0 16px; }
+  .scope-grid { grid-template-columns: 1fr; }
+  .acc-trigger { padding: 14px 16px; }
+  .acc-body { padding: 0 16px 16px; }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      <span class="nav-brand-text">AMAG Event Management</span>
+    </a>
+    <span class="nav-sep">|</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Übersicht</a>
+      <a href="konzept.html" class="nav-link active">Konzept</a>
+      <a href="backlog.html" class="nav-link">Backlog</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
+  </div>
+</nav>
+
+<div class="page-hdr">
+  <div class="page-hdr-inner">
+    <div class="page-bc"><a href="index.html">AMAG Event Management</a> / Konzept</div>
+    <div class="page-title">Konzept &amp; <span>Anforderungen</span></div>
+    <div class="page-sub">Was im MVP enthalten ist — klicke auf einen Bereich, dann auf ein Feature für die Anforderungen</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 Scope -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Scope — Was ist im MVP enthalten?</h2>
+    </div>
+    <div class="scope-grid">
+      <div class="scope-box in">
+        <div class="scope-label">Im Scope enthalten</div>
+        <ul class="scope-list">
+          <li>Branded Event-Landingpage (pro Event eine eigene URL)</li>
+          <li>Anmeldeformular mit DSG-Checkbox und Kapazitätsprüfung</li>
+          <li>Gewinnspiel-Mechanik mit Opt-in und Gewinner-Ziehung</li>
+          <li>Automatische Bestätigungs-Mail (optionaler Kalender-Invite)</li>
+          <li>Admin-Backend: Events erfassen, Teilnehmerliste, CSV-Export</li>
+          <li>Mobile-optimiert</li>
+          <li>Hosting auf Go 2 Flow-Infrastruktur</li>
+        </ul>
+      </div>
+      <div class="scope-box out">
+        <div class="scope-label">Nicht im Scope (MVP)</div>
+        <ul class="scope-list">
+          <li>BSI/CRM-Schnittstelle (Phase 2)</li>
+          <li>Multi-Filiale Rollout / Rollensystem</li>
+          <li>Automatisierte Einladungs-Mails (nur Bestätigungs-Mail)</li>
+          <li>Analytics-Dashboard</li>
+          <li>AMAG-Backend-Anbindung (SAP, interne Systeme)</li>
+          <li>Mehrsprachigkeit Phase 1</li>
+        </ul>
+      </div>
+    </div>
+    <div class="deploy-box">
+      <strong>Phase 1 ohne BSI-Connector</strong> — bewusst schlank gehalten. Zuerst beweisen, dass die Journey besser ist und der Aufwand sinkt. &nbsp;·&nbsp; <strong>Phase 2:</strong> BSI-Anbindung, Multi-Filiale Rollout, Analytics und automatisierte Einladungs-Mails.
+    </div>
+  </div>
+
+  <!-- 02 Funktionen & Anforderungen -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Funktionen &amp; Anforderungen</h2>
+    </div>
+    <div class="legend-row">
+      <span class="legend-item"><span class="legend-dash">—</span> Definiert</span>
+      <span class="legend-item"><span class="legend-q">?</span> Noch offen / zu klären</span>
+    </div>
+
+    <div class="author-bar">
+      <span class="author-bar-label">Dein Name:</span>
+      <input type="text" class="author-name-input" id="author-input" placeholder="z.B. Daniel">
+      <span class="author-bar-hint">Wird bei Status-Änderungen und Kommentaren gespeichert</span>
+    </div>
+
+    <div class="accordion" id="accordion"><div style="padding:40px;text-align:center;color:var(--muted)">Inhalte werden geladen…</div></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>AMAG Event Management — Konzept &amp; Anforderungen</strong>
+  <div class="footer-nav">
+    <a href="index.html">← Übersicht</a>
+    <a href="backlog.html">Backlog →</a>
+  </div>
+</div>
+
+<script>
+var PROJECT_SLUG='amag-event-management';
+var _sb=supabase.createClient(
+  'https://telbxreqdvgidknelhwv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbGJ4cmVxZHZnaWRrbmVsaHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTg3ODMsImV4cCI6MjA4OTg3NDc4M30.Tio8pDdDPuawqGwJtHV6234WJUYuFn2y1RVDOM0Nf64'
+);
+var _projectId=null;
+function toggleTheme(){var l=document.body.classList.toggle('light');localStorage.setItem('theme',l?'light':'dark');var b=document.getElementById('theme-toggle-btn');if(b)b.textContent=l?'🌙':'☀️';}
+function toggleAcc(id){document.getElementById('acc-'+id).classList.toggle('open');}
+function toggleFeat(el){el.classList.toggle('open');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderRequirements(reqs){
+  if(!reqs||!reqs.length) return '';
+  reqs.sort(function(a,b){return a.sort_order-b.sort_order;});
+  var sections=[]; var secMap={};
+  reqs.forEach(function(r){var sec=r.section||'__default__';if(!secMap[sec]){secMap[sec]=[];sections.push({name:r.section||null,items:secMap[sec]});}secMap[sec].push(r);});
+  return sections.map(function(s){
+    var titleHtml=s.name?'<div class="feat-detail-title">'+esc(s.name)+'</div>':'';
+    var itemsHtml=s.items.map(function(r){return '<li class="req-item'+(r.is_tbd?' tbd':'')+'" data-req-id="'+r.id+'">'+esc(r.text)+'</li>';}).join('');
+    return '<div class="feat-detail-group">'+titleHtml+'<ul class="req-list">'+itemsHtml+'</ul></div>';
+  }).join('');
+}
+function renderFeature(feat){
+  var reqHtml=renderRequirements(feat.requirements||[]);
+  return '<div class="feat-item" data-fid="'+feat.id+'">'+
+    '<div class="feat-header" onclick="toggleFeat(this.closest(\'.feat-item\'))"><div class="feat-dot"></div><div class="feat-name">'+esc(feat.name)+'</div><span class="feat-chevron">+</span></div>'+
+    '<div class="feat-note">'+esc(feat.description||'')+'</div>'+
+    '<div class="feat-detail">'+reqHtml+'</div></div>';
+}
+function renderDomain(domain){
+  var groups=(domain.feature_groups||[]).slice().sort(function(a,b){return a.sort_order-b.sort_order;});
+  var features=(domain.features||[]).slice().sort(function(a,b){return a.sort_order-b.sort_order;});
+  var groupMap={};groups.forEach(function(g){groupMap[g.id]={g:g,feats:[]};});
+  var ungrouped=[];
+  features.forEach(function(f){if(f.group_id&&groupMap[f.group_id])groupMap[f.group_id].feats.push(f);else ungrouped.push(f);});
+  var bodyHtml='';
+  if(ungrouped.length)bodyHtml+='<div class="feat-list">'+ungrouped.map(renderFeature).join('')+'</div>';
+  groups.forEach(function(g){var gf=groupMap[g.id].feats;if(gf.length)bodyHtml+='<div class="feat-group"><div class="feat-group-title">'+esc(g.name)+'</div><div class="feat-list">'+gf.map(renderFeature).join('')+'</div></div>';});
+  return '<div class="acc-item open" data-domain="'+domain.slug+'" id="acc-'+domain.slug+'">'+
+    '<button class="acc-trigger" onclick="toggleAcc(\''+domain.slug+'\')">'+
+      '<div class="acc-domain-icon">'+esc(domain.icon||'')+'</div>'+
+      '<div class="acc-domain-body"><div class="acc-domain-name">'+esc(domain.name)+'</div><div class="acc-domain-url">'+esc(domain.subtitle||'')+'</div></div>'+
+      '<div class="acc-meta"><span class="acc-count">'+features.length+' Features</span><span class="acc-chevron">▼</span></div>'+
+    '</button>'+
+    '<div class="acc-body">'+bodyHtml+'</div></div>';
+}
+async function loadProject(){
+  var res=await _sb.from('projects')
+    .select('id,name,domains(id,slug,name,subtitle,icon,sort_order,feature_groups(id,name,sort_order),features(id,name,description,group_id,sort_order,requirements(id,text,is_tbd,section,sort_order)))')
+    .eq('slug',PROJECT_SLUG).single();
+  if(res.error){document.getElementById('accordion').innerHTML='<div style="padding:40px;text-align:center;color:#ef4444">Fehler beim Laden der Inhalte</div>';return;}
+  _projectId=res.data.id;
+  var domains=(res.data.domains||[]).slice().sort(function(a,b){return a.sort_order-b.sort_order;});
+  document.getElementById('accordion').innerHTML=domains.map(renderDomain).join('');
+  setupReqItems();loadAllReqStatuses();loadAllReqCommentCounts();setupRealtime();
+}
+function getAuthor(){return localStorage.getItem('collab-author')||'';}
+function saveAuthor(v){localStorage.setItem('collab-author',v.trim());}
+function setupReqItems(){
+  document.querySelectorAll('.feat-item').forEach(function(feat){
+    feat.querySelectorAll('.req-item').forEach(function(li){
+      var rid=li.dataset.reqId||'';if(!rid)return;
+      li.dataset.rid=rid;
+      var isTbd=li.classList.contains('tbd');
+      var marker=isTbd?'?':'—';var inner=li.innerHTML;
+      li.innerHTML='<div class="req-row"><span class="req-marker" title="Klicken zum Bestätigen">'+marker+'</span><span class="req-text">'+inner+'</span><span class="req-chat" id="rcht-'+rid+'">💬</span></div>'+
+        '<div class="req-thread" id="rthrd-'+rid+'"><div class="req-thread-comments" id="rtcmts-'+rid+'"><span class="req-thread-empty">Noch keine Kommentare</span></div>'+
+        '<div class="req-thread-input-row"><textarea class="req-thread-input" id="rtinp-'+rid+'" placeholder="Kommentar… (Enter senden)" rows="1" onclick="event.stopPropagation()" onkeydown="handleReqKey(event,\''+rid+'\')"></textarea>'+
+        '<button class="req-thread-btn" onclick="event.stopPropagation();addReqComment(\''+rid+'\')">→</button></div></div>';
+      li.querySelector('.req-marker').addEventListener('click',function(e){e.stopPropagation();var author=getAuthor();if(!author){document.getElementById('author-input').focus();alert('Bitte zuerst deinen Namen eingeben.');return;}toggleReqStatus(rid,author,li);});
+      li.querySelector('.req-chat').addEventListener('click',function(e){e.stopPropagation();toggleReqThread(rid,li);});
+    });
+  });
+}
+var _rcache={};
+function applyReqStatus(rid,confirmed,updatedBy){_rcache[rid]={confirmed:!!confirmed,updatedBy:updatedBy||''};var li=document.querySelector('[data-rid="'+rid+'"]');if(!li)return;li.classList.toggle('req-confirmed',!!confirmed);var m=li.querySelector('.req-marker');if(m){m.textContent=confirmed?'✓':(li.classList.contains('tbd')?'?':'—');m.title=confirmed?('✓ Bestätigt'+(updatedBy?' von '+updatedBy:'')):'Klicken zum Bestätigen';}}
+async function loadAllReqStatuses(){var res=await _sb.from('feature_status').select('feature_id,confirmed,updated_by').eq('project_id',PROJECT_SLUG);if(res.data)res.data.forEach(function(r){applyReqStatus(r.feature_id,r.confirmed,r.updated_by);});}
+async function toggleReqStatus(rid,author,li){var newVal=!(_rcache[rid]||{}).confirmed;applyReqStatus(rid,newVal,author);await _sb.from('feature_status').upsert({feature_id:rid,project_id:PROJECT_SLUG,confirmed:newVal,updated_at:new Date().toISOString(),updated_by:author},{onConflict:'feature_id'});}
+var _rloaded={};var _myInserts=new Set();
+function toggleReqThread(rid,li){var thread=document.getElementById('rthrd-'+rid);if(!thread)return;var isOpen=thread.classList.toggle('open');if(isOpen&&!_rloaded[rid]){_rloaded[rid]=true;loadReqComments(rid);}if(isOpen){var inp=document.getElementById('rtinp-'+rid);if(inp)setTimeout(function(){inp.focus();},50);}}
+function fmtDate(iso){var d=new Date(iso);return d.toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});}
+function reqMsgHtml(c){return '<div class="req-thread-msg"><span class="req-thread-author">'+esc(c.author)+'</span><span class="req-thread-time">'+fmtDate(c.created_at)+'</span><span class="req-thread-text">'+esc(c.content)+'</span></div>';}
+async function loadReqComments(rid){var el=document.getElementById('rtcmts-'+rid);if(!el)return;var res=await _sb.from('feature_comments').select('author,content,created_at').eq('feature_id',rid).eq('project_id',PROJECT_SLUG).order('created_at',{ascending:true});if(res.data&&res.data.length){el.innerHTML=res.data.map(reqMsgHtml).join('');updateReqBadge(rid,res.data.length);}}
+async function addReqComment(rid){var author=getAuthor();if(!author){document.getElementById('author-input').focus();alert('Bitte zuerst deinen Namen eingeben.');return;}var inp=document.getElementById('rtinp-'+rid);if(!inp)return;var content=inp.value.trim();if(!content)return;inp.value='';var res=await _sb.from('feature_comments').insert({feature_id:rid,project_id:PROJECT_SLUG,author:author,content:content}).select('id,author,content,created_at');if(res.data&&res.data[0]){var c=res.data[0];_myInserts.add(c.id);var el=document.getElementById('rtcmts-'+rid);if(el){el.querySelector('.req-thread-empty')&&(el.innerHTML='');el.insertAdjacentHTML('beforeend',reqMsgHtml(c));}bumpReqBadge(rid);}}
+function handleReqKey(e,rid){e.stopPropagation();if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addReqComment(rid);}}
+function updateReqBadge(rid,n){var c=document.getElementById('rcht-'+rid);if(!c)return;c.dataset.n=n;c.textContent=n>0?'💬 '+n:'💬';if(n>0)c.classList.add('has-comments');else c.classList.remove('has-comments');}
+function bumpReqBadge(rid){var c=document.getElementById('rcht-'+rid);if(!c)return;updateReqBadge(rid,(parseInt(c.dataset.n||'0'))+1);}
+async function loadAllReqCommentCounts(){var res=await _sb.from('feature_comments').select('feature_id').eq('project_id',PROJECT_SLUG);if(!res.data)return;var counts={};res.data.forEach(function(r){counts[r.feature_id]=(counts[r.feature_id]||0)+1;});Object.keys(counts).forEach(function(rid){updateReqBadge(rid,counts[rid]);});}
+function setupRealtime(){_sb.channel('konzept-'+PROJECT_SLUG).on('postgres_changes',{event:'*',schema:'public',table:'feature_status'},function(p){var r=p.new||{};if(r.project_id===PROJECT_SLUG)applyReqStatus(r.feature_id,r.confirmed,r.updated_by);}).on('postgres_changes',{event:'INSERT',schema:'public',table:'feature_comments'},function(p){var r=p.new||{};if(r.project_id!==PROJECT_SLUG)return;if(_myInserts.has(r.id)){_myInserts.delete(r.id);return;}bumpReqBadge(r.feature_id);var el=document.getElementById('rtcmts-'+r.feature_id);var thread=document.getElementById('rthrd-'+r.feature_id);if(el&&thread&&thread.classList.contains('open')){el.querySelector('.req-thread-empty')&&(el.innerHTML='');el.insertAdjacentHTML('beforeend',reqMsgHtml(r));}}).subscribe();}
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('theme-toggle-btn');if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+  var ai=document.getElementById('author-input');if(ai){ai.value=getAuthor();ai.addEventListener('input',function(){saveAuthor(this.value);});ai.addEventListener('click',function(e){e.stopPropagation();});}
+  loadProject();
+});
+</script>
+</body>
+</html>

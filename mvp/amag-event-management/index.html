@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMAG Event Management — MVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
+  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
+  --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); line-height: 1.6; }
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; flex-shrink: 0; }
+.nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
+.nav-sep { color: var(--border); font-size: 18px; margin: 0 4px; }
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hero { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 56px 40px 44px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(13,148,136,0.1) 0%, transparent 70%); pointer-events: none; }
+.hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); color: var(--accent2); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 14px; }
+.hero h1 span { color: var(--accent2); }
+.hero-sub { color: var(--muted); font-size: 15px; max-width: 600px; margin-bottom: 32px; line-height: 1.7; }
+.metrics-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.metric-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 24px; min-width: 150px; }
+.metric-value { font-size: 26px; font-weight: 800; color: var(--accent2); letter-spacing: -0.02em; margin-bottom: 4px; }
+.metric-value.gold { color: var(--gold); }
+.metric-value.green { color: var(--green); }
+.metric-label { font-size: 12px; color: var(--muted); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+.section { margin-bottom: 52px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
+.section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+/* MVP Frame */
+.frame-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.frame-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; }
+.frame-card.full { grid-column: 1 / -1; }
+.frame-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent2); margin-bottom: 10px; }
+.frame-text { font-size: 14px; color: var(--text); line-height: 1.7; }
+.frame-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.frame-list li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; line-height: 1.5; }
+.frame-list li::before { content: '→'; color: var(--accent2); flex-shrink: 0; font-weight: 700; }
+.frame-list li strong { color: var(--text); }
+.frame-card.hypothesis { border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.04); }
+/* Ausgangslage */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.info-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.info-box.red { border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.03); }
+.info-box.green { border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.03); }
+.info-box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.info-box.red .info-box-label { color: var(--red); }
+.info-box.green .info-box-label { color: var(--green); }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.info-list li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; line-height: 1.5; }
+.info-list li::before { flex-shrink: 0; font-weight: 700; }
+.info-box.red .info-list li::before { content: '✗'; color: var(--red); }
+.info-box.green .info-list li::before { content: '✓'; color: var(--green); }
+/* KPI Table */
+.kpi-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 10px 18px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
+td { padding: 11px 18px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+td:last-child { color: var(--accent2); font-weight: 600; }
+/* Nav Cards */
+.nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.nav-card { display: flex; align-items: center; gap: 18px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; text-decoration: none; color: var(--text); transition: border-color 0.15s, background 0.15s; }
+.nav-card:hover { border-color: rgba(13,148,136,0.4); background: var(--card2); }
+.nav-card-icon { font-size: 24px; width: 52px; height: 52px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-card-body { flex: 1; }
+.nav-card-title { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.nav-card-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.nav-card-arrow { color: var(--accent2); font-size: 18px; margin-left: auto; flex-shrink: 0; }
+.footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.footer strong { color: var(--text); }
+.footer-nav { display: flex; gap: 16px; }
+.footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
+.footer-nav a:hover { color: var(--accent2); }
+/* Light mode */
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light .nav { background: rgba(255,255,255,0.95); }
+body.light .hero { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
+body.light .nav-link { color: #64748b; }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
+body.light .nav-sep { color: #cbd5e1; }
+body.light .metric-card { border-color: #e2e8f0; }
+body.light .info-box { background: #fff; border-color: #e2e8f0; }
+body.light .info-box.red { background: rgba(239,68,68,0.02); border-color: rgba(239,68,68,0.15); }
+body.light .info-box.green { background: rgba(16,185,129,0.02); border-color: rgba(16,185,129,0.15); }
+body.light th { background: #f1f5f9; }
+body.light tr:hover td { background: rgba(0,0,0,0.015); }
+body.light .footer { border-top-color: #e2e8f0; }
+body.light .frame-card.hypothesis { background: rgba(13,148,136,0.03); border-color: rgba(13,148,136,0.2); }
+@media (max-width: 768px) {
+  .hero, .container, .footer { padding-left: 20px; padding-right: 20px; }
+  .nav-inner { padding: 0 16px; }
+  .two-col, .frame-grid { grid-template-columns: 1fr; }
+  .metrics-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      <span class="nav-brand-text">AMAG Event Management</span>
+    </a>
+    <span class="nav-sep">|</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Übersicht</a>
+      <a href="konzept.html" class="nav-link">Konzept</a>
+      <a href="backlog.html" class="nav-link">Backlog</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📅 MVP · Go 2 Flow · Build 2 Scale</div>
+    <h1>Event Management<br><span>Platform</span></h1>
+    <div class="hero-sub">Branded Event-Landingpage mit Gewinnspiel-Mechanik + einfaches Admin-Backend — mehr Anmeldungen, weniger Aufwand für Mitarbeitende.</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-value">12 Wo.</div>
+        <div class="metric-label">Lieferzeit</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value gold">CHF 12'000</div>
+        <div class="metric-label">Fixpreis Build</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value green">Phase 1</div>
+        <div class="metric-label">Ohne BSI-Connector</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">6</div>
+        <div class="metric-label">Features im MVP</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 MVP Framing -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">MVP Framing</h2>
+    </div>
+    <div class="frame-grid">
+      <div class="frame-card">
+        <div class="frame-label">Problem</div>
+        <div class="frame-text">AMAG verwaltet Events über mehrere Tools — zu viel Aufwand für Mitarbeitende, fehleranfällig und für Kunden eine uninspirierte Journey ohne Anmelde-Erlebnis.</div>
+      </div>
+      <div class="frame-card">
+        <div class="frame-label">Zielgruppe</div>
+        <div class="frame-text">AMAG-Mitarbeitende pro Filiale (Event-Koordination) und AMAG-Kunden (Fahrzeugbesitzer), die zu Ausstellungen, Opening Days und Filialevenings eingeladen werden.</div>
+      </div>
+      <div class="frame-card hypothesis full">
+        <div class="frame-label">Hypothese</div>
+        <div class="frame-text">Wenn wir eine branded Event-Landingpage mit Gewinnspiel-Mechanik und ein einfaches Admin-Backend bereitstellen, steigt die Anmeldequote und der interne Aufwand sinkt — messbar ohne BSI-Anbindung in Phase 1.</div>
+      </div>
+      <div class="frame-card full">
+        <div class="frame-label">Wie wir das testen — Minimal Scope</div>
+        <ul class="frame-list">
+          <li><strong>1 Event-Landingpage:</strong> Pro Event eine branded LP mit Datum, Standort, Beschreibung und Gewinnspiel-Anreiz</li>
+          <li><strong>1 Anmeldeformular:</strong> Name + E-Mail + DSG-Checkbox + automatische Bestätigungs-Mail</li>
+          <li><strong>1 Admin-Backend:</strong> Events erfassen, Teilnehmerliste einsehen, CSV-Export, Gewinner ziehen</li>
+          <li><strong>Kein</strong> BSI-Connector, kein Rollensystem, keine automatisierten Einladungs-Mails — das ist Phase 2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Ausgangslage & Lösung -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Ausgangslage &amp; Lösung</h2>
+    </div>
+    <div class="two-col">
+      <div class="info-box red">
+        <div class="info-box-label">Was heute fehlt</div>
+        <ul class="info-list">
+          <li>Events werden über mehrere Tools verwaltet — kein einheitliches System</li>
+          <li>Mitarbeitende bauen Workarounds, hoher Koordinationsaufwand pro Filiale und Event</li>
+          <li>Kunden erhalten uninspirierte Anmeldeformulare ohne Erlebnis oder Incentive</li>
+          <li>Kein Tracking: Conversion Rate, Anmeldequote und Erscheinungsrate sind unbekannt</li>
+          <li>BSI (CRM) vorhanden, aber keine Event-Workflow-Anbindung</li>
+        </ul>
+      </div>
+      <div class="info-box green">
+        <div class="info-box-label">Was Go 2 Flow baut</div>
+        <ul class="info-list">
+          <li>Branded Event-Landingpage mit Gewinnspiel-Mechanik — höhere Conversion durch Anreiz</li>
+          <li>Einfaches Admin-Backend: Events erfassen, Teilnehmerliste einsehen und exportieren</li>
+          <li>Automatische Bestätigungs-Mail nach Anmeldung — keine manuelle Arbeit</li>
+          <li>Kein BSI-Connector in Phase 1 — bewusst schlank und schnell umsetzbar</li>
+          <li>Messbares Ergebnis: Conversion Rate und Zeitaufwand als Go/No-Go-Grundlage für Phase 2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Erfolgsmessung -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Erfolgsmessung — Wann ist der MVP erfolgreich?</h2>
+    </div>
+    <div class="kpi-table-wrap">
+      <table>
+        <thead>
+          <tr><th>KPI</th><th>Messung</th><th>Ziel MVP (3 Monate)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Anmeldequote</strong></td><td>Conversion Rate Landing Page → Anmeldung</td><td>≥ 2× bisherige Quote</td></tr>
+          <tr><td><strong>Zeitaufwand MA</strong></td><td>Zeit/Event für Erfassung &amp; Administration</td><td>≥ 50% Reduktion</td></tr>
+          <tr><td><strong>Teilnehmer/Event</strong></td><td>Ø angemeldete Teilnehmer pro Event</td><td>Baseline Woche 4 definieren</td></tr>
+          <tr><td><strong>Bestätigungs-Mail</strong></td><td>% Mails erfolgreich zugestellt</td><td>≥ 95%</td></tr>
+          <tr><td><strong>Go/No-Go Phase 2</strong></td><td>Ja/Nein Entscheid für BSI-Anbindung</td><td>Entscheid 3 Monate post-Launch</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 04 Dokumente -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Dokumente</h2>
+    </div>
+    <div class="nav-cards">
+      <a href="konzept.html" class="nav-card">
+        <div class="nav-card-icon">📐</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Konzept &amp; Anforderungen</div>
+          <div class="nav-card-sub">Scope, alle 6 Features mit Anforderungen — bestätigbar und kommentierbar</div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+      <a href="backlog.html" class="nav-card">
+        <div class="nav-card-icon">📋</div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">Backlog &amp; User Stories</div>
+          <div class="nav-card-sub">Priorisierte User Stories für die 12-wöchige Entwicklung</div>
+        </div>
+        <div class="nav-card-arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>AMAG Event Management — MVP</strong>
+  <div class="footer-nav">
+    <a href="konzept.html">Konzept →</a>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  var l=document.body.classList.toggle('light');
+  localStorage.setItem('theme',l?'light':'dark');
+  var b=document.getElementById('theme-toggle-btn');
+  if(b)b.textContent=l?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.getElementById('theme-toggle-btn');
+  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
+});
+</script>
+</body>
+</html>
