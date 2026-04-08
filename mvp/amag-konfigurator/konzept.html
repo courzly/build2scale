@@ -310,8 +310,8 @@ function renderRequirements(reqs){
 
 function renderFeature(feat){
   var reqHtml=renderRequirements(feat.requirements||[]);
-  return '<div class="feat-item" data-fid="'+feat.id+'" onclick="toggleFeat(this)">'+
-    '<div class="feat-header"><div class="feat-dot"></div><div class="feat-name">'+esc(feat.name)+'</div><span class="feat-chevron">+</span></div>'+
+  return '<div class="feat-item" data-fid="'+feat.id+'">'+
+    '<div class="feat-header" onclick="toggleFeat(this.closest(\'.feat-item\'))"><div class="feat-dot"></div><div class="feat-name">'+esc(feat.name)+'</div><span class="feat-chevron">+</span></div>'+
     '<div class="feat-note">'+esc(feat.description||'')+'</div>'+
     '<div class="feat-detail">'+reqHtml+'</div>'+
     '</div>';
