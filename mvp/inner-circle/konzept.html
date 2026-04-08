@@ -9,7 +9,7 @@
 <style>
 :root {
   --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333;
-  --accent: #6366f1; --accent2: #818cf8; --gold: #f59e0b; --green: #10b981;
+  --accent: #0d9488; --accent2: #2dd4bf; --gold: #f59e0b; --green: #10b981;
   --red: #ef4444; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,10 +23,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .nav-links { display: flex; align-items: center; gap: 2px; }
 .nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
 .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.nav-link.active { color: var(--accent2); background: rgba(99,102,241,0.12); font-weight: 600; }
+.nav-link.active { color: var(--accent2); background: rgba(13,148,136,0.12); font-weight: 600; }
 .theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 /* Page Header */
-.page-hdr { background: linear-gradient(135deg, #0f1117 0%, #1a1f35 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
+.page-hdr { background: linear-gradient(135deg, #0f1117 0%, #0d2420 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
 .page-hdr-inner { max-width: 1100px; margin: 0 auto; }
 .page-bc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .page-bc a { color: var(--muted); text-decoration: none; }
@@ -37,38 +37,52 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
 .section { margin-bottom: 48px; }
 .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-.section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
+.section-num { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.3); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
 .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
-/* Architecture */
-.arch { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; text-align: center; }
-.arch-layer { border-radius: 10px; padding: 18px 24px; }
-.arch-layer.new { background: rgba(99,102,241,0.1); border: 2px solid rgba(99,102,241,0.4); }
-.arch-layer.existing { background: rgba(30,42,58,0.8); border: 1px solid var(--border); }
-.arch-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-.arch-label.new { color: var(--accent2); }
-.arch-label.existing { color: var(--muted); }
-.arch-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
-.arch-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 100px; font-size: 12px; color: var(--muted); }
-.pill.accent { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.25); color: var(--accent2); }
-.arch-arrow { text-align: center; color: var(--muted); font-size: 22px; padding: 8px 0; }
-.arch-arrow-label { font-size: 11px; color: var(--muted); display: block; margin-top: -4px; }
-/* Abgrenzungen */
-.changes-table { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+/* Scope */
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.scope-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.scope-box.in { border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.03); }
+.scope-box.out { border-color: rgba(239,68,68,0.15); background: rgba(239,68,68,0.02); }
+.scope-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.scope-box.in .scope-label { color: var(--green); }
+.scope-box.out .scope-label { color: var(--red); }
+.scope-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.scope-list li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; line-height: 1.5; }
+.scope-box.in .scope-list li::before { content: '\2713'; color: var(--green); flex-shrink: 0; font-weight: 700; }
+.scope-box.out .scope-list li::before { content: '\2717'; color: var(--red); flex-shrink: 0; font-weight: 700; }
+.deploy-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--muted); margin-top: 12px; }
+/* Metrics */
+.metrics-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.metric-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 24px; flex: 1; min-width: 140px; }
+.metric-value { font-size: 22px; font-weight: 800; color: var(--accent2); letter-spacing: -0.02em; margin-bottom: 4px; }
+.metric-value.gold { color: var(--gold); }
+.metric-label { font-size: 12px; color: var(--muted); }
+/* Table */
+.table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { text-align: left; padding: 10px 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
-td { padding: 10px 20px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
+th { text-align: left; padding: 10px 18px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card2); border-bottom: 1px solid var(--border); }
+td { padding: 11px 18px; border-bottom: 1px solid rgba(30,42,58,0.5); vertical-align: top; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: rgba(255,255,255,0.02); }
-.td-name { color: var(--text); }
-.td-desc { color: var(--muted); }
+td:last-child { color: var(--muted); font-weight: 400; }
+/* Feature cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; }
+.feature-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.2); }
+.feature-body h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.feature-body p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.feature-body .xd-links { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+.feature-body .xd-links a { font-size: 12px; color: var(--accent2); text-decoration: none; }
+.feature-body .xd-links a:hover { text-decoration: underline; }
+.logo-preview { display: block; background: #fff; border-radius: 8px; padding: 12px; margin: 10px 0 6px; width: 120px; }
 /* Accordion */
 .accordion { display: flex; flex-direction: column; gap: 10px; }
 .acc-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
-.acc-item.open { border-color: rgba(99,102,241,0.35); }
+.acc-item.open { border-color: rgba(13,148,136,0.35); }
 .acc-trigger { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; width: 100%; background: none; border: none; color: var(--text); text-align: left; }
 .acc-trigger:hover { background: rgba(255,255,255,0.02); }
-.acc-domain-icon { font-size: 20px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 10px; flex-shrink: 0; }
+.acc-domain-icon { font-size: 20px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); border-radius: 10px; flex-shrink: 0; }
 .acc-domain-body { flex: 1; min-width: 0; }
 .acc-domain-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
 .acc-domain-url { font-size: 11px; color: var(--accent2); font-family: 'Monaco', monospace; }
@@ -80,18 +94,18 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .acc-item.open .acc-body { display: block; }
 .feat-group { margin-bottom: 18px; }
 .feat-group:last-child { margin-bottom: 0; }
-.feat-group-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent2); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid rgba(99,102,241,0.12); }
+.feat-group-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent2); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid rgba(13,148,136,0.12); }
 .feat-list { display: flex; flex-direction: column; gap: 5px; }
 .feat-item { background: var(--card2); border: 1px solid rgba(255,255,255,0.04); border-radius: 9px; padding: 10px 12px; transition: border-color 0.15s; }
 .feat-header { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; }
-.feat-item:hover { border-color: rgba(99,102,241,0.25); }
-.feat-item.open { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.04); }
+.feat-item:hover { border-color: rgba(13,148,136,0.25); }
+.feat-item.open { border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.04); }
 .feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
 .feat-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
 .feat-note { font-size: 11px; color: var(--muted); margin-top: 2px; margin-left: 14px; }
 .feat-chevron { font-size: 11px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
 .feat-item.open .feat-chevron { transform: rotate(45deg); color: var(--accent2); }
-.feat-detail { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(99,102,241,0.12); }
+.feat-detail { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(13,148,136,0.12); }
 .feat-item.open .feat-detail { display: block; }
 .feat-detail-group { margin-bottom: 10px; }
 .feat-detail-group:last-child { margin-bottom: 0; }
@@ -102,20 +116,20 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 /* Legend */
 .legend-row { display: flex; gap: 16px; margin-bottom: 12px; font-size: 12px; color: var(--muted); }
 .legend-item { display: flex; gap: 5px; align-items: center; }
-.legend-dash { color: rgba(99,102,241,0.7); font-weight: 700; }
+.legend-dash { color: rgba(13,148,136,0.7); font-weight: 700; }
 .legend-q { color: var(--gold); font-weight: 700; }
 /* Req Collab */
 .req-row { display: flex; align-items: flex-start; gap: 6px; width: 100%; padding: 2px 0; }
-.req-marker { font-size: 11px; flex-shrink: 0; cursor: pointer; color: rgba(99,102,241,0.5); transition: color 0.15s, transform 0.1s; user-select: none; min-width: 10px; text-align: center; line-height: 1.45; }
+.req-marker { font-size: 11px; flex-shrink: 0; cursor: pointer; color: rgba(13,148,136,0.5); transition: color 0.15s, transform 0.1s; user-select: none; min-width: 10px; text-align: center; line-height: 1.45; }
 .req-marker:hover { color: var(--accent2); transform: scale(1.3); }
 .req-item.tbd .req-marker { color: var(--gold); }
 .req-item.req-confirmed .req-marker { color: var(--green); }
 .req-item.req-confirmed .req-text { color: var(--text); }
 .req-text { flex: 1; min-width: 0; line-height: 1.45; }
 .req-chat { flex-shrink: 0; font-size: 10px; color: rgba(100,116,139,0.2); cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: all 0.1s; white-space: nowrap; line-height: 1.6; }
-.req-chat:hover { color: var(--accent2); background: rgba(99,102,241,0.08); }
-.req-chat.has-comments { color: rgba(99,102,241,0.65); }
-.req-thread { display: none; margin: 4px 0 4px 16px; padding: 7px 10px; background: rgba(99,102,241,0.03); border-left: 2px solid rgba(99,102,241,0.18); border-radius: 0 6px 6px 0; }
+.req-chat:hover { color: var(--accent2); background: rgba(13,148,136,0.08); }
+.req-chat.has-comments { color: rgba(13,148,136,0.65); }
+.req-thread { display: none; margin: 4px 0 4px 16px; padding: 7px 10px; background: rgba(13,148,136,0.03); border-left: 2px solid rgba(13,148,136,0.18); border-radius: 0 6px 6px 0; }
 .req-thread.open { display: block; }
 .req-thread-comments { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
 .req-thread-msg { font-size: 11px; line-height: 1.5; }
@@ -125,13 +139,13 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .req-thread-empty { display: block; font-size: 11px; color: rgba(100,116,139,0.4); font-style: italic; margin-bottom: 6px; }
 .req-thread-input-row { display: flex; gap: 5px; }
 .req-thread-input { flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 11px; color: var(--text); font-family: inherit; resize: none; min-height: 28px; }
-.req-thread-input:focus { outline: none; border-color: rgba(99,102,241,0.4); }
-.req-thread-btn { padding: 4px 8px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25); border-radius: 6px; color: var(--accent2); font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1; }
-.req-thread-btn:hover { background: rgba(99,102,241,0.2); }
-.author-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(99,102,241,0.05); border: 1px solid rgba(99,102,241,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.req-thread-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.req-thread-btn { padding: 4px 8px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); border-radius: 6px; color: var(--accent2); font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1; }
+.req-thread-btn:hover { background: rgba(13,148,136,0.2); }
+.author-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .author-bar-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .author-name-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; font-size: 12px; color: var(--text); font-family: inherit; width: 160px; }
-.author-name-input:focus { outline: none; border-color: rgba(99,102,241,0.4); }
+.author-name-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
 .author-bar-hint { font-size: 11px; color: rgba(100,116,139,0.5); }
 /* Footer */
 .footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
@@ -140,36 +154,44 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .footer-nav a { text-decoration: none; color: var(--muted); font-size: 13px; }
 .footer-nav a:hover { color: var(--accent2); }
 /* Light mode */
-body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent: #4f46e5; --accent2: #4f46e5; --gold: #d97706; --green: #059669; --red: #dc2626; }
+body.light { --darker: #f8fafc; --dark: #f1f5f9; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --accent: #0d9488; --accent2: #0f766e; --gold: #d97706; --green: #059669; --red: #dc2626; }
 body.light .nav { background: rgba(255,255,255,0.95); }
-body.light .page-hdr { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #f5f3ff 100%); border-bottom-color: #e2e8f0; }
+body.light .page-hdr { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 50%, #f0fdf9 100%); border-bottom-color: #e2e8f0; }
 body.light .nav-link { color: #64748b; }
 body.light .nav-link:hover { color: #0f172a; background: rgba(0,0,0,0.05); }
-body.light .nav-link.active { color: #4f46e5; background: rgba(99,102,241,0.1); }
+body.light .nav-link.active { color: #0f766e; background: rgba(13,148,136,0.1); }
 body.light .nav-sep { color: #cbd5e1; }
 body.light .nav-brand-text { color: #0f172a; }
-body.light .nav-brand-dot { background: #4f46e5; }
-body.light .section-num { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); color: #4f46e5; }
+body.light .nav-brand-dot { background: #0f766e; }
+body.light .section-num { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.2); color: #0f766e; }
 body.light th { background: #f1f5f9; color: #64748b; }
+body.light td { border-bottom-color: #e2e8f0; }
 body.light tr:hover td { background: rgba(0,0,0,0.015); }
-body.light .arch-layer.new { background: rgba(99,102,241,0.06); border-color: rgba(99,102,241,0.3); }
-body.light .arch-layer.existing { background: rgba(0,0,0,0.03); border-color: #e2e8f0; }
 body.light .feat-item { background: #f8fafc; border-color: #e2e8f0; }
-body.light .feat-item:hover, body.light .feat-item.open { border-color: #4f46e5; }
-body.light .feat-item.open { background: rgba(99,102,241,0.03); }
-body.light .req-thread { background: rgba(99,102,241,0.03); border-left-color: rgba(99,102,241,0.22); }
+body.light .feat-item:hover, body.light .feat-item.open { border-color: #0f766e; }
+body.light .feat-item.open { background: rgba(13,148,136,0.03); }
+body.light .req-thread { background: rgba(13,148,136,0.03); border-left-color: rgba(13,148,136,0.22); }
 body.light .req-thread-input { background: #f8fafc; border-color: #e2e8f0; }
 body.light .req-thread-text { color: #475569; }
 body.light .author-name-input { background: #f8fafc; border-color: #e2e8f0; }
-body.light .author-bar { background: rgba(99,102,241,0.04); border-color: rgba(99,102,241,0.15); }
+body.light .author-bar { background: rgba(13,148,136,0.04); border-color: rgba(13,148,136,0.15); }
 body.light .acc-trigger:hover { background: rgba(0,0,0,0.02); }
 body.light .footer { border-top-color: #e2e8f0; }
 body.light .theme-toggle { border-color: #e2e8f0; }
+body.light .table-wrap { background: #fff; border-color: #e2e8f0; }
+body.light .scope-box { background: #fff; border-color: #e2e8f0; }
+body.light .scope-box.in { background: rgba(16,185,129,0.02); border-color: rgba(16,185,129,0.2); }
+body.light .scope-box.out { background: rgba(239,68,68,0.02); border-color: rgba(239,68,68,0.12); }
+body.light .deploy-box { background: #f8fafc; border-color: #e2e8f0; }
+body.light .metric-card { background: #fff; border-color: #e2e8f0; }
+body.light .feature-card { background: #fff; border-color: #e2e8f0; }
 @media (max-width: 768px) {
   .page-hdr, .container, .footer { padding-left: 20px; padding-right: 20px; }
   .nav-inner { padding: 0 16px; }
   .acc-trigger { padding: 14px 16px; }
   .acc-body { padding: 0 16px 16px; }
+  .scope-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -188,8 +210,6 @@ body.light .theme-toggle { border-color: #e2e8f0; }
       <a href="index.html" class="nav-link">Übersicht</a>
       <a href="konzept.html" class="nav-link active">Konzept</a>
       <a href="module.html" class="nav-link">Backlog</a>
-      <a href="phasen.html" class="nav-link">Phasen</a>
-      <a href="offene-fragen.html" class="nav-link">Offene Fragen</a>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
   </div>
@@ -199,87 +219,159 @@ body.light .theme-toggle { border-color: #e2e8f0; }
   <div class="page-hdr-inner">
     <div class="page-bc"><a href="index.html">Inner Circle</a> / Konzept</div>
     <div class="page-title">Konzept &amp; <span>Anforderungen</span></div>
-    <div class="page-sub">Architektur, Abgrenzungen und alle Features mit Anforderungen — klicke auf einen Bereich, dann auf ein Modul</div>
+    <div class="page-sub">Scope, Rahmenbedingungen, Schnittstellen, Abnahmekriterien und alle Module mit Anforderungen</div>
   </div>
 </div>
 
 <div class="container">
 
-  <!-- 01 Architektur -->
+  <!-- 01 Scope -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">01</div>
-      <h2 class="section-title">Architektur-Übersicht</h2>
+      <h2 class="section-title">Scope</h2>
     </div>
-    <div class="arch">
-      <div class="arch-layer new">
-        <div class="arch-label new">Neu — Go 2 Flow baut</div>
-        <div class="arch-title">Inner Circle Club Layer</div>
-        <div class="arch-pills">
-          <span class="pill accent">Gated Entry</span>
-          <span class="pill accent">Invitation System</span>
-          <span class="pill accent">Member Management</span>
-          <span class="pill accent">Club Price Logic</span>
-          <span class="pill accent">Club Splash &amp; Login</span>
-        </div>
+    <div class="scope-grid">
+      <div class="scope-box in">
+        <div class="scope-label">Im Scope (MVP)</div>
+        <ul class="scope-list">
+          <li>Geschlossene Web-Applikation — Login-basierter Zugang</li>
+          <li>Einladungssystem (Admin-Einladungen + Member-Referrals)</li>
+          <li>Mitgliederverwaltung (Admin-Backend)</li>
+          <li>Produktkatalog aus bestehendem GM+CYS-Feed</li>
+          <li>Club-Rabattpreis direkt aus Feed (Sale-Preis)</li>
+          <li>Such- und Filterfunktionen</li>
+          <li>Vollständiger Checkout über bestehende IceHawk-Infrastruktur</li>
+          <li>Zahlungsabwicklung via Saferpay + PayPal (bestehend bei FG)</li>
+          <li>Bestellübergabe an FortuneGlobe (Order Management, Logistik, Versand)</li>
+          <li>Mobile-optimiert (browserbasiert, Desktop + Mobile)</li>
+          <li>Unterstützung bei Tests in Staging-Umgebung</li>
+        </ul>
       </div>
-      <div class="arch-arrow">↕<span class="arch-arrow-label">definierte Schnittstellen — keine Änderung an bestehender Business-Logik</span></div>
-      <div class="arch-layer existing">
-        <div class="arch-label existing">Bestehend — Fortuneglobe betreibt</div>
-        <div class="arch-title">Pierre Cardin Shop (IceHawk, CQRS, PHP 8)</div>
-        <div class="arch-pills">
-          <span class="pill">Produktkatalog</span>
-          <span class="pill">Warenkorb</span>
-          <span class="pill">Checkout</span>
-          <span class="pill">PayPal / Saferpay / Klarna / Amazon Pay</span>
-          <span class="pill">Alvine ERP</span>
-          <span class="pill">Redis / MySQL</span>
-          <span class="pill">Image CDN</span>
-        </div>
+      <div class="scope-box out">
+        <div class="scope-label">Nicht im Scope (MVP)</div>
+        <ul class="scope-list">
+          <li>Native Mobile Apps</li>
+          <li>Mitgliedschafts- oder Abonnementmodelle</li>
+          <li>Gutscheine &amp; Aktionen (Evaluierung IceHawk Marketing Tool — Phase 2)</li>
+          <li>Erweiterte Personalisierung</li>
+          <li>Analytics-Dashboard / BI-Reporting</li>
+          <li>Influencer- oder Kampagnenfunktionen</li>
+          <li>Deployment in Produktion (Fortune Solutions / FG)</li>
+        </ul>
       </div>
+    </div>
+    <div class="deploy-box">
+      Produktives Deployment und finale Systemintegration erfolgt durch Fortune Solutions / Fortuneglobe. Domains: inner-circle.com (Produktion) · stage.inner-circle.com (Staging/Test)
     </div>
   </div>
 
-  <!-- 02 Abgrenzungen -->
+  <!-- 02 Rahmenbedingungen -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">02</div>
-      <h2 class="section-title">Abgrenzungen — nicht im MVP</h2>
+      <h2 class="section-title">Rahmenbedingungen</h2>
     </div>
-    <div style="font-size:13px;color:var(--muted);padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:14px">
-      Deployment und finale Integration in die produktive Infrastruktur erfolgt durch Fortune Solutions / Fortuneglobe. go2flow liefert MVP-ready Code, unterstützt bei Tests in Entwicklungs-/Staging-Umgebungen und übergibt dann an FG.
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px">Production</div>
-        <div style="font-family:Monaco,monospace;font-size:14px;font-weight:600;color:var(--accent2)">inner-circle.com</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">Deployment durch Fortuneglobe</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-value gold">EUR 10.000</div>
+        <div class="metric-label">Budget (netto)</div>
       </div>
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px">Staging / Test</div>
-        <div style="font-family:Monaco,monospace;font-size:14px;font-weight:600;color:var(--accent2)">stage.inner-circle.com</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">Tests &amp; Abnahme durch go2flow + FG</div>
+      <div class="metric-card">
+        <div class="metric-value">4 Wochen</div>
+        <div class="metric-label">Laufzeit MVP</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">Fortuneglobe GmbH</div>
+        <div class="metric-label">Auftraggeber</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">Go 2 Flow AG</div>
+        <div class="metric-label">Umsetzer</div>
       </div>
     </div>
-    <div class="changes-table">
+    <div class="table-wrap">
       <table>
-        <tr><th>Nicht im MVP enthalten</th><th>Verantwortung / Hinweis</th></tr>
-        <tr><td class="td-name">Deployment &amp; Betrieb in produktiver FG-Infrastruktur</td><td class="td-desc">Fortune Solutions / Fortuneglobe</td></tr>
-        <tr><td class="td-name">Integration in interne Systeme ausserhalb definierter Schnittstellen</td><td class="td-desc">Fortuneglobe</td></tr>
-        <tr><td class="td-name">Anpassung bestehender Order-Management- oder Logistikprozesse</td><td class="td-desc">Fortuneglobe</td></tr>
-        <tr><td class="td-name">Native Mobile Apps</td><td class="td-desc">—</td></tr>
-        <tr><td class="td-name">Mitgliedschafts- oder Abonnementmodelle</td><td class="td-desc">Phase 2</td></tr>
-        <tr><td class="td-name">Influencer- oder Kampagnenfunktionen</td><td class="td-desc">Phase 2</td></tr>
-        <tr><td class="td-name">Erweiterte Personalisierung</td><td class="td-desc">Phase 2</td></tr>
-        <tr><td class="td-name">Erweiterte BI- oder Reportinglösungen</td><td class="td-desc">Phase 2</td></tr>
+        <thead>
+          <tr><th>Benutzergruppe</th><th>Aufgaben &amp; Berechtigungen</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Eingeladene Mitglieder</strong></td><td>Zugang zur Plattform, Produkte ansehen und bestellen, andere einladen</td></tr>
+          <tr><td><strong>Administratoren / Club-Manager</strong></td><td>Mitgliederverwaltung, Einladungssystem, Referral-Tracking</td></tr>
+          <tr><td><strong>Fortune Solutions</strong></td><td>Finale Systemintegration, produktives Deployment</td></tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-  <!-- 03 Funktionen & Anforderungen -->
+  <!-- 03 Schnittstellen & Daten -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">03</div>
+      <h2 class="section-title">Schnittstellen &amp; Daten</h2>
+    </div>
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <div class="feature-body">
+          <h3>Produktdatenfeed</h3>
+          <p>Fortuneglobe stellt einen kombinierten Feed aus Gute Marken (GM) und Connect Your Store (CYS) bereit. Der IC-Rabattpreis kommt direkt als Sale-Preis im Feed — keine eigene Preisberechnung nötig. Produktbilder als URL (Lieferweg Feed oder FTP wird von FG evaluiert).</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💳</div>
+        <div class="feature-body">
+          <h3>Checkout &amp; Zahlungen</h3>
+          <p>Vollständige Bestellabwicklung über bestehende IceHawk-Infrastruktur. Zahlungsabwicklung via Saferpay + PayPal. Alle Bestelldaten (Kundendaten, Lieferadresse, Produkte, Varianten, Preise, Zeitstempel) werden an das FG Order-Management-System übergeben.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-body">
+          <h3>CI &amp; Design</h3>
+          <img src="innercircle-logo.svg" alt="Inner Circle Logo" class="logo-preview">
+          <div class="xd-links">
+            <a href="https://xd.adobe.com/view/af6b2ffb-9cf9-4b79-95d7-630e1a97d324-fa38/specs/" target="_blank" rel="noopener">Adobe XD Desktop →</a>
+            <a href="https://xd.adobe.com/view/3c473cb9-4652-4903-a41c-611f3751cc6c-6914/specs/" target="_blank" rel="noopener">Adobe XD Mobile →</a>
+          </div>
+          <p>CI orientiert sich am Pierre Cardin Online Shop. INNER #727272 / CIRCLE schwarz. Logo als SVG + PNG + Favicon geliefert.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Abnahmekriterien -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Abnahmekriterien</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Kriterium</th><th>Bereich</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>AK-01</strong></td><td>Plattform als geschlossene Web-App funktionsfähig</td><td>Plattform</td></tr>
+          <tr><td><strong>AK-02</strong></td><td>Login, Produktanzeige und Club-Rabatt korrekt</td><td>Auth + Katalog</td></tr>
+          <tr><td><strong>AK-03</strong></td><td>Such- und Filterfunktionen funktionieren</td><td>Katalog</td></tr>
+          <tr><td><strong>AK-04</strong></td><td>Bestellung vollständig durchführbar inkl. Zahlung</td><td>Checkout</td></tr>
+          <tr><td><strong>AK-05</strong></td><td>Alle Bestelldaten erfolgreich an FG übergeben</td><td>Schnittstelle</td></tr>
+          <tr><td><strong>AK-06</strong></td><td>Mitglieder können andere Nutzer einladen</td><td>Einladungssystem</td></tr>
+          <tr><td><strong>AK-07</strong></td><td>Admin sieht Referral-Nachverfolgung im Backend</td><td>Admin</td></tr>
+          <tr><td><strong>AK-08</strong></td><td>Anzahl erlaubter Einladungen pro Nutzer im Backend anpassbar</td><td>Admin</td></tr>
+          <tr><td><strong>AK-09</strong></td><td>Zahlungen via Saferpay + PayPal funktionieren</td><td>Zahlung</td></tr>
+          <tr><td><strong>AK-10</strong></td><td>Plattform läuft stabil auf stage.inner-circle.com</td><td>Staging</td></tr>
+          <tr><td><strong>AK-11</strong></td><td>MVP-Version als Grundlage für Kaufverhaltensanalysen nutzbar</td><td>Analyse</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 05 Funktionen & Anforderungen -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
       <h2 class="section-title">Funktionen &amp; Anforderungen</h2>
     </div>
     <div class="legend-row">
@@ -385,7 +477,7 @@ function renderDomain(domain){
         '<div class="acc-domain-name">'+esc(domain.name)+'</div>'+
         '<div class="acc-domain-url">'+esc(domain.subtitle||'')+'</div>'+
       '</div>'+
-      '<div class="acc-meta"><span class="acc-count">'+features.length+' Module</span><span class="acc-chevron">▼</span></div>'+
+      '<div class="acc-meta"><span class="acc-count">'+features.length+' Module</span><span class="acc-chevron">&#9660;</span></div>'+
     '</button>'+
     '<div class="acc-body">'+bodyHtml+'</div>'+
     '</div>';
