@@ -154,7 +154,39 @@ body.light .acc-item[data-domain="checkin"] .acc-domain-icon { background: rgba(
   .acc-trigger { padding: 14px 16px; }
   .acc-body { padding: 0 16px 16px; }
 }
+/* Collab UI */
+.collab-section { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(13,148,136,0.2); }
+.collab-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.collab-status-label { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+.btn-confirm { font-size: 11px; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(13,148,136,0.35); background: rgba(13,148,136,0.08); color: var(--accent2); cursor: pointer; font-family: inherit; transition: all 0.15s; font-weight: 500; line-height: 1.4; }
+.btn-confirm:hover { background: rgba(13,148,136,0.18); }
+.btn-confirm.confirmed { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.4); color: var(--green); }
+.collab-updated { font-size: 10px; color: rgba(100,116,139,0.45); }
+.comments-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 7px; }
+.comment-item { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); border-radius: 7px; padding: 7px 10px; }
+.comment-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.comment-author { font-size: 10px; font-weight: 700; color: var(--accent2); }
+.comment-time { font-size: 10px; color: rgba(100,116,139,0.45); }
+.comment-text { font-size: 12px; color: rgba(226,232,240,0.7); line-height: 1.45; }
+.collab-loading { font-size: 11px; color: rgba(100,116,139,0.4); }
+.add-comment-row { display: flex; gap: 6px; }
+.comment-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 12px; color: var(--text); font-family: inherit; resize: none; min-height: 32px; }
+.comment-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.btn-send { padding: 5px 12px; background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.3); border-radius: 7px; color: var(--accent2); font-size: 12px; cursor: pointer; font-family: inherit; white-space: nowrap; font-weight: 500; }
+.btn-send:hover { background: rgba(13,148,136,0.22); }
+.feat-item.confirmed .feat-dot { background: var(--green); }
+.author-bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.18); border-radius: 10px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.author-bar-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.author-name-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; font-size: 12px; color: var(--text); font-family: inherit; width: 160px; }
+.author-name-input:focus { outline: none; border-color: rgba(13,148,136,0.4); }
+.author-bar-hint { font-size: 11px; color: rgba(100,116,139,0.5); }
+body.light .comment-item { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+body.light .comment-text { color: #475569; }
+body.light .comment-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .author-name-input { background: #f8fafc; border-color: #e2e8f0; }
+body.light .author-bar { background: rgba(13,148,136,0.04); border-color: rgba(13,148,136,0.15); }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
@@ -214,6 +246,12 @@ body.light .acc-item[data-domain="checkin"] .acc-domain-icon { background: rgba(
     <div class="legend-row">
       <span class="legend-item"><span class="legend-dash">—</span> Definiert</span>
       <span class="legend-item"><span class="legend-q">?</span> Noch offen / zu klären</span>
+    </div>
+
+    <div class="author-bar">
+      <span class="author-bar-label">Dein Name:</span>
+      <input type="text" class="author-name-input" id="author-input" placeholder="z.B. Daniel">
+      <span class="author-bar-hint">Wird bei Status-Änderungen und Kommentaren gespeichert</span>
     </div>
 
     <div class="accordion">
@@ -968,28 +1006,178 @@ body.light .acc-item[data-domain="checkin"] .acc-domain-icon { background: rgba(
 </div>
 
 <script>
+// ─── Theme ────────────────────────────────────────────────────
 function toggleTheme(){
   var l=document.body.classList.toggle('light');
   localStorage.setItem('theme',l?'light':'dark');
   var b=document.getElementById('theme-toggle-btn');
   if(b)b.textContent=l?'🌙':'☀️';
 }
+
+// ─── Accordion ───────────────────────────────────────────────
+function toggleAcc(id){
+  document.getElementById('acc-'+id).classList.toggle('open');
+}
+
+function toggleFeat(el){
+  el.classList.toggle('open');
+  if(el.classList.contains('open')) injectCollabUI(el);
+}
+
+// ─── Supabase ────────────────────────────────────────────────
+var _sb = supabase.createClient(
+  'https://telbxreqdvgidknelhwv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbGJ4cmVxZHZnaWRrbmVsaHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTg3ODMsImV4cCI6MjA4OTg3NDc4M30.Tio8pDdDPuawqGwJtHV6234WJUYuFn2y1RVDOM0Nf64'
+);
+var PROJECT = 'd2c-summit';
+
+// ─── Author ──────────────────────────────────────────────────
+function getAuthor(){ return localStorage.getItem('collab-author')||''; }
+function saveAuthor(v){ localStorage.setItem('collab-author',v.trim()); }
+
+// ─── Feature IDs ─────────────────────────────────────────────
+function slugify(t){
+  return t.trim().toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function assignFids(){
+  document.querySelectorAll('.acc-item').forEach(function(acc){
+    var domain=acc.dataset.domain||'x';
+    acc.querySelectorAll('.feat-item').forEach(function(item){
+      var n=item.querySelector('.feat-name');
+      if(n) item.dataset.fid=domain+'-'+slugify(n.textContent);
+    });
+  });
+}
+
+// ─── Status Cache & Apply ─────────────────────────────────────
+var _cache={};
+function applyStatus(fid,confirmed,updatedBy){
+  _cache[fid]={confirmed:!!confirmed,updatedBy:updatedBy||''};
+  var item=document.querySelector('[data-fid="'+fid+'"]');
+  if(!item) return;
+  item.classList.toggle('confirmed',!!confirmed);
+  var btn=item.querySelector('.btn-confirm');
+  if(btn){ btn.textContent=confirmed?'✓ Bestätigt':'Bestätigen'; btn.classList.toggle('confirmed',!!confirmed); }
+  var upd=item.querySelector('.collab-updated');
+  if(upd) upd.textContent=updatedBy?'von '+updatedBy:'';
+}
+async function loadStatuses(){
+  var res=await _sb.from('feature_status').select('feature_id,confirmed,updated_by').eq('project_id',PROJECT);
+  if(res.data) res.data.forEach(function(r){ applyStatus(r.feature_id,r.confirmed,r.updated_by); });
+}
+
+// ─── Collab UI Injection ──────────────────────────────────────
+function injectCollabUI(item){
+  if(item.querySelector('.collab-section')) return;
+  var fid=item.dataset.fid||'';
+  var detail=item.querySelector('.feat-detail');
+  if(!detail) return;
+  var s=_cache[fid]||{};
+  var confirmed=s.confirmed||false;
+  var updatedBy=s.updatedBy||'';
+  detail.insertAdjacentHTML('beforeend',
+    '<div class="collab-section" onclick="event.stopPropagation()">'+
+      '<div class="collab-status-row">'+
+        '<span class="collab-status-label">Status:</span>'+
+        '<button class="btn-confirm'+(confirmed?' confirmed':'')+'" onclick="toggleStatus(\''+fid+'\')">'+(confirmed?'✓ Bestätigt':'Bestätigen')+'</button>'+
+        '<span class="collab-updated">'+(updatedBy?'von '+updatedBy:'')+'</span>'+
+      '</div>'+
+      '<div class="comments-list" id="cmts-'+fid+'"><span class="collab-loading">…</span></div>'+
+      '<div class="add-comment-row">'+
+        '<textarea class="comment-input" id="inp-'+fid+'" placeholder="Kommentar… (Enter zum Senden)" rows="1" onclick="event.stopPropagation()" onkeydown="handleCommentKey(event,\''+fid+'\')"></textarea>'+
+        '<button class="btn-send" onclick="addComment(\''+fid+'\')">Senden</button>'+
+      '</div>'+
+    '</div>'
+  );
+  loadComments(fid);
+}
+
+// ─── Comments ─────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(iso){
+  var d=new Date(iso);
+  return d.toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit'})+' '+
+    d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});
+}
+function commentHtml(c){
+  return '<div class="comment-item">'+
+    '<div class="comment-meta"><span class="comment-author">'+esc(c.author)+'</span>'+
+    '<span class="comment-time">'+fmtDate(c.created_at)+'</span></div>'+
+    '<div class="comment-text">'+esc(c.content)+'</div></div>';
+}
+async function loadComments(fid){
+  var el=document.getElementById('cmts-'+fid);
+  if(!el) return;
+  var res=await _sb.from('feature_comments').select('author,content,created_at')
+    .eq('feature_id',fid).eq('project_id',PROJECT).order('created_at',{ascending:true});
+  el.innerHTML=(res.data&&res.data.length)?res.data.map(commentHtml).join(''):'';
+}
+
+// ─── Actions ──────────────────────────────────────────────────
+async function toggleStatus(fid){
+  var author=getAuthor();
+  if(!author){ document.getElementById('author-input').focus(); alert('Bitte zuerst deinen Namen eingeben (oben).'); return; }
+  var newVal=!(_cache[fid]||{}).confirmed;
+  applyStatus(fid,newVal,author);
+  await _sb.from('feature_status').upsert(
+    {feature_id:fid,project_id:PROJECT,confirmed:newVal,updated_at:new Date().toISOString(),updated_by:author},
+    {onConflict:'feature_id'}
+  );
+}
+async function addComment(fid){
+  var author=getAuthor();
+  if(!author){ document.getElementById('author-input').focus(); alert('Bitte zuerst deinen Namen eingeben (oben).'); return; }
+  var inp=document.getElementById('inp-'+fid);
+  if(!inp) return;
+  var content=inp.value.trim();
+  if(!content) return;
+  inp.value='';
+  var res=await _sb.from('feature_comments')
+    .insert({feature_id:fid,project_id:PROJECT,author:author,content:content})
+    .select('author,content,created_at');
+  if(res.data&&res.data[0]){
+    var el=document.getElementById('cmts-'+fid);
+    if(el) el.insertAdjacentHTML('beforeend',commentHtml(res.data[0]));
+  }
+}
+function handleCommentKey(e,fid){
+  e.stopPropagation();
+  if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); addComment(fid); }
+}
+
+// ─── Real-time ────────────────────────────────────────────────
+function setupRealtime(){
+  _sb.channel('konzept-'+PROJECT)
+    .on('postgres_changes',{event:'*',schema:'public',table:'feature_status'},function(p){
+      var r=p.new||{};
+      if(r.project_id===PROJECT) applyStatus(r.feature_id,r.confirmed,r.updated_by);
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'feature_comments'},function(p){
+      var r=p.new||{};
+      if(r.project_id!==PROJECT) return;
+      var el=document.getElementById('cmts-'+r.feature_id);
+      if(el) el.insertAdjacentHTML('beforeend',commentHtml(r));
+    })
+    .subscribe();
+}
+
+// ─── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',function(){
   var b=document.getElementById('theme-toggle-btn');
-  if(b&&document.body.classList.contains('light'))b.textContent='🌙';
-  // Open all domain accordions by default
-  document.querySelectorAll('.acc-item').forEach(function(el){
-    el.classList.add('open');
-  });
+  if(b&&document.body.classList.contains('light')) b.textContent='🌙';
+  document.querySelectorAll('.acc-item').forEach(function(el){ el.classList.add('open'); });
+  assignFids();
+  loadStatuses();
+  setupRealtime();
+  var ai=document.getElementById('author-input');
+  if(ai){
+    ai.value=getAuthor();
+    ai.addEventListener('input',function(){ saveAuthor(this.value); });
+    ai.addEventListener('click',function(e){ e.stopPropagation(); });
+  }
 });
-
-function toggleAcc(id) {
-  document.getElementById('acc-' + id).classList.toggle('open');
-}
-
-function toggleFeat(el) {
-  el.classList.toggle('open');
-}
 </script>
 </body>
 </html>
