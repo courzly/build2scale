@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build 2 Scale — Projekt Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --darker: #080a0f; --dark: #0f1117; --card: #161b27; --card2: #1c2333;
+  --accent: #6366f1; --accent2: #818cf8; --green: #10b981; --red: #ef4444;
+  --gold: #f59e0b; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--darker); color: var(--text); min-height: 100vh; }
+
+/* ─── Nav ─── */
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; height: 52px; gap: 12px; backdrop-filter: blur(12px); }
+.nav-logo { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-badge { font-size: 11px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: var(--accent2); padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+
+/* ─── Auth gate ─── */
+#auth-gate { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 52px); }
+.auth-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 380px; text-align: center; }
+.auth-icon { font-size: 40px; margin-bottom: 16px; }
+.auth-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.auth-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.auth-input { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; text-align: center; letter-spacing: 0.1em; }
+.auth-input:focus { border-color: rgba(99,102,241,0.5); }
+.auth-btn { margin-top: 12px; width: 100%; padding: 10px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 10px; color: var(--accent2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.auth-btn:hover { background: rgba(99,102,241,0.25); }
+.auth-error { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+
+/* ─── App ─── */
+#app { display: none; max-width: 820px; margin: 0 auto; padding: 40px 40px 80px; }
+
+/* Mode switcher */
+.mode-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+.mode-tab { flex: 1; padding: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.15s; }
+.mode-tab.active { border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.08); }
+.mode-tab-icon { font-size: 22px; margin-bottom: 6px; }
+.mode-tab-title { font-size: 14px; font-weight: 700; }
+.mode-tab-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Step indicator */
+.steps { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
+.step { display: flex; align-items: center; gap: 8px; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--muted); flex-shrink: 0; transition: all 0.2s; }
+.step.active .step-num { border-color: var(--accent); color: var(--accent2); background: rgba(99,102,241,0.1); }
+.step.done .step-num { border-color: var(--green); color: var(--green); background: rgba(16,185,129,0.1); }
+.step-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.step.active .step-label { color: var(--text); }
+.step-line { flex: 1; height: 1px; background: var(--border); margin: 0 8px; }
+
+/* Card */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
+.card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.card-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+/* Form elements */
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.form-input, .form-textarea, .form-select { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--text); font-family: inherit; outline: none; width: 100%; }
+.form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.form-textarea.tall { min-height: 120px; }
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: rgba(99,102,241,0.5); }
+.form-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Color + icon row */
+.color-icon-row { display: flex; gap: 12px; align-items: flex-end; }
+.color-preview { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0; cursor: pointer; }
+.slug-preview { font-size: 11px; color: rgba(99,102,241,0.7); font-family: monospace; margin-top: 4px; }
+
+/* Discovery questions */
+.q-block { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.q-label { font-size: 12px; font-weight: 700; color: var(--accent2); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.q-hint { font-size: 11px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+
+/* AI button */
+.ai-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(129,140,248,0.1)); border: 1px solid rgba(99,102,241,0.35); border-radius: 12px; color: var(--accent2); font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
+.ai-btn:hover:not(:disabled) { background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(129,140,248,0.18)); border-color: rgba(99,102,241,0.5); }
+.ai-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ai-btn .spinner { display: none; width: 14px; height: 14px; border: 2px solid rgba(129,140,248,0.3); border-top-color: var(--accent2); border-radius: 50%; animation: spin 0.7s linear infinite; }
+.ai-btn.loading .spinner { display: block; }
+.ai-btn.loading .btn-text { opacity: 0.7; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Review fields */
+.review-grid { display: grid; gap: 12px; }
+.review-field { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.review-field-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent2); margin-bottom: 6px; }
+
+/* List editor */
+.list-editor { display: flex; flex-direction: column; gap: 5px; }
+.list-item-row { display: flex; gap: 6px; align-items: flex-start; }
+.list-item-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 12px; color: var(--text); font-family: inherit; outline: none; }
+.list-item-input:focus { border-color: rgba(99,102,241,0.4); }
+.list-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px; line-height: 1; flex-shrink: 0; }
+.list-del:hover { color: var(--red); }
+.list-add { font-size: 12px; color: var(--accent2); background: none; border: 1px dashed rgba(99,102,241,0.3); border-radius: 7px; padding: 6px 12px; cursor: pointer; font-family: inherit; width: 100%; margin-top: 4px; }
+.list-add:hover { background: rgba(99,102,241,0.08); }
+
+/* KPI table editor */
+.kpi-editor { display: flex; flex-direction: column; gap: 6px; }
+.kpi-row { display: grid; grid-template-columns: 1.5fr 2fr 1.5fr auto; gap: 6px; align-items: center; }
+.kpi-head { display: grid; grid-template-columns: 1.5fr 2fr 1.5fr auto; gap: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: 0 4px; }
+.kpi-input { background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 12px; color: var(--text); font-family: inherit; outline: none; width: 100%; }
+.kpi-input:focus { border-color: rgba(99,102,241,0.4); }
+
+/* Features editor */
+.feat-editor { display: flex; flex-direction: column; gap: 10px; }
+.feat-block { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.feat-block-header { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.feat-icon-input { width: 48px; background: var(--card2); border: 1px solid var(--border); border-radius: 7px; padding: 6px; font-size: 18px; text-align: center; outline: none; }
+.feat-name-input { flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-weight: 600; color: var(--text); font-family: inherit; outline: none; }
+.feat-name-input:focus, .feat-icon-input:focus { border-color: rgba(99,102,241,0.4); }
+.feat-reqs { display: flex; flex-direction: column; gap: 4px; padding-left: 8px; border-left: 2px solid rgba(99,102,241,0.15); margin-left: 4px; }
+.feat-req-input { background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 5px 9px; font-size: 12px; color: var(--text); font-family: inherit; outline: none; width: 100%; }
+.feat-req-input:focus { border-color: rgba(99,102,241,0.4); }
+.feat-add-btn { font-size: 11px; color: var(--accent2); background: none; border: 1px dashed rgba(99,102,241,0.25); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-family: inherit; margin-top: 2px; }
+.feat-add-btn:hover { background: rgba(99,102,241,0.06); }
+.add-feat-btn { font-size: 13px; color: var(--accent2); background: none; border: 1px dashed rgba(99,102,241,0.3); border-radius: 10px; padding: 10px; cursor: pointer; font-family: inherit; text-align: center; }
+.add-feat-btn:hover { background: rgba(99,102,241,0.06); }
+
+/* Action buttons */
+.btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+.btn-back { padding: 10px 20px; background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-back:hover { color: var(--text); border-color: rgba(99,102,241,0.3); }
+.btn-next { padding: 10px 24px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.35); border-radius: 10px; color: var(--accent2); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.btn-next:hover { background: rgba(99,102,241,0.25); }
+.btn-create { padding: 12px 28px; background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(129,140,248,0.15)); border: 1px solid rgba(99,102,241,0.4); border-radius: 10px; color: var(--accent2); font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 8px; }
+.btn-create:hover:not(:disabled) { background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(129,140,248,0.22)); }
+.btn-create:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-create .spinner { display: none; width: 14px; height: 14px; border: 2px solid rgba(129,140,248,0.3); border-top-color: var(--accent2); border-radius: 50%; animation: spin 0.7s linear infinite; }
+.btn-create.loading .spinner { display: block; }
+
+/* Success state */
+.success-box { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); border-radius: 16px; padding: 32px; text-align: center; }
+.success-icon { font-size: 48px; margin-bottom: 12px; }
+.success-title { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+.success-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+.success-link { display: inline-flex; align-items: center; gap: 8px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); border-radius: 10px; padding: 10px 20px; color: var(--green); text-decoration: none; font-weight: 600; font-size: 13px; }
+.success-link:hover { background: rgba(16,185,129,0.2); }
+.success-reset { margin-top: 14px; background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; font-family: inherit; }
+.success-reset:hover { color: var(--text); }
+
+/* Update mode */
+.proj-select-row { display: flex; gap: 10px; align-items: flex-end; }
+.proj-select-row .form-select { flex: 1; }
+.diff-preview { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.diff-item { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.diff-field { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent2); margin-bottom: 6px; }
+.diff-old { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-bottom: 4px; }
+.diff-new { font-size: 12px; color: var(--green); }
+.diff-summary { font-size: 13px; color: var(--text); background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); border-radius: 8px; padding: 10px 14px; margin-bottom: 10px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  #app { padding: 20px 16px 60px; }
+  .nav { padding: 0 16px; }
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+  .kpi-row, .kpi-head { grid-template-columns: 1fr 1fr auto; }
+  .kpi-row .kpi-input:nth-child(2), .kpi-head span:nth-child(2) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-dot"></div>
+  <div class="nav-logo">Build 2 Scale</div>
+  <span class="nav-badge">Admin</span>
+</nav>
+
+<!-- Auth Gate -->
+<div id="auth-gate">
+  <div class="auth-box">
+    <div class="auth-icon">🔐</div>
+    <div class="auth-title">Admin-Zugang</div>
+    <div class="auth-sub">Bitte gib den Admin-Key ein um fortzufahren.</div>
+    <input class="auth-input" id="key-input" type="password" placeholder="Admin-Key" onkeydown="if(event.key==='Enter')checkAuth()">
+    <button class="auth-btn" onclick="checkAuth()">Weiter →</button>
+    <div class="auth-error" id="auth-error">Falscher Key. Bitte erneut versuchen.</div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+
+  <!-- Mode Tabs -->
+  <div class="mode-tabs">
+    <div class="mode-tab active" id="tab-new" onclick="setMode('new')">
+      <div class="mode-tab-icon">✨</div>
+      <div class="mode-tab-title">Neues Projekt</div>
+      <div class="mode-tab-sub">MVP Blueprint anlegen</div>
+    </div>
+    <div class="mode-tab" id="tab-update" onclick="setMode('update')">
+      <div class="mode-tab-icon">🔄</div>
+      <div class="mode-tab-title">Projekt updaten</div>
+      <div class="mode-tab-sub">Neue Infos einarbeiten</div>
+    </div>
+  </div>
+
+  <!-- ══ MODUS A: NEUES PROJEKT ══ -->
+  <div id="mode-new">
+
+    <!-- Step indicator -->
+    <div class="steps" id="steps">
+      <div class="step active" id="s1"><div class="step-num">1</div><div class="step-label">Projekt-Info</div></div>
+      <div class="step-line"></div>
+      <div class="step" id="s2"><div class="step-num">2</div><div class="step-label">Discovery</div></div>
+      <div class="step-line"></div>
+      <div class="step" id="s3"><div class="step-num">3</div><div class="step-label">Review</div></div>
+      <div class="step-line"></div>
+      <div class="step" id="s4"><div class="step-num">4</div><div class="step-label">Erstellen</div></div>
+    </div>
+
+    <!-- STEP 1: Meta -->
+    <div id="step-1">
+      <div class="card">
+        <div class="card-title">Projekt-Info</div>
+        <div class="card-sub">Grunddaten zum Projekt — werden im Blueprint-Header angezeigt.</div>
+
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label class="form-label">Projektname *</label>
+            <input class="form-input" id="p-name" placeholder="z.B. AMAG Konfigurator" oninput="updateSlug()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kunde / Auftraggeber *</label>
+            <input class="form-input" id="p-client" placeholder="z.B. AMAG AG">
+          </div>
+        </div>
+
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label class="form-label">Laufzeit</label>
+            <input class="form-input" id="p-laufzeit" placeholder="z.B. 12 Wo.">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget (Fixpreis)</label>
+            <input class="form-input" id="p-budget" placeholder="z.B. CHF 12'000">
+          </div>
+        </div>
+
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label class="form-label">Projekt-Icon (Emoji)</label>
+            <input class="form-input" id="p-icon" placeholder="📦" maxlength="4" style="font-size:20px;text-align:center;">
+          </div>
+          <div class="form-group" style="grid-column:span 2;">
+            <label class="form-label">Farbe</label>
+            <div class="color-icon-row">
+              <input type="color" class="color-preview" id="p-color" value="#6366f1" title="Farbe wählen">
+              <input class="form-input" id="p-color-hex" placeholder="#6366f1" oninput="syncColorInput()" value="#6366f1">
+            </div>
+            <div class="slug-preview" id="slug-preview">mvp/neues-projekt/</div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-next" onclick="goStep(2)">Weiter: Discovery →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Discovery -->
+    <div id="step-2" style="display:none;">
+      <div class="card">
+        <div class="card-title">Discovery-Fragebogen</div>
+        <div class="card-sub">Diese Fragen stellen wir beim Kunden-Call. Fülle aus, was du weißt — die KI strukturiert den Rest.</div>
+
+        <div class="q-block">
+          <div class="q-label">🔴 Problemraum</div>
+          <div class="q-hint">Was ist das konkrete Problem / der Schmerzpunkt? Was passiert, wenn nichts getan wird?</div>
+          <textarea class="form-textarea tall" id="q-problem" placeholder="z.B. AMAG verwaltet Events über mehrere Tools — zu viel Aufwand, fehleranfällig, keine einheitliche Kundenkommunikation..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">📋 Ist-Zustand</div>
+          <div class="q-hint">Wie wird das Problem heute gelöst? Was sind konkrete Workarounds oder fehlende Funktionen?</div>
+          <textarea class="form-textarea" id="q-heute" placeholder="z.B. Mitarbeitende bauen Excel-Listen, versenden Einladungen manuell per E-Mail, kein Tracking..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">👤 Zielgruppe</div>
+          <div class="q-hint">Wer nutzt das MVP? (Rolle, Unternehmen, Anzahl Nutzer)</div>
+          <textarea class="form-textarea" id="q-zielgruppe" placeholder="z.B. AMAG-Mitarbeitende pro Filiale (Event-Koordination, ca. 50 Filialen)..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">🎯 Nutzerziel</div>
+          <div class="q-hint">Was wollen diese Nutzer erreichen? Was ist der Job-to-be-done?</div>
+          <textarea class="form-textarea" id="q-nutzerziel" placeholder="z.B. Events einfach erfassen, Teilnehmer verwalten und automatisch bestätigen..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">💡 Hypothese</div>
+          <div class="q-hint">Was glauben wir: Wenn wir X bauen, passiert Y — warum?</div>
+          <textarea class="form-textarea" id="q-hypothese" placeholder="z.B. Wenn wir eine branded Landingpage mit Gewinnspiel bauen, steigt die Anmeldequote um mindestens 2×..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">✅ Minimal Scope</div>
+          <div class="q-hint">Was sind die 3–5 wichtigsten Funktionen für den Test? Was reicht, um die Hypothese zu validieren?</div>
+          <textarea class="form-textarea tall" id="q-scope" placeholder="z.B.&#10;1. Event-Landingpage mit Gewinnspiel&#10;2. Anmeldeformular mit DSG-Checkbox&#10;3. Admin-Backend: Events erstellen, Teilnehmerliste, CSV-Export&#10;4. Bestätigungs-Mail"></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">🚫 Nicht-Scope</div>
+          <div class="q-hint">Was bauen wir bewusst NICHT in Phase 1?</div>
+          <textarea class="form-textarea" id="q-nicht-scope" placeholder="z.B. Kein BSI-Connector, kein Rollensystem, keine automatisierten Einladungs-Mails..."></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">📊 Erfolgsmessung</div>
+          <div class="q-hint">Woran erkennen wir in 12 Wochen: Erfolg / Misserfolg? Konkrete Zahlen / KPIs wenn bekannt.</div>
+          <textarea class="form-textarea" id="q-kpis" placeholder="z.B.&#10;- Anmeldequote ≥ 2× bisherige Quote&#10;- Zeitaufwand für Mitarbeitende ≥ 50% reduziert&#10;- Bestätigungs-Mail Zustellrate ≥ 95%"></textarea>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">❓ Offene Punkte</div>
+          <div class="q-hint">Was ist noch unklar? Offene Fragen oder Unsicherheiten?</div>
+          <textarea class="form-textarea" id="q-offen" placeholder="z.B. BSI-Anbindung für Phase 2 noch zu klären, rechtliche Absicherung Gewinnspiel offen..."></textarea>
+        </div>
+
+        <button class="ai-btn" id="ai-btn" onclick="runAI()">
+          <div class="spinner"></div>
+          <span class="btn-text">✨ Mit KI strukturieren</span>
+        </button>
+        <div id="ai-error" style="font-size:12px;color:var(--red);margin-top:8px;display:none;"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(1)">← Zurück</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Review -->
+    <div id="step-3" style="display:none;">
+      <div class="card">
+        <div class="card-title">Review — KI-Output prüfen & anpassen</div>
+        <div class="card-sub">Alle Felder sind editierbar. Passe an, was nicht stimmt.</div>
+
+        <div style="margin-bottom:16px;">
+          <div class="form-label" style="margin-bottom:6px;">Problem</div>
+          <textarea class="form-textarea" id="r-problem"></textarea>
+        </div>
+        <div class="form-row cols-2" style="margin-bottom:16px;">
+          <div>
+            <div class="form-label" style="margin-bottom:6px;">Zielgruppe</div>
+            <textarea class="form-textarea" id="r-zielgruppe"></textarea>
+          </div>
+          <div>
+            <div class="form-label" style="margin-bottom:6px;">Hypothese</div>
+            <textarea class="form-textarea" id="r-hypothese"></textarea>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div class="form-label" style="margin-bottom:6px;">Minimal Scope (Scope-Punkte)</div>
+          <div class="list-editor" id="r-scope-list"></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div class="form-label" style="margin-bottom:6px;">Nicht-Scope</div>
+          <div class="list-editor" id="r-nicht-scope-list"></div>
+        </div>
+
+        <div class="form-row cols-2" style="margin-bottom:16px;">
+          <div>
+            <div class="form-label" style="margin-bottom:6px;">Heute (Probleme — rot)</div>
+            <div class="list-editor" id="r-heute-list"></div>
+          </div>
+          <div>
+            <div class="form-label" style="margin-bottom:6px;">Mit MVP (Lösungen — grün)</div>
+            <div class="list-editor" id="r-mit-mvp-list"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div class="form-label" style="margin-bottom:8px;">KPIs / Erfolgsmessung</div>
+          <div class="kpi-head"><span>KPI</span><span>Messung</span><span>Ziel</span><span></span></div>
+          <div class="kpi-editor" id="r-kpi-editor"></div>
+          <button class="list-add" onclick="addKpiRow()" style="margin-top:6px;">+ KPI hinzufügen</button>
+        </div>
+
+        <div>
+          <div class="form-label" style="margin-bottom:8px;">Features &amp; Anforderungen</div>
+          <div class="feat-editor" id="r-feat-editor"></div>
+          <button class="add-feat-btn" onclick="addFeature()">+ Feature hinzufügen</button>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)">← Zurück</button>
+        <button class="btn-next" onclick="goStep(4)">Weiter: Erstellen →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Erstellen -->
+    <div id="step-4" style="display:none;">
+      <div class="card" id="create-confirm">
+        <div class="card-title">Alles bereit?</div>
+        <div class="card-sub">Folgendes wird jetzt erstellt:</div>
+        <div id="create-summary" style="font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.8;"></div>
+      </div>
+      <div id="create-success" class="success-box" style="display:none;">
+        <div class="success-icon">🚀</div>
+        <div class="success-title">Projekt erstellt!</div>
+        <div class="success-sub">Blueprint ist live auf GitHub Pages (Aktivierung in ~1 Minute).</div>
+        <a href="#" id="success-link" class="success-link" target="_blank">🔗 Blueprint öffnen →</a>
+        <br>
+        <button class="success-reset" onclick="resetWizard()">Neues Projekt anlegen</button>
+      </div>
+      <div class="btn-row" id="create-btn-row">
+        <button class="btn-back" onclick="goStep(3)">← Zurück</button>
+        <button class="btn-create" id="create-btn" onclick="createProject()">
+          <div class="spinner"></div>
+          <span>🚀 Projekt erstellen</span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /mode-new -->
+
+  <!-- ══ MODUS B: UPDATE ══ -->
+  <div id="mode-update" style="display:none;">
+    <div class="card">
+      <div class="card-title">Bestehendes Projekt updaten</div>
+      <div class="card-sub">Wähle ein Projekt und gib neue Informationen ein — die KI schlägt vor, was sich ändern soll.</div>
+
+      <div class="proj-select-row" style="margin-bottom:16px;">
+        <div class="form-group" style="flex:1;">
+          <label class="form-label">Projekt auswählen</label>
+          <select class="form-select" id="u-project">
+            <option value="">Projekte werden geladen...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Neue Informationen</label>
+        <div class="form-hint" style="margin-bottom:6px;">Was hat sich geändert? Neue Infos vom Kunden-Call, geänderte KPIs, neue Features, Feedback...</div>
+        <textarea class="form-textarea tall" id="u-update-text" placeholder="z.B. Kunde hat gesagt, dass der KPI für die Anmeldequote auf 3× angehoben werden soll. Ausserdem kommt ein neues Feature: QR-Code für Event-Check-in..."></textarea>
+      </div>
+
+      <button class="ai-btn" id="u-ai-btn" onclick="runUpdateAI()">
+        <div class="spinner"></div>
+        <span class="btn-text">✨ KI-Analyse starten</span>
+      </button>
+      <div id="u-ai-error" style="font-size:12px;color:var(--red);margin-top:8px;display:none;"></div>
+    </div>
+
+    <div id="u-diff-section" style="display:none;">
+      <div class="card">
+        <div class="card-title">KI-Vorschlag — Was sich ändert</div>
+        <div class="card-sub">Prüfe die vorgeschlagenen Änderungen und bestätige.</div>
+        <div class="diff-summary" id="u-diff-summary"></div>
+        <div class="diff-preview" id="u-diff-preview"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-create" id="u-save-btn" onclick="saveUpdate()">
+          <div class="spinner"></div>
+          <span>💾 Änderungen speichern</span>
+        </button>
+      </div>
+      <div id="u-success" class="success-box" style="display:none;margin-top:16px;">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Gespeichert!</div>
+        <div class="success-sub">Blueprint wurde aktualisiert und auf GitHub gepusht.</div>
+      </div>
+    </div>
+  </div><!-- /mode-update -->
+
+</div><!-- /app -->
+
+<script>
+// ─── Config ────────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://telbxreqdvgidknelhwv.supabase.co';
+const SUPABASE_FN = SUPABASE_URL + '/functions/v1';
+const PROJECTS_JSON = '../projects.json';
+
+let adminKey = '';
+let aiResult = null;
+let updateDiff = null;
+let updateCurrent = null;
+
+// ─── Auth ──────────────────────────────────────────────────────────────────────
+function checkAuth() {
+  const val = document.getElementById('key-input').value.trim();
+  // Store locally and verify via first API call (Edge Function will reject if wrong)
+  adminKey = val;
+  localStorage.setItem('b2s_admin_key', val);
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadProjects();
+}
+
+// Pre-fill from localStorage
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('b2s_admin_key');
+  if (saved) {
+    document.getElementById('key-input').value = saved;
+  }
+  // Color picker sync
+  document.getElementById('p-color').addEventListener('input', function() {
+    document.getElementById('p-color-hex').value = this.value;
+  });
+});
+
+// ─── Mode ──────────────────────────────────────────────────────────────────────
+function setMode(mode) {
+  document.getElementById('mode-new').style.display = mode === 'new' ? 'block' : 'none';
+  document.getElementById('mode-update').style.display = mode === 'update' ? 'block' : 'none';
+  document.getElementById('tab-new').classList.toggle('active', mode === 'new');
+  document.getElementById('tab-update').classList.toggle('active', mode === 'update');
+}
+
+// ─── Step navigation ──────────────────────────────────────────────────────────
+function goStep(n) {
+  if (n === 2 && !validateStep1()) return;
+  if (n === 4) buildCreateSummary();
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step-' + i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+    const s = document.getElementById('s' + i);
+    if (s) {
+      s.classList.remove('active', 'done');
+      if (i < n) s.classList.add('done');
+      if (i === n) s.classList.add('active');
+    }
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep1() {
+  const name = document.getElementById('p-name').value.trim();
+  const client = document.getElementById('p-client').value.trim();
+  if (!name || !client) { alert('Bitte Projektname und Kunde ausfüllen.'); return false; }
+  return true;
+}
+
+// ─── Slug + Color ─────────────────────────────────────────────────────────────
+function updateSlug() {
+  const name = document.getElementById('p-name').value.trim();
+  const slug = name.toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  document.getElementById('slug-preview').textContent = 'mvp/' + (slug || 'neues-projekt') + '/';
+}
+
+function syncColorInput() {
+  const hex = document.getElementById('p-color-hex').value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(hex)) document.getElementById('p-color').value = hex;
+}
+
+function getSlug() {
+  const name = document.getElementById('p-name').value.trim();
+  return name.toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+// ─── AI Structure ─────────────────────────────────────────────────────────────
+async function runAI() {
+  const btn = document.getElementById('ai-btn');
+  const errEl = document.getElementById('ai-error');
+  errEl.style.display = 'none';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  btn.querySelector('.btn-text').textContent = 'KI analysiert...';
+
+  try {
+    const res = await fetch(SUPABASE_FN + '/ai-structure', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body: JSON.stringify({
+        meta: {
+          name: document.getElementById('p-name').value,
+          client: document.getElementById('p-client').value,
+          laufzeit: document.getElementById('p-laufzeit').value,
+          budget: document.getElementById('p-budget').value,
+        },
+        answers: {
+          problem: document.getElementById('q-problem').value,
+          heute: document.getElementById('q-heute').value,
+          zielgruppe: document.getElementById('q-zielgruppe').value,
+          nutzerziel: document.getElementById('q-nutzerziel').value,
+          hypothese: document.getElementById('q-hypothese').value,
+          scope: document.getElementById('q-scope').value,
+          nicht_scope: document.getElementById('q-nicht-scope').value,
+          kpis: document.getElementById('q-kpis').value,
+          offen: document.getElementById('q-offen').value,
+        }
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Unbekannter Fehler');
+    aiResult = data;
+    populateReview(data);
+    goStep(3);
+  } catch (err) {
+    errEl.textContent = 'Fehler: ' + err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    btn.querySelector('.btn-text').textContent = '✨ Mit KI strukturieren';
+  }
+}
+
+// ─── Review population ────────────────────────────────────────────────────────
+function populateReview(d) {
+  document.getElementById('r-problem').value = d.problem || '';
+  document.getElementById('r-zielgruppe').value = d.zielgruppe || '';
+  document.getElementById('r-hypothese').value = d.hypothese || '';
+  renderListEditor('r-scope-list', d.scope || []);
+  renderListEditor('r-nicht-scope-list', d.nicht_scope || []);
+  renderListEditor('r-heute-list', d.heute || []);
+  renderListEditor('r-mit-mvp-list', d.mit_mvp || []);
+  renderKpiEditor(d.kpis || []);
+  renderFeatEditor(d.features || []);
+}
+
+function renderListEditor(containerId, items) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  items.forEach((item, i) => addListItem(containerId, item));
+  const addBtn = document.createElement('button');
+  addBtn.className = 'list-add';
+  addBtn.textContent = '+ Hinzufügen';
+  addBtn.onclick = () => addListItem(containerId, '');
+  el.appendChild(addBtn);
+}
+
+function addListItem(containerId, value) {
+  const el = document.getElementById(containerId);
+  const addBtn = el.querySelector('.list-add');
+  const row = document.createElement('div');
+  row.className = 'list-item-row';
+  const input = document.createElement('input');
+  input.className = 'list-item-input';
+  input.value = value;
+  const del = document.createElement('button');
+  del.className = 'list-del';
+  del.textContent = '×';
+  del.onclick = () => row.remove();
+  row.appendChild(input);
+  row.appendChild(del);
+  el.insertBefore(row, addBtn);
+}
+
+function getListValues(containerId) {
+  return Array.from(document.getElementById(containerId).querySelectorAll('.list-item-input'))
+    .map(i => i.value.trim()).filter(Boolean);
+}
+
+function renderKpiEditor(kpis) {
+  const el = document.getElementById('r-kpi-editor');
+  el.innerHTML = '';
+  kpis.forEach(k => addKpiRowData(k));
+}
+
+function addKpiRow() { addKpiRowData({ metrik: '', messung: '', ziel: '' }); }
+function addKpiRowData(k) {
+  const el = document.getElementById('r-kpi-editor');
+  const row = document.createElement('div');
+  row.className = 'kpi-row';
+  row.innerHTML = `<input class="kpi-input" placeholder="KPI-Name" value="${esc(k.metrik || '')}">
+    <input class="kpi-input" placeholder="Wie gemessen" value="${esc(k.messung || '')}">
+    <input class="kpi-input" placeholder="Zielwert" value="${esc(k.ziel || '')}">
+    <button class="list-del" onclick="this.closest('.kpi-row').remove()">×</button>`;
+  el.appendChild(row);
+}
+
+function getKpiValues() {
+  return Array.from(document.getElementById('r-kpi-editor').querySelectorAll('.kpi-row')).map(row => {
+    const inputs = row.querySelectorAll('.kpi-input');
+    return { metrik: inputs[0].value.trim(), messung: inputs[1].value.trim(), ziel: inputs[2].value.trim() };
+  }).filter(k => k.metrik);
+}
+
+function renderFeatEditor(features) {
+  const el = document.getElementById('r-feat-editor');
+  el.innerHTML = '';
+  features.forEach(f => addFeatureData(f));
+}
+
+function addFeature() { addFeatureData({ name: '', icon: '🔧', requirements: [''] }); }
+function addFeatureData(f) {
+  const el = document.getElementById('r-feat-editor');
+  const block = document.createElement('div');
+  block.className = 'feat-block';
+  const reqsHtml = (f.requirements || ['']).map(r =>
+    `<div class="list-item-row"><input class="feat-req-input" value="${esc(r)}" placeholder="Anforderung"><button class="list-del" onclick="this.closest('.list-item-row').remove()">×</button></div>`
+  ).join('');
+  block.innerHTML = `
+    <div class="feat-block-header">
+      <input class="feat-icon-input" value="${esc(f.icon || '🔧')}" placeholder="🔧">
+      <input class="feat-name-input" value="${esc(f.name || '')}" placeholder="Feature-Name">
+      <button class="list-del" onclick="this.closest('.feat-block').remove()" style="margin-left:auto;">×</button>
+    </div>
+    <div class="feat-reqs" id="reqs-${Math.random().toString(36).slice(2)}">
+      ${reqsHtml}
+    </div>
+    <button class="feat-add-btn" onclick="addReqToFeat(this)">+ Anforderung</button>`;
+  el.appendChild(block);
+}
+
+function addReqToFeat(btn) {
+  const reqs = btn.previousElementSibling;
+  const row = document.createElement('div');
+  row.className = 'list-item-row';
+  row.innerHTML = `<input class="feat-req-input" placeholder="Anforderung"><button class="list-del" onclick="this.closest('.list-item-row').remove()">×</button>`;
+  reqs.appendChild(row);
+}
+
+function getFeatValues() {
+  return Array.from(document.getElementById('r-feat-editor').querySelectorAll('.feat-block')).map(block => {
+    const icon = block.querySelector('.feat-icon-input').value.trim() || '🔧';
+    const name = block.querySelector('.feat-name-input').value.trim();
+    const requirements = Array.from(block.querySelectorAll('.feat-req-input'))
+      .map(i => i.value.trim()).filter(Boolean);
+    return { name, icon, requirements };
+  }).filter(f => f.name);
+}
+
+function esc(str) { return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// ─── Create summary ───────────────────────────────────────────────────────────
+function buildCreateSummary() {
+  const name = document.getElementById('p-name').value;
+  const client = document.getElementById('p-client').value;
+  const slug = getSlug();
+  const feats = getFeatValues();
+  const summary = document.getElementById('create-summary');
+  summary.innerHTML = `
+    <strong>${name}</strong> für ${client}<br>
+    Slug: <code style="font-family:monospace;color:var(--accent2);">mvp/${slug}/</code><br>
+    ${feats.length} Features, ${feats.reduce((n,f) => n + f.requirements.length, 0)} Anforderungen in Supabase<br>
+    3 HTML-Dateien auf GitHub + projects.json aktualisiert<br>
+    Live-URL: <code style="font-family:monospace;color:var(--accent2);font-size:11px;">courzly.github.io/build2scale/mvp/${slug}/</code>
+  `;
+}
+
+// ─── Create project ───────────────────────────────────────────────────────────
+async function createProject() {
+  const btn = document.getElementById('create-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const color = document.getElementById('p-color').value || '#6366f1';
+
+  const payload = {
+    slug: getSlug(),
+    name: document.getElementById('p-name').value.trim(),
+    color,
+    icon: document.getElementById('p-icon').value.trim() || '📦',
+    laufzeit: document.getElementById('p-laufzeit').value.trim(),
+    budget: document.getElementById('p-budget').value.trim(),
+    structured_data: {
+      problem: document.getElementById('r-problem').value.trim(),
+      zielgruppe: document.getElementById('r-zielgruppe').value.trim(),
+      hypothese: document.getElementById('r-hypothese').value.trim(),
+      scope: getListValues('r-scope-list'),
+      nicht_scope: getListValues('r-nicht-scope-list'),
+      heute: getListValues('r-heute-list'),
+      mit_mvp: getListValues('r-mit-mvp-list'),
+      kpis: getKpiValues(),
+      features: getFeatValues(),
+    }
+  };
+
+  try {
+    const res = await fetch(SUPABASE_FN + '/create-project', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Fehler beim Erstellen');
+
+    document.getElementById('create-confirm').style.display = 'none';
+    document.getElementById('create-btn-row').style.display = 'none';
+    document.getElementById('success-link').href = data.url || '#';
+    document.getElementById('success-link').textContent = '🔗 ' + (data.url || 'Blueprint öffnen') + ' →';
+    document.getElementById('create-success').style.display = 'block';
+    document.getElementById('s4').classList.add('done');
+  } catch (err) {
+    alert('Fehler: ' + err.message);
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function resetWizard() {
+  aiResult = null;
+  ['p-name','p-client','p-laufzeit','p-budget','p-icon',
+   'q-problem','q-heute','q-zielgruppe','q-nutzerziel','q-hypothese',
+   'q-scope','q-nicht-scope','q-kpis','q-offen'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('p-color').value = '#6366f1';
+  document.getElementById('p-color-hex').value = '#6366f1';
+  document.getElementById('create-confirm').style.display = 'block';
+  document.getElementById('create-btn-row').style.display = 'flex';
+  document.getElementById('create-success').style.display = 'none';
+  document.getElementById('create-btn').disabled = false;
+  goStep(1);
+}
+
+// ─── Projects loader (for update mode) ───────────────────────────────────────
+async function loadProjects() {
+  try {
+    const res = await fetch(PROJECTS_JSON);
+    const projects = await res.json();
+    const mvp = projects.filter(p => p.type === 'mvp');
+    const sel = document.getElementById('u-project');
+    sel.innerHTML = '<option value="">— Projekt wählen —</option>' +
+      mvp.map(p => `<option value="${p.id}">${p.icon} ${p.name}</option>`).join('');
+  } catch (e) {
+    console.warn('projects.json konnte nicht geladen werden', e);
+  }
+}
+
+// ─── AI Update ────────────────────────────────────────────────────────────────
+async function runUpdateAI() {
+  const slug = document.getElementById('u-project').value;
+  const text = document.getElementById('u-update-text').value.trim();
+  if (!slug) { alert('Bitte ein Projekt auswählen.'); return; }
+  if (!text) { alert('Bitte neue Informationen eingeben.'); return; }
+
+  const btn = document.getElementById('u-ai-btn');
+  const errEl = document.getElementById('u-ai-error');
+  errEl.style.display = 'none';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  btn.querySelector('.btn-text').textContent = 'KI analysiert...';
+
+  try {
+    const res = await fetch(SUPABASE_FN + '/ai-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body: JSON.stringify({ project_slug: slug, update_text: text })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Fehler');
+    updateDiff = data.diff;
+    updateCurrent = data.current;
+    renderDiffPreview(data.diff);
+    document.getElementById('u-diff-section').style.display = 'block';
+    document.getElementById('u-success').style.display = 'none';
+  } catch (err) {
+    errEl.textContent = 'Fehler: ' + err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    btn.querySelector('.btn-text').textContent = '✨ KI-Analyse starten';
+  }
+}
+
+function renderDiffPreview(diff) {
+  document.getElementById('u-diff-summary').textContent = diff.summary || 'Änderungen analysiert.';
+  const preview = document.getElementById('u-diff-preview');
+  preview.innerHTML = '';
+
+  (diff.changes || []).forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'diff-item';
+    div.innerHTML = `<div class="diff-field">${c.field}</div>
+      ${c.old ? '<div class="diff-old">' + esc(c.old) + '</div>' : ''}
+      <div class="diff-new">→ ${esc(c.new)}</div>`;
+    preview.appendChild(div);
+  });
+
+  if (diff.new_features && diff.new_features.length > 0) {
+    const div = document.createElement('div');
+    div.className = 'diff-item';
+    div.innerHTML = `<div class="diff-field">Neue Features</div>` +
+      diff.new_features.map(f => `<div class="diff-new">+ ${f.name} (${f.requirements?.length || 0} Anforderungen)</div>`).join('');
+    preview.appendChild(div);
+  }
+
+  if (diff.new_requirements && diff.new_requirements.length > 0) {
+    const div = document.createElement('div');
+    div.className = 'diff-item';
+    div.innerHTML = `<div class="diff-field">Neue Anforderungen</div>` +
+      diff.new_requirements.map(r => `<div class="diff-new">+ ${r.feature_name}: ${(r.requirements || []).join(', ')}</div>`).join('');
+    preview.appendChild(div);
+  }
+
+  if (!preview.children.length) {
+    preview.innerHTML = '<div style="font-size:13px;color:var(--muted);">Keine strukturellen Änderungen — nur inhaltliche Anpassungen (im Blueprint direkt bearbeiten).</div>';
+  }
+}
+
+async function saveUpdate() {
+  const slug = document.getElementById('u-project').value;
+  if (!updateDiff || !updateCurrent) return;
+
+  const btn = document.getElementById('u-save-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  // Merge diff into current structured_data for save-update
+  const merged = buildMergedData(updateCurrent, updateDiff);
+
+  try {
+    const res = await fetch(SUPABASE_FN + '/save-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body: JSON.stringify({ project_slug: slug, diff: updateDiff, updated_structured_data: merged })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Fehler');
+    document.getElementById('u-success').style.display = 'block';
+    document.getElementById('u-diff-section').querySelector('.btn-row').style.display = 'none';
+  } catch (err) {
+    alert('Fehler: ' + err.message);
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function buildMergedData(current, diff) {
+  // Simple merge: apply field changes to current
+  const result = { ...current };
+  (diff.changes || []).forEach(c => {
+    const fieldMap = { problem: 'problem', zielgruppe: 'zielgruppe', hypothese: 'hypothese' };
+    if (fieldMap[c.field]) result[fieldMap[c.field]] = c.new;
+  });
+  // Add new features
+  if (diff.new_features && diff.new_features.length > 0) {
+    result.features = [...(result.features || []), ...diff.new_features];
+  }
+  return result;
+}
+</script>
+</body>
+</html>
