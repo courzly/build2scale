@@ -56,16 +56,23 @@ serve(async (req) => {
     );
     const pat = Deno.env.get("GITHUB_PAT")!;
 
-    // 1. Delete existing domains/features/requirements for project (cascade)
-    // We delete domains which cascades to features and requirements
+    // 1. Get project UUID from slug
+    const { data: projRow } = await supabase
+      .from("projects")
+      .select("id")
+      .eq("slug", project_slug)
+      .single();
+    if (!projRow) throw new Error(`Projekt nicht gefunden: ${project_slug}`);
+    const projectId = projRow.id;
+
+    // 2. Delete existing domains/features/requirements (cascade via project_id)
     const { data: existingDomains } = await supabase
       .from("domains")
       .select("id")
-      .eq("project_slug", project_slug);
+      .eq("project_id", projectId);
 
     if (existingDomains && existingDomains.length > 0) {
       const domainIds = existingDomains.map((d: { id: string }) => d.id);
-      // Get feature IDs
       const { data: existingFeatures } = await supabase
         .from("features")
         .select("id")
@@ -81,14 +88,12 @@ serve(async (req) => {
       await supabase.from("domains").delete().in("id", domainIds);
     }
 
-    // 2. Re-insert features from updated_structured_data
+    // 3. Re-insert features from updated_structured_data
     const features = updated_structured_data.features || [];
-    // Group into one domain per feature set (or use existing domain grouping)
-    // Simple approach: 1 domain for all features
     if (features.length > 0) {
       const { data: domain, error: domErr } = await supabase
         .from("domains")
-        .insert({ project_slug, name: "Features", icon: "⚙️", sort_order: 1 })
+        .insert({ project_id: projectId, slug: "features", name: "Features", icon: "⚙️", sort_order: 1 })
         .select("id")
         .single();
       if (domErr || !domain) throw new Error(`Domain insert failed: ${domErr?.message}`);

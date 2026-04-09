@@ -687,17 +687,19 @@ serve(async (req) => {
     );
     const pat = Deno.env.get("GITHUB_PAT")!;
 
-    // ── 1. Supabase: insert project ────────────────────────────────────────────
-    const { error: projErr } = await supabase
+    // ── 1. Supabase: insert project → get UUID ────────────────────────────────
+    const { data: projRow, error: projErr } = await supabase
       .from("projects")
-      .insert({ slug, name, color, icon });
-    if (projErr) throw new Error(`Project insert: ${projErr.message}`);
+      .insert({ slug, name, color, icon })
+      .select("id")
+      .single();
+    if (projErr || !projRow) throw new Error(`Project insert: ${projErr?.message}`);
+    const projectId = projRow.id;
 
     // ── 2. Supabase: insert domains + features + requirements ──────────────────
     const features: Array<{ name: string; icon: string; requirements: string[] }> = sd.features || [];
 
-    // Group features into domains by icon similarity or just use 1-2 domains
-    // Simple: 1 domain per 3 features, or all in one if <= 4 features
+    // Group: all in one domain if ≤5 features, else split Frontend/Backend
     const domainGroups: Array<{ name: string; icon: string; features: typeof features }> = [];
     if (features.length <= 5) {
       domainGroups.push({ name: "Features", icon: icon, features });
@@ -711,9 +713,10 @@ serve(async (req) => {
 
     for (let di = 0; di < domainGroups.length; di++) {
       const dg = domainGroups[di];
+      const domainSlug = dg.name.toLowerCase().replace(/\s+/g, "-");
       const { data: domain, error: domErr } = await supabase
         .from("domains")
-        .insert({ project_slug: slug, name: dg.name, icon: dg.icon, sort_order: di })
+        .insert({ project_id: projectId, slug: domainSlug, name: dg.name, icon: dg.icon, sort_order: di })
         .select("id")
         .single();
       if (domErr || !domain) throw new Error(`Domain insert: ${domErr?.message}`);
