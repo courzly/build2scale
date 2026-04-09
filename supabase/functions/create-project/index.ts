@@ -158,7 +158,7 @@ body.light th { background: #f1f5f9; }
     <div class="hero-sub">${p.problem}</div>
     <div class="metrics-row">
       <div class="metric-card"><div class="metric-value">${p.laufzeit}</div><div class="metric-label">Lieferzeit</div></div>
-      <div class="metric-card"><div class="metric-value gold">${p.budget}</div><div class="metric-label">Fixpreis Build</div></div>
+
       <div class="metric-card"><div class="metric-value">${p.featureCount}</div><div class="metric-label">Features im MVP</div></div>
     </div>
   </div>
