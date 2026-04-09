@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backlog — Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --dark: #0f1117; --darker: #080a0f; --card: #161b27; --card2: #1c2333; --accent: #6366f1; --accent2: #6366f1; --text: #e2e8f0; --muted: #64748b; --border: #1e2a3a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--darker); color: var(--text); }
+.nav { background: rgba(8,10,15,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; height: 52px; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 8px; margin-right: 12px; }
+.nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+.nav-brand-text { font-size: 13px; font-weight: 700; color: var(--text); }
+.nav-sep { color: var(--border); font-size: 18px; margin: 0 4px; }
+.nav-links { display: flex; gap: 2px; }
+.nav-link { text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--accent2); background: rgba(99,102,241,0.12); font-weight: 600; }
+.theme-toggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; }
+.page-hdr { background: linear-gradient(135deg, #0f1117 0%, rgba(99,102,241,0.08) 50%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 36px 40px 28px; }
+.page-hdr-inner { max-width: 1100px; margin: 0 auto; }
+.page-bc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.page-bc a { color: var(--muted); text-decoration: none; }
+.page-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.page-title span { color: var(--accent2); }
+.page-sub { color: var(--muted); font-size: 14px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+.placeholder { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 60px 40px; text-align: center; }
+.placeholder-icon { font-size: 48px; margin-bottom: 16px; }
+.placeholder-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.placeholder-sub { font-size: 14px; color: var(--muted); }
+.footer { border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.footer strong { color: var(--text); }
+.footer-nav a { text-decoration: none; color: var(--muted); }
+.footer-nav a:hover { color: var(--accent2); }
+body.light { --darker: #f8fafc; --card: #ffffff; --card2: #f8fafc; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; }
+body.light .nav { background: rgba(255,255,255,0.95); }
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('theme')==='light')document.body.classList.add('light');</script>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><div class="nav-brand-dot"></div><span class="nav-brand-text">Test</span></a>
+    <span class="nav-sep">|</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Übersicht</a>
+      <a href="konzept.html" class="nav-link">Konzept</a>
+      <a href="backlog.html" class="nav-link active">Backlog</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">☀️</button>
+  </div>
+</nav>
+<div class="page-hdr">
+  <div class="page-hdr-inner">
+    <div class="page-bc"><a href="index.html">Test</a> / Backlog</div>
+    <div class="page-title">Backlog &amp; <span>User Stories</span></div>
+    <div class="page-sub">Priorisierte User Stories für die Entwicklung</div>
+  </div>
+</div>
+<div class="container">
+  <div class="placeholder">
+    <div class="placeholder-icon">📋</div>
+    <div class="placeholder-title">Backlog wird aufgebaut</div>
+    <div class="placeholder-sub">User Stories werden nach dem Kickoff-Termin gemeinsam definiert und priorisiert.</div>
+  </div>
+</div>
+<div class="footer">
+  <strong>Test — Backlog</strong>
+  <div class="footer-nav"><a href="konzept.html">← Konzept</a></div>
+</div>
+<script>
+function toggleTheme(){var l=document.body.classList.toggle('light');localStorage.setItem('theme',l?'light':'dark');var b=document.getElementById('theme-toggle-btn');if(b)b.textContent=l?'🌙':'☀️';}
+document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('theme-toggle-btn');if(b&&document.body.classList.contains('light'))b.textContent='🌙';});
+</script>
+</body>
+</html>
