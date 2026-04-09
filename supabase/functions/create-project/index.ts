@@ -687,7 +687,29 @@ serve(async (req) => {
     );
     const pat = Deno.env.get("GITHUB_PAT")!;
 
-    // ── 1. Supabase: insert project → get UUID ────────────────────────────────
+    // ── 1. Supabase: upsert project → get UUID ────────────────────────────────
+    // Delete existing project with same slug first (cleanup from failed attempts)
+    const { data: existing } = await supabase
+      .from("projects")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+    if (existing) {
+      // Cascade-delete domains → features → requirements
+      const { data: existingDomains } = await supabase.from("domains").select("id").eq("project_id", existing.id);
+      if (existingDomains && existingDomains.length > 0) {
+        const domainIds = existingDomains.map((d: { id: string }) => d.id);
+        const { data: existingFeatures } = await supabase.from("features").select("id").in("domain_id", domainIds);
+        if (existingFeatures && existingFeatures.length > 0) {
+          const featIds = existingFeatures.map((f: { id: string }) => f.id);
+          await supabase.from("requirements").delete().in("feature_id", featIds);
+          await supabase.from("features").delete().in("id", featIds);
+        }
+        await supabase.from("domains").delete().in("id", domainIds);
+      }
+      await supabase.from("projects").delete().eq("id", existing.id);
+    }
+
     const { data: projRow, error: projErr } = await supabase
       .from("projects")
       .insert({ slug, name, color, icon })
